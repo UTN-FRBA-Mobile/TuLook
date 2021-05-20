@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <item
+        android:id="@+id/mainFragment"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/peluqueriaListFragment"
+        android:title="Lista Peluquerías" />
+
+    <item
+        android:id="@+id/peluqueriaDetailFragment"
+        android:title="Detalle Peluquerías" />
+
+    <item
+        android:id="@+id/nuevoTurnoServiciosFragment"
+        android:title="Turno/Servicios" />
+
+    <item
+        android:id="@+id/nuevoTurno_HorariosFragment"
+        android:title="Turno/Horario" />
+
+    <item
+        android:id="@+id/nuevoTurno_DetailFragment"
+        android:title="Turno/Detalles" />
+
+</menu>
