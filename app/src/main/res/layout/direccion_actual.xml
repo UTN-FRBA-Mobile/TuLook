@@ -3,18 +3,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lay_direccion"
-    android:layout_width="match_parent"
+    android:layout_width="350sp"
+    android:layout_gravity="center_horizontal"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="@drawable/bck_rounded_corners_10"
     tools:context=".ui.MainFragment">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
         android:src="@drawable/ic_baseline_location_on"/>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
         android:orientation="vertical"
         tools:context=".ui.MainFragment">
         <TextView
@@ -26,13 +32,17 @@
             android:id="@+id/text_direccion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="<<direccion>>"
+            android:text="{{direccion_completa}}"
             android:textSize="15sp" />
     </LinearLayout>
     <Button
         android:id="@+id/btn_cambiar"
-        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:background="@null"
+        android:textColor="@color/red"
+        android:layout_gravity="center_vertical"
+        android:layout_width="100sp"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:padding="1sp"
         android:text="CAMBIAR"/>
 </LinearLayout>

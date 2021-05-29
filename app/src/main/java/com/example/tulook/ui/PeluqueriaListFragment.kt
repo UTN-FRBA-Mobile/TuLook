@@ -33,7 +33,8 @@ class PeluqueriaListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val btn_lista_peluquerias = binding.btnVerPeluqueriaDetalle
+        //se utiliza el boton ubicacion peluqueria para llevarnos al fragment de detalle, como aun no esta diseñado, es solo una prueba.
+        val btn_lista_peluquerias = binding.btnUbicacionPeluquerias
 
         btn_lista_peluquerias.setOnClickListener {
             findNavController().navigate(R.id.peluqueriaDetailFragment)
