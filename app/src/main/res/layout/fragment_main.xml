@@ -3,22 +3,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
     tools:context=".ui.MainFragment">
 
-    <TextView
+    <!--Direccion-->
+    <include
+        android:id="@+id/lay_direccion"
+        layout="@layout/direccion_actual" />
+
+    <!--Proximo Turno-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Fragment Home"
-        android:textSize="25sp"/>
+        android:orientation="horizontal"
+        tools:context=".ui.MainFragment">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_notifications"/>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:context=".ui.MainFragment">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tenés un turno el:"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/text_prox_turno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="<<fecha_proximo_turno>>"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_confirmar_turno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="<<ESTADO TURNO>>"/>
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_lista_peluquerias"
+    <!--Favoritos-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".ui.MainFragment">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Favoritos"
+            android:textSize="25sp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_favoritos"
+            android:scrollbars="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <!--Recientes-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".ui.MainFragment">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recientes"
+            android:textSize="25sp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_recientes"
+            android:scrollbars="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <!--Boton Look-->
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Ir a Lista de Peluquerías"/>
+        android:gravity="bottom"
+        android:orientation="vertical"
+        tools:context=".ui.MainFragment">
+        <Button
+            android:id="@+id/btn_lista_peluquerias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity ="bottom|center_horizontal"
+            android:text="✄ ¡Quiero un nuevo Look!"/>
+    </FrameLayout>
 
 </LinearLayout>
+
+

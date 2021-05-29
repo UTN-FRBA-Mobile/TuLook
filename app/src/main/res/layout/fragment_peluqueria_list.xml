@@ -1,24 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context=".ui.PeluqueriaListFragment">
 
-    <TextView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Fragment Peluquería List"
-        android:textSize="25sp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.PeluqueriaListFragment">
+        <!--Direccion-->
+        <include
+            layout="@layout/direccion_actual" />
 
-    <Button
-        android:id="@+id/btn_ver_peluqueria_detalle"
+        <!--Filtros-->
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_listado_mas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ Más"></Button>
+        </LinearLayout>
+
+        <!--Lista de Peluquerias-->
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_recientes"
+                android:scrollbars="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!--Boton ubicacion-->
+    <ImageButton
+        android:id="@+id/btn_ubicacion_peluquerias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Ir a Detalle de Peluquería"></Button>
-
-</LinearLayout>
+        android:layout_marginRight="30sp"
+        android:layout_marginBottom="30sp"
+        android:layout_gravity="bottom|right"
+        android:src="@drawable/ic_baseline_location_on"/>
+</FrameLayout>
