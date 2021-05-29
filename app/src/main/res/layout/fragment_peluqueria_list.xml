@@ -57,7 +57,6 @@
                 <Button
                     android:id="@+id/btn_listado_mas"
                     android:layout_width="wrap_content"
-                    android:background="@drawable/bck_rounded_corners_30"
                     android:textSize="10sp"
                     android:minHeight="0sp"
                     android:minWidth="0sp"
@@ -65,6 +64,7 @@
                     android:textColor="@color/black"
                     android:textAllCaps="false"
                     android:layout_gravity="center_vertical"
+                    android:background="@drawable/bck_rounded_corners_30"
                     android:text="+ Más"/>
             </LinearLayout>
         </LinearLayout>

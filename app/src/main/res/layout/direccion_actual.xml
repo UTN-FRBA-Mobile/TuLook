@@ -38,7 +38,8 @@
     <Button
         android:id="@+id/btn_cambiar"
         android:layout_weight="1"
-        android:background="@null"
+        android:backgroundTint="@android:color/transparent"
+        style="?android:attr/borderlessButtonStyle"
         android:textColor="@color/red"
         android:layout_gravity="center_vertical"
         android:layout_width="100sp"
