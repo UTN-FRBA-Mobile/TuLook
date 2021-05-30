@@ -21,7 +21,9 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_height="wrap_content"
         android:layout_marginTop="30sp"
-        android:layout_width="350sp"
+        android:layout_width="match_parent"
+        android:layout_marginRight="30sp"
+        android:layout_marginLeft="30sp"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -29,7 +31,7 @@
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_height="wrap_content"
-                android:layout_width="350sp"
+                android:layout_width="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal">
 
@@ -40,6 +42,9 @@
                     android:textSize="10sp"
                     android:minHeight="0sp"
                     android:minWidth="0sp"
+                    android:drawableLeft="@drawable/ic_baseline_check"
+                    android:drawableRight="@drawable/ic_baseline_cancel"
+                    style="@style/Button"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textAllCaps="false"
@@ -49,7 +54,7 @@
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_height="wrap_content"
-                android:layout_width="350sp"
+                android:layout_width="match_parent"
                 android:layout_marginTop="5sp"
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal">
@@ -59,13 +64,14 @@
                     android:layout_width="wrap_content"
                     android:textSize="10sp"
                     android:minHeight="0sp"
+                    style="@style/Button"
                     android:minWidth="0sp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textAllCaps="false"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/bck_rounded_corners_30"
-                    android:text="+ Más"/>
+                    android:text="+ Más..."/>
             </LinearLayout>
         </LinearLayout>
 
