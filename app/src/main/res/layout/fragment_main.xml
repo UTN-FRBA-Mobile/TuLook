@@ -63,7 +63,7 @@
                 android:backgroundTint="@android:color/transparent"
                 style="?android:attr/borderlessButtonStyle"
                 android:padding="1sp"
-                android:textColor="@color/red"
+                android:textColor="?colorPrimary"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:text="A CONFIRMAR"/>

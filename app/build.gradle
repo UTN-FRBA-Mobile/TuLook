@@ -23,6 +23,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "default"
+    productFlavors {
+        cliente {
+            applicationIdSuffix ".cliente"
+        }
+        peluqueria {
+            applicationIdSuffix ".peluqueria"
+        }
+    }
+
     buildFeatures {
         viewBinding true
     }

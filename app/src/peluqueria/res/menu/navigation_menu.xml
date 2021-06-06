@@ -9,22 +9,14 @@
 
     <item
         android:id="@+id/peluqueriaListFragment"
-        android:title="Buscar" />
+        android:title="Mi Peluqueria" />
 
     <item
         android:id="@+id/peluqueriaDetailFragment"
-        android:title="Mis Direcciones" />
-
-    <item
-        android:id="@+id/nuevoTurnoServiciosFragment"
         android:title="Mi Cuenta" />
 
     <item
-        android:id="@+id/nuevoTurno_HorariosFragment"
-        android:title="Configuracion" />
-
-    <item
-        android:id="@+id/nuevoTurno_DetailFragment"
+        android:id="@+id/nuevoTurnoServiciosFragment"
         android:title="Cerrar Sesion" />
 
 </menu>
