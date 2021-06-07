@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.tulook.ui.MainFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_peluqueriaListFragment"
+            app:destination="@id/peluqueriaListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/peluqueriaListFragment"
+        android:name="com.example.tulook.ui.PeluqueriaListFragment"
+        android:label="Listado de Peluquerías"
+        tools:layout="@layout/fragment_peluqueria_list">
+        <action
+            android:id="@+id/action_peluqueriaListFragment_to_peluqueriaDetailFragment"
+            app:destination="@id/peluqueriaDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/peluqueriaDetailFragment"
+        android:name="com.example.tulook.ui.PeluqueriaDetailFragment"
+        android:label="Detalle de peluquería"
+        tools:layout="@layout/fragment_peluqueria_detail">
+        <action
+            android:id="@+id/action_peluqueriaDetailFragment_to_nuevoTurnoServiciosFragment"
+            app:destination="@id/nuevoTurnoServiciosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nuevoTurnoServiciosFragment"
+        android:name="com.example.tulook.ui.turno.NuevoTurnoServiciosFragment"
+        android:label="Nuevo Turno - Servicios"
+        tools:layout="@layout/fragment_nuevo_turno_servicios">
+        <action
+            android:id="@+id/action_nuevoTurnoServiciosFragment_to_nuevoTurno_HorariosFragment"
+            app:destination="@id/nuevoTurno_HorariosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nuevoTurno_HorariosFragment"
+        android:name="com.example.tulook.ui.turno.NuevoTurno_HorariosFragment"
+        android:label="Nuevo turno - Horarios"
+        tools:layout="@layout/fragment_nuevo_turno__horarios">
+        <action
+            android:id="@+id/action_nuevoTurno_HorariosFragment_to_nuevoTurno_DetailFragment"
+            app:destination="@id/nuevoTurno_DetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nuevoTurno_DetailFragment"
+        android:name="com.example.tulook.ui.turno.NuevoTurno_DetailFragment"
+        android:label="Nuevo Turno - Confirmación"
+        tools:layout="@layout/fragment_nuevo_turno__detail" />
+</navigation>

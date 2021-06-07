@@ -1,4 +1,4 @@
-package com.example.tulook.ui
+package com.example.tulook.ui.turno
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,25 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.tulook.R
-import com.example.tulook.databinding.FragmentMainBinding
-import com.example.tulook.databinding.FragmentPeluqueriaListBinding
+import com.example.tulook.databinding.FragmentNuevoTurnoServiciosBinding
 
-class PeluqueriaListFragment : Fragment() {
-
+class NuevoTurnoServiciosFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
-    private var _binding: FragmentPeluqueriaListBinding? = null
+    private var _binding: FragmentNuevoTurnoServiciosBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentPeluqueriaListBinding.inflate(inflater, container, false)
+        _binding = FragmentNuevoTurnoServiciosBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
     }
@@ -33,11 +30,10 @@ class PeluqueriaListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //se utiliza el boton ubicacion peluqueria para llevarnos al fragment de detalle, como aun no esta diseñado, es solo una prueba.
-        val btn_lista_peluquerias = binding.btnUbicacionPeluquerias
+        val btn_nuevoTurno = binding.btnVerTurnoHorarios
 
-        btn_lista_peluquerias.setOnClickListener {
-            findNavController().navigate(R.id.peluqueriaDetailFragment)
+        btn_nuevoTurno.setOnClickListener {
+            findNavController().navigate(R.id.nuevoTurno_HorariosFragment)
         }
     }
 

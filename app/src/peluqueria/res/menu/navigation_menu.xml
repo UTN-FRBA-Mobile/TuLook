@@ -8,15 +8,15 @@
         android:title="Inicio" />
 
     <item
-        android:id="@+id/peluqueriaListFragment"
+        android:id="@+id/mainFragment"
         android:title="Mi Peluqueria" />
 
     <item
-        android:id="@+id/peluqueriaDetailFragment"
+        android:id="@+id/mainFragment"
         android:title="Mi Cuenta" />
 
     <item
-        android:id="@+id/nuevoTurnoServiciosFragment"
+        android:id="@+id/mainFragment"
         android:title="Cerrar Sesion" />
 
 </menu>

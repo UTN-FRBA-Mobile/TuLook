@@ -1,4 +1,4 @@
-package com.example.tulook.ui.turno
+package com.example.tulook.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,35 +7,38 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.tulook.R
-import com.example.tulook.databinding.FragmentNuevoTurnoHorariosBinding
-import com.example.tulook.databinding.FragmentPeluqueriaDetailBinding
+import com.example.tulook.databinding.FragmentMainBinding
 
-class NuevoTurno_HorariosFragment : Fragment() {
+class MainFragment : Fragment() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
-    private var _binding: FragmentNuevoTurnoHorariosBinding? = null
+    private var _binding: FragmentMainBinding? = null
+    // This property is only valid between onCreateView and
+    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentNuevoTurnoHorariosBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
+    //En el ciclo de vida esto viene después de onCreateView => desde acá podemos acceder a todos los controles del fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val btn_nuevoTurno = binding.btnVerTurnoDetalle
+       /* val btn_lista_peluquerias = binding.btnListaPeluquerias
 
-        btn_nuevoTurno.setOnClickListener {
-            findNavController().navigate(R.id.nuevoTurno_DetailFragment)
-        }
+        btn_lista_peluquerias.setOnClickListener {
+            findNavController().navigate(R.id.peluqueriaListFragment)
+        } */
     }
 
     override fun onDestroyView() {
