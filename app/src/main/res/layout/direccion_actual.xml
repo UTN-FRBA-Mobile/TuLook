@@ -42,7 +42,7 @@
         android:layout_weight="1"
         android:backgroundTint="@android:color/transparent"
         style="?android:attr/borderlessButtonStyle"
-        android:textColor="@color/red"
+        android:textColor="?colorPrimary"
         android:layout_gravity="center_vertical"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
