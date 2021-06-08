@@ -19,7 +19,7 @@ data class Peluqueria(
 
     @SerializedName("direccion")
     @Expose
-    var direccion: String,
+    var direccion: Direccion,
 
     @SerializedName("servicios")
     @Expose
@@ -31,5 +31,9 @@ data class Peluqueria(
 
     @SerializedName("horarioCierre")
     @Expose
-    var horarioCierre: Date
+    var horarioCierre: Date,
+
+    @SerializedName("rating")
+    @Expose
+    var rating: Float
 )

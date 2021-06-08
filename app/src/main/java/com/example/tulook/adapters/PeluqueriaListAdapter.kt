@@ -40,7 +40,8 @@ class PeluqueriaListAdapter(val peluqueriasList: List<Peluqueria>?) :
             // Your holder should contain and initialize a member variable
             // for any view that will be set as you render a row
             binding.peluqueriaNameTxt.text = item.nombre
-            binding.peluqueriaAddressTxt.text = item.direccion
+            binding.peluqueriaAddressTxt.text = "${item.direccion.calle} ${item.direccion.numero}"
+            binding.peluqueriaRatingBar.rating = item.rating
         }
     }
 }

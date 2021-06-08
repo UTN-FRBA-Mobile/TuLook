@@ -56,12 +56,33 @@
                     android:textSize="24sp"
                     android:textColor="@color/black"/>
 
-                <TextView
-                    android:id="@+id/peluqueriaAddressTxt"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Gerli"
-                    android:textSize="18sp"/>
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal">
+
+                    <RatingBar
+                        android:id="@+id/peluqueriaRatingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:stepSize="0.25"
+                        android:theme="@style/Widget.AppCompat.RatingBar"
+                        android:numStars="5"/>
+
+                    <TextView
+                        android:id="@+id/peluqueriaAddressTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        tools:text="Gerli" />
+
+                </LinearLayout>
+
+
 
             </LinearLayout>
 
