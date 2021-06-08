@@ -31,6 +31,10 @@
         <action
             android:id="@+id/action_peluqueriaDetailFragment_to_nuevoTurnoServiciosFragment"
             app:destination="@id/nuevoTurnoServiciosFragment" />
+        <argument
+            android:name="peluqueriaId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/nuevoTurnoServiciosFragment"

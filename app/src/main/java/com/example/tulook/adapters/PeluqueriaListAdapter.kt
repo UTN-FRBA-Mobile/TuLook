@@ -11,8 +11,16 @@ import com.example.tulook.databinding.PeluqueriaRowItemBinding
 import com.example.tulook.model.Peluqueria
 
 
-class PeluqueriaListAdapter(val peluqueriasList: List<Peluqueria>?) :
+class PeluqueriaListAdapter(
+    private val peluqueriasList: List<Peluqueria>?,
+    val itemClickListener: onPeluqueriaClickListener
+) :
     RecyclerView.Adapter<BaseViewHolder<*>>() {
+
+    interface onPeluqueriaClickListener {
+        fun onRowClick(id: Int)
+        fun onFavClick(id: Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         return PelqueriasViewHolder(
@@ -36,9 +44,9 @@ class PeluqueriaListAdapter(val peluqueriasList: List<Peluqueria>?) :
         val binding = PeluqueriaRowItemBinding.bind(itemView)
 
         override fun bind(item: Peluqueria, position: Int) {
+            itemView.setOnClickListener { itemClickListener.onRowClick(item.id) }
+            binding.peluqueriaAddressTxt.setOnClickListener { itemClickListener.onFavClick(item.id) }
 
-            // Your holder should contain and initialize a member variable
-            // for any view that will be set as you render a row
             binding.peluqueriaNameTxt.text = item.nombre
             binding.peluqueriaAddressTxt.text = "${item.direccion.calle} ${item.direccion.numero}"
             binding.peluqueriaRatingBar.rating = item.rating

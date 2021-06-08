@@ -19,8 +19,9 @@ import com.example.tulook.services.APIService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.log
 
-class PeluqueriaListFragment : Fragment() {
+class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener {
 
     private val listadoPeluquerias = mutableListOf<Peluqueria>()
 
@@ -69,7 +70,7 @@ class PeluqueriaListFragment : Fragment() {
             override fun onResponse(call: Call<List<Peluqueria>>, response: Response<List<Peluqueria>>) {
                 if (response.isSuccessful) {
                     Log.e(TAG, response.body().toString())
-                    pAdapter = PeluqueriaListAdapter(response.body())
+                    pAdapter = PeluqueriaListAdapter(response.body(), this@PeluqueriaListFragment)
                     val pLayoutManager = LinearLayoutManager(activity)
                     pRecyclerView.adapter = pAdapter
                     pRecyclerView.layoutManager = pLayoutManager
@@ -85,5 +86,15 @@ class PeluqueriaListFragment : Fragment() {
 
     private fun showError() {
         Toast.makeText(activity, "Ha ocurrido un error", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onRowClick(id: Int) {
+        Log.e("RowClick", "Id de pelu: ${id}")
+        val action = PeluqueriaListFragmentDirections.actionPeluqueriaListFragmentToPeluqueriaDetailFragment(peluqueriaId = id)
+        findNavController().navigate(action)
+    }
+
+    override fun onFavClick(id: Int) {
+        Log.e("FavClick", "Id de pelu: ${id}")
     }
 }
