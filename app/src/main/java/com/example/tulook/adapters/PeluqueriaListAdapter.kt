@@ -48,7 +48,7 @@ class PeluqueriaListAdapter(
             binding.peluqueriaAddressTxt.setOnClickListener { itemClickListener.onFavClick(item.id) }
 
             binding.peluqueriaNameTxt.text = item.nombre
-            binding.peluqueriaAddressTxt.text = "${item.direccion.calle} ${item.direccion.numero}"
+            binding.peluqueriaAddressTxt.text = "${item.direccion!!.calle} ${item.direccion!!.numero}"
             binding.peluqueriaRatingBar.rating = item.rating
         }
     }

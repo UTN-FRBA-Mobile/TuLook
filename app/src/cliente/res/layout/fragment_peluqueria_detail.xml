@@ -14,6 +14,48 @@
         android:gravity="center"
         android:text="Fragment Peluquería Detalle"
         android:textSize="25sp" />
+    <TextView
+        android:id="@+id/peluNameTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Fragment Peluquería Detalle"
+        android:textSize="25sp" />
+    <TextView
+        android:id="@+id/peluDireccionTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Fragment Peluquería Detalle"
+        android:textSize="25sp" />
+    <TextView
+        android:id="@+id/peluHorarioInicioTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Fragment Peluquería Detalle"
+        android:textSize="25sp" />
+    <TextView
+        android:id="@+id/peluHorarioFinTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Fragment Peluquería Detalle"
+        android:textSize="25sp" />
+    <TextView
+        android:id="@+id/peluServiciosTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Fragment Peluquería Detalle"
+        android:textSize="25sp" />
+    <TextView
+        android:id="@+id/peluRatingTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Fragment Peluquería Detalle"
+        android:textSize="25sp" />
 
     <Button
         android:id="@+id/btn_nuevo_turno"

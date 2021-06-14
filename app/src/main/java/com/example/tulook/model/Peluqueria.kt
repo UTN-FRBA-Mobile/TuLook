@@ -7,33 +7,33 @@ import java.util.*
 data class Peluqueria(
     @SerializedName("id")
     @Expose
-    var id: Int,
+    var id: Int = 0,
 
     @SerializedName("nombre")
     @Expose
-    var nombre: String,
+    var nombre: String = "",
 
     @SerializedName("direccionId")
     @Expose
-    var direccionId: Int,
+    var direccionId: Int = 0,
 
     @SerializedName("direccion")
     @Expose
-    var direccion: Direccion,
+    var direccion: Direccion? = null,
 
     @SerializedName("servicios")
     @Expose
-    var servicios: List<String>,
+    var servicios: List<String> = emptyList(),
 
     @SerializedName("horarioApertura")
     @Expose
-    var horarioApertura: Date,
+    var horarioApertura: Date = Date(),
 
     @SerializedName("horarioCierre")
     @Expose
-    var horarioCierre: Date,
+    var horarioCierre: Date  = Date(),
 
     @SerializedName("rating")
     @Expose
-    var rating: Float
+    var rating: Float = 0f
 )
