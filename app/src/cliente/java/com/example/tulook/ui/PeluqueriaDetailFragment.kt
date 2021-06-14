@@ -39,7 +39,7 @@ class PeluqueriaDetailFragment : Fragment() {
 
         val peluqueriaId = args.peluqueriaId
         Log.e("PeluDetail", "Pelu ID: ${peluqueriaId}")
-        binding.peluIdTxt.text = "Peluquería ID: ${peluqueriaId}"
+//        binding.peluIdTxt.text = "Peluquería ID: ${peluqueriaId}"
 
         val btn_nuevoTurno = binding.btnNuevoTurno
 

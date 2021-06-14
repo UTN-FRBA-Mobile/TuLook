@@ -13,6 +13,8 @@
         <action
             android:id="@+id/action_mainFragment_to_peluqueriaListFragment"
             app:destination="@id/peluqueriaListFragment" />
+        <action android:id="@+id/action_mainFragment_to_testFirebaseFragment"
+                app:destination="@id/testFirebaseFragment"/>
     </fragment>
     <fragment
         android:id="@+id/peluqueriaListFragment"
@@ -59,4 +61,6 @@
         android:name="com.example.tulook.ui.turno.NuevoTurno_DetailFragment"
         android:label="Nuevo Turno - Confirmación"
         tools:layout="@layout/fragment_nuevo_turno__detail" />
+    <fragment android:id="@+id/testFirebaseFragment" android:name="com.example.tulook.ui.TestFirebaseFragment"
+              android:label="TestFirebaseFragment"/>
 </navigation>
