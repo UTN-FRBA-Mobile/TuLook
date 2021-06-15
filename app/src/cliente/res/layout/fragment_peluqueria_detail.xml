@@ -1,20 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_marginTop="30sp"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context=".ui.PeluqueriaDetailFragment">
 
-    <TextView
-        android:id="@+id/peluIdTxt"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Fragment Peluquería Detalle"
-        android:textSize="25sp" />
-    <TextView
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.PeluqueriaDetailFragment">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:context=".ui.PeluqueriaDetailFragment">
+
+            <TextView
+                android:layout_width="280sp"
+                android:layout_height="wrap_content"
+                android:text="{{nombre comercio}}"
+                android:textSize="25sp" />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="5sp"
+                tools:context=".ui.PeluqueriaDetailFragment">
+
+                <!--Boton elegirHorario-->
+                <Button
+                    android:id="@+id/btn_ver_horarios"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bck_rounded_corners_30"
+                    android:textSize="10sp"
+                    android:minHeight="0sp"
+                    android:minWidth="0sp"
+                    android:textAllCaps="false"
+                    android:text="⌚ Ver Horarios"/>
+
+                <!--Boton elegirHorario-->
+                <Button
+                    android:id="@+id/btn_ver_comentarios"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bck_rounded_corners_30"
+                    android:textSize="10sp"
+                    android:minHeight="0sp"
+                    android:minWidth="0sp"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="5sp"
+                    android:text="Ver Comentarios"/>
+            </LinearLayout>
+
+
+            <TextView
         android:id="@+id/peluNameTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,11 +104,34 @@
         android:text="Fragment Peluquería Detalle"
         android:textSize="25sp" />
 
+        </LinearLayout>
+
+        <!--Lista de Fotos de la pelu-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_fotos_salon"
+            android:scrollbars="horizontal"
+            android:layout_gravity ="bottom|center_horizontal"
+            android:layout_marginTop="30sp"
+            android:layout_width="350sp"
+            android:layout_height="wrap_content" />
+
+        <!--Lista de Servicios-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_recientes"
+            android:scrollbars="vertical"
+            android:layout_marginTop="30sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <!--Boton elegirHorario-->
     <Button
         android:id="@+id/btn_nuevo_turno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Ir a Solicitar TUrno"></Button>
+        android:layout_margin="30sp"
+        android:layout_gravity ="bottom|center_horizontal"
+        android:text="ELEGIR HORARIO"/>
 
-</LinearLayout>
+</FrameLayout>

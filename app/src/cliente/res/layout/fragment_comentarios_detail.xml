@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_marginTop="30sp"
+    android:layout_marginLeft="10sp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.ComentariosDetailFragment">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:context=".ui.ComentariosDetailFragment">
+
+        <ImageView
+            android:layout_width="24sp"
+            android:layout_height="24sp"
+            android:layout_marginLeft="15sp"/>
+        <!--android:layout_height="wrap_content"-->
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="5sp"
+            tools:context=".ui.ComentariosDetailFragment">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="{{comentario}}"
+                android:textSize="15sp" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_marginTop="5sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

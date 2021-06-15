@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_marginTop="30sp"
+    android:layout_height="match_parent"
+    tools:context=".ui.ServicioDetailFragment">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.ServicioDetailFragment">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="{{nombre del servicio}}"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:text="{{descripcion del servicio}}"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="350sp"
+            android:layout_height="200sp"
+            android:layout_marginTop="30sp"
+            android:layout_gravity="center_horizontal"/>
+        <!--android:layout_height="wrap_content"-->
+
+    </LinearLayout>
+
+    <!--Boton agregarTurno-->
+    <Button
+        android:id="@+id/btn_nuevo_turno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30sp"
+        android:layout_gravity ="bottom|center_horizontal"
+        android:text="AGREGAR AL TURNO"/>
+
+</FrameLayout>

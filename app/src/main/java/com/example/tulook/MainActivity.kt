@@ -1,6 +1,7 @@
 package com.example.tulook
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -10,6 +11,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.tulook.databinding.ActivityMainBinding
+import com.example.tulook.services.MyFirebaseMessagingService
+import com.example.tulook.services.getToken
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +37,9 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = binding.drawerLayout
 
         setupDrawerLayout()
+
+        // temp, para mandar notificaciones desde consola
+        Log.d("token", getToken(this) ?: "empty")
     }
 
     override fun onSupportNavigateUp(): Boolean {
