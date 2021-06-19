@@ -8,4 +8,5 @@
     <!--to toggle the open close button of the navigation drawer-->
     <string name="nav_open">Abrir</string>
     <string name="nav_close">Cerrar</string>
+    <string name="file_favoritos">Favoritos</string>
 </resources>

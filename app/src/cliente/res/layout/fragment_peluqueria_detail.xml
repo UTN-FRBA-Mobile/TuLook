@@ -58,6 +58,18 @@
                     android:textAllCaps="false"
                     android:layout_marginTop="5sp"
                     android:text="Ver Comentarios"/>
+
+                <Button
+                    android:id="@+id/btn_agregar_favoritos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bck_rounded_corners_30"
+                    android:textSize="10sp"
+                    android:minHeight="0sp"
+                    android:minWidth="0sp"
+                    android:layout_marginTop="5sp"
+                    android:textAllCaps="false"
+                    android:text="Agregar Favoritos"/>
             </LinearLayout>
 
         </LinearLayout>

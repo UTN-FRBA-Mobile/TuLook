@@ -18,6 +18,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
+//////////////////////
+import com.example.tulook.fileSystem.InternalStorage
+import com.google.gson.Gson
+
 class PeluqueriaDetailFragment : Fragment() {
 
     val args: PeluqueriaDetailFragmentArgs by navArgs()
@@ -54,6 +59,27 @@ class PeluqueriaDetailFragment : Fragment() {
 
         btn_nuevoTurno.setOnClickListener {
             findNavController().navigate(R.id.nuevoTurnoServiciosFragment)
+        }
+        ///////////////////////////////////////////////////
+        val btn_agregar_favoritos = binding.btnAgregarFavoritos
+        //val file = File(requireContext().filesDir, "FAVORITOOS")
+
+        btn_agregar_favoritos.setOnClickListener {
+            val fileNameFavoritos = "Favoritos"
+            //Log.e("FAVORITOS", R.string.file_favoritos.toString())
+            InternalStorage.saveFile(requireContext(), "[\"99\"]", fileNameFavoritos)
+
+            val readedText = InternalStorage.readFile(requireContext(), fileNameFavoritos)
+            val gson = Gson()
+            val array = gson.fromJson(readedText, Array<String>::class.java)
+            val arrayPeluquerias = ArrayList(array.toMutableList())
+            arrayPeluquerias.add(peluqueria.id.toString())
+            val json: String = gson.toJson(arrayPeluquerias).replace("\\n", "\n")
+            Log.e("FAVORITOS","Nueva lista: " + json)
+
+            InternalStorage.saveFile(requireContext(), json, fileNameFavoritos)
+
+            Toast.makeText(context, "Añadido a favoritos", Toast.LENGTH_LONG).show()
         }
     }
 
