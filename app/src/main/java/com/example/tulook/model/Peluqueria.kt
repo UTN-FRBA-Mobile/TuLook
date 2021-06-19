@@ -2,6 +2,7 @@ package com.example.tulook.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.text.DateFormat
 import java.util.*
 
 data class Peluqueria(
@@ -28,6 +29,7 @@ data class Peluqueria(
     @SerializedName("horarioApertura")
     @Expose
     var horarioApertura: Date = Date(),
+
 
     @SerializedName("horarioCierre")
     @Expose

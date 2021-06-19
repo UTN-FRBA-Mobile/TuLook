@@ -3,6 +3,7 @@ package com.example.tulook.ui
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
+import android.util.TimeUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.example.tulook.services.APIService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 
 //////////////////////
@@ -115,14 +117,18 @@ class PeluqueriaDetailFragment : Fragment() {
     }
 
     private fun renderPeluqueria(peluqueria: Peluqueria){
-        binding.peluIdTxt.text = peluqueria.id.toString()
-        binding.peluNameTxt.text = peluqueria.nombre
-        binding.peluDireccionTxt.text = "${peluqueria.direccion?.calle} ${peluqueria.direccion?.numero}"
-        binding.peluHorarioInicioTxt.text = peluqueria.horarioApertura.toString()
-        binding.peluHorarioFinTxt.text = peluqueria.horarioCierre.toString()
-        binding.peluRatingTxt.text = peluqueria.rating.toString()
-        binding.peluServiciosTxt.text = peluqueria.servicios.toString()
+        val calApertura = Calendar.getInstance()
+        calApertura.time = peluqueria.horarioApertura
+        val hourApertura = calApertura.get(Calendar.HOUR_OF_DAY)
 
+        val calCierre = Calendar.getInstance()
+        calCierre.time = peluqueria.horarioCierre
+        val hourCierre = calCierre.get(Calendar.HOUR_OF_DAY)
 
+        binding.peluName.text = peluqueria.nombre
+        binding.peluDireccion.text = "${peluqueria.direccion?.calle} ${peluqueria.direccion?.numero}"
+        binding.peluHorario.text = "${hourApertura?.toString()}hs a ${hourCierre?.toString()}hs"
+
+       // LocalDate.parse(peluqueria.horarioApertura, ISO_LOCAL_DATE_TIME);
     }
 }
