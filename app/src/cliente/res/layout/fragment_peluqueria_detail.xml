@@ -60,51 +60,57 @@
                     android:text="Ver Comentarios"/>
             </LinearLayout>
 
-
-            <TextView
-        android:id="@+id/peluNameTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Fragment Peluquería Detalle"
-        android:textSize="25sp" />
-    <TextView
-        android:id="@+id/peluDireccionTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Fragment Peluquería Detalle"
-        android:textSize="25sp" />
-    <TextView
-        android:id="@+id/peluHorarioInicioTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Fragment Peluquería Detalle"
-        android:textSize="25sp" />
-    <TextView
-        android:id="@+id/peluHorarioFinTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Fragment Peluquería Detalle"
-        android:textSize="25sp" />
-    <TextView
-        android:id="@+id/peluServiciosTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Fragment Peluquería Detalle"
-        android:textSize="25sp" />
-    <TextView
-        android:id="@+id/peluRatingTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Fragment Peluquería Detalle"
-        android:textSize="25sp" />
-
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/peluIdTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Fragment Peluquería ID"
+            android:textSize="25sp" />
+        <TextView
+            android:id="@+id/peluNameTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Fragment Peluquería nombre"
+            android:textSize="25sp" />
+        <TextView
+            android:id="@+id/peluDireccionTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Fragment Peluquería direcion"
+            android:textSize="25sp" />
+        <TextView
+            android:id="@+id/peluHorarioInicioTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Fragment Peluquería horarioInicio"
+            android:textSize="25sp" />
+        <TextView
+            android:id="@+id/peluHorarioFinTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Fragment Peluquería Horario"
+            android:textSize="25sp" />
+        <TextView
+            android:id="@+id/peluServiciosTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Fragment Peluquería servicios"
+            android:textSize="25sp" />
+        <TextView
+            android:id="@+id/peluRatingTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Fragment Peluquería rating"
+            android:textSize="25sp" />
 
         <!--Lista de Fotos de la pelu-->
         <androidx.recyclerview.widget.RecyclerView
