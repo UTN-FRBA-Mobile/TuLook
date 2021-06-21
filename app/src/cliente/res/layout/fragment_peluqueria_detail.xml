@@ -21,15 +21,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/peluName"
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:text="{{nombre comercio}}"
             android:layout_marginTop="30sp"
-            android:background="@color/white"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="25sp" />
+            tools:context=".ui.PeluqueriaDetailFragment">
+
+            <TextView
+                android:id="@+id/peluName"
+                android:layout_width="match_parent"
+                android:text="{{nombre comercio}}"
+                android:layout_marginTop="30sp"
+                android:background="@color/white"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="25sp" />
+
+            <!--Boton ubicacion-->
+            <ImageButton
+                android:id="@+id/btn_agregar_favoritos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30sp"
+                android:minHeight="50sp"
+                android:minWidth="50sp"
+                android:background="@drawable/bck_rounded_corners_30"
+                android:backgroundTint="@color/white"
+                android:backgroundTintMode="multiply"
+                android:layout_marginBottom="30sp"
+                android:layout_gravity="top|right"
+                android:src="@drawable/ic_baseline_favorite"/>
+        </FrameLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -92,17 +115,6 @@
                     android:layout_marginTop="5sp"
                     android:text="Ver Comentarios"/>
 
-                <Button
-                    android:id="@+id/btn_agregar_favoritos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bck_rounded_corners_30"
-                    android:textSize="10sp"
-                    android:minHeight="0sp"
-                    android:minWidth="0sp"
-                    android:layout_marginTop="5sp"
-                    android:textAllCaps="false"
-                    android:text="Agregar Favoritos"/>
             </LinearLayout>
 
         </LinearLayout>
