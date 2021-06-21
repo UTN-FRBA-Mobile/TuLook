@@ -121,7 +121,7 @@
 
         <!--Lista de Servicios-->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_recientes"
+            android:id="@+id/rv_servicios"
             android:scrollbars="vertical"
             android:layout_marginTop="30sp"
             android:layout_width="match_parent"

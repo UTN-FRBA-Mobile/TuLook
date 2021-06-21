@@ -3,7 +3,6 @@ package com.example.tulook.ui
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
-import android.util.TimeUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.tulook.R
+import com.example.tulook.adapters.ServicioListAdapter
 import com.example.tulook.databinding.FragmentPeluqueriaDetailBinding
 import com.example.tulook.model.Peluqueria
 import com.example.tulook.services.APIService
@@ -25,10 +27,13 @@ import java.util.*
 import com.example.tulook.fileSystem.InternalStorage
 import com.google.gson.Gson
 
-class PeluqueriaDetailFragment : Fragment() {
+class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickListener {
 
     val args: PeluqueriaDetailFragmentArgs by navArgs()
     private lateinit var peluqueria: Peluqueria
+
+    private lateinit var sRecyclerView: RecyclerView
+    private lateinit var sAdapter: ServicioListAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +60,7 @@ class PeluqueriaDetailFragment : Fragment() {
         Log.e("PeluDetail", "Pelu ID: ${peluqueriaId}")
 //        binding.peluIdTxt.text = "Peluquería ID: ${peluqueriaId}"
 
+        sRecyclerView = binding.rvServicios
         getPeluqueria(peluqueriaId)
 
         val btn_nuevoTurno = binding.btnNuevoTurno
@@ -100,6 +106,14 @@ class PeluqueriaDetailFragment : Fragment() {
 
                     Log.e("Peluqueria", peluqueria.toString())
 
+
+                    //llena el recycler con los servicios de la peluqueria
+                    sAdapter = ServicioListAdapter(peluqueria.servicios, this@PeluqueriaDetailFragment)
+                    val pLayoutManager = LinearLayoutManager(activity)
+                    sRecyclerView.adapter = sAdapter
+                    sRecyclerView.layoutManager = pLayoutManager
+
+
                     renderPeluqueria(peluqueria)
                 } else {
                     showError()
@@ -129,6 +143,11 @@ class PeluqueriaDetailFragment : Fragment() {
         binding.peluDireccion.text = "${peluqueria.direccion?.calle} ${peluqueria.direccion?.numero}"
         binding.peluHorario.text = "${hourApertura?.toString()}hs a ${hourCierre?.toString()}hs"
 
-       // LocalDate.parse(peluqueria.horarioApertura, ISO_LOCAL_DATE_TIME);
+    }
+
+    override fun onRowClick(id: Int) {
+        /* Log.e("RowClick", "Id de pelu: ${id}")
+         val action = PeluqueriaListFragmentDirections.actionPeluqueriaListFragmentToPeluqueriaDetailFragment(peluqueriaId = id)
+         findNavController().navigate(action) */
     }
 }

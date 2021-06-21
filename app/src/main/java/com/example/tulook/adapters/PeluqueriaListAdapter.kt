@@ -23,14 +23,14 @@ class PeluqueriaListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
-        return PelqueriasViewHolder(
+        return PeluqueriasViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_row_item, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
         when (holder) {
-            is PelqueriasViewHolder -> holder.bind(peluqueriasList!![position], position)
+            is PeluqueriasViewHolder -> holder.bind(peluqueriasList!![position], position)
         }
     }
 
@@ -40,7 +40,7 @@ class PeluqueriaListAdapter(
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
-    inner class PelqueriasViewHolder(itemView: View) : BaseViewHolder<Peluqueria>(itemView) {
+    inner class PeluqueriasViewHolder(itemView: View) : BaseViewHolder<Peluqueria>(itemView) {
         val binding = PeluqueriaRowItemBinding.bind(itemView)
 
         override fun bind(item: Peluqueria, position: Int) {
