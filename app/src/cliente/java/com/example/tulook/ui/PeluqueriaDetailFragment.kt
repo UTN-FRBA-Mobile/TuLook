@@ -3,11 +3,11 @@ package com.example.tulook.ui
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,19 +15,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tulook.R
 import com.example.tulook.adapters.ServicioListAdapter
 import com.example.tulook.databinding.FragmentPeluqueriaDetailBinding
+import com.example.tulook.fileSystem.InternalStorage
 import com.example.tulook.model.Peluqueria
 import com.example.tulook.services.APIService
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-
-//////////////////////
-import com.example.tulook.fileSystem.InternalStorage
-import com.google.gson.Gson
-
 class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickListener {
+
 
     val args: PeluqueriaDetailFragmentArgs by navArgs()
     private lateinit var peluqueria: Peluqueria
@@ -62,32 +60,18 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
 
         sRecyclerView = binding.rvServicios
         getPeluqueria(peluqueriaId)
+        checkOrEditFavoritos(peluqueriaId.toString(), false)
 
         val btn_nuevoTurno = binding.btnNuevoTurno
 
         btn_nuevoTurno.setOnClickListener {
             findNavController().navigate(R.id.nuevoTurnoServiciosFragment)
         }
-        ///////////////////////////////////////////////////
+
         val btn_agregar_favoritos = binding.btnAgregarFavoritos
-        //val file = File(requireContext().filesDir, "FAVORITOOS")
 
         btn_agregar_favoritos.setOnClickListener {
-            val fileNameFavoritos = "Favoritos"
-            //Log.e("FAVORITOS", R.string.file_favoritos.toString())
-            InternalStorage.saveFile(requireContext(), "[\"99\"]", fileNameFavoritos)
-
-            val readedText = InternalStorage.readFile(requireContext(), fileNameFavoritos)
-            val gson = Gson()
-            val array = gson.fromJson(readedText, Array<String>::class.java)
-            val arrayPeluquerias = ArrayList(array.toMutableList())
-            arrayPeluquerias.add(peluqueria.id.toString())
-            val json: String = gson.toJson(arrayPeluquerias).replace("\\n", "\n")
-            Log.e("FAVORITOS","Nueva lista: " + json)
-
-            InternalStorage.saveFile(requireContext(), json, fileNameFavoritos)
-
-            Toast.makeText(context, "Añadido a favoritos", Toast.LENGTH_LONG).show()
+            checkOrEditFavoritos(peluqueriaId.toString(), true)
         }
     }
 
@@ -149,5 +133,56 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
         /* Log.e("RowClick", "Id de pelu: ${id}")
          val action = PeluqueriaListFragmentDirections.actionPeluqueriaListFragmentToPeluqueriaDetailFragment(peluqueriaId = id)
          findNavController().navigate(action) */
+    }
+
+    private fun checkOrEditFavoritos(id: String, editEnabled: Boolean){
+        val btn_agregar_favoritos = binding.btnAgregarFavoritos
+        val fileNameFavoritos = "Favoritos"
+
+        var readedText = "[]"
+        if(InternalStorage.getFileUri(requireContext(), fileNameFavoritos) != null){
+            readedText = InternalStorage.readFile(requireContext(), fileNameFavoritos)
+        }
+
+        Log.e("Favoritos","Lista favoritos anterior: " + readedText)
+
+        val gson = Gson()
+        val array = gson.fromJson(readedText, Array<String>::class.java)
+        val arrayPeluquerias = ArrayList(array.toMutableList())
+        var stringToastFavoritos = ""
+        if(arrayPeluquerias.contains(id)){
+            if(editEnabled){
+                arrayPeluquerias.remove(id)
+                stringToastFavoritos = "Eliminado de favoritos"
+                //Modificar el tint con alguno de estos: setImageTintList(ColorStateList) (<-preferible) o setTint()
+                // btn_agregar_favoritos.setTint (lightGrey)
+                btn_agregar_favoritos.setColorFilter(R.color.grey_ligth)
+            }else{
+                //Modificar el tint con alguno de estos: setImageTintList(ColorStateList) (<-preferible) o setTint()
+                // btn_agregar_favoritos.setTint (primary)
+                btn_agregar_favoritos.setColorFilter(R.color.red)
+            }
+        }else{
+            if(editEnabled){
+                arrayPeluquerias.add(id)
+                stringToastFavoritos = "Añadido a favoritos"
+                //Modificar el tint con alguno de estos: setImageTintList(ColorStateList) (<-preferible) o setTint()
+                // btn_agregar_favoritos.setTint (primary)
+                btn_agregar_favoritos.setColorFilter(R.color.red)
+            }else{
+                //Modificar el tint con alguno de estos: setImageTintList(ColorStateList) (<-preferible) o setTint()
+                // btn_agregar_favoritos.setTint (lightGrey)
+                btn_agregar_favoritos.setColorFilter(R.color.grey_ligth)
+            }
+        }
+
+        if(editEnabled) {
+            val json: String = gson.toJson(arrayPeluquerias).replace("\\n", "\n")
+
+            InternalStorage.saveFile(requireContext(), json, fileNameFavoritos)
+
+            Log.e("Favoritos", "Lista favoritos nueva: " + json)
+            Toast.makeText(context, stringToastFavoritos, Toast.LENGTH_LONG).show()
+        }
     }
 }
