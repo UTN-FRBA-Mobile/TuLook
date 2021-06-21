@@ -70,7 +70,7 @@ class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaCli
             override fun onResponse(call: Call<List<Peluqueria>>, response: Response<List<Peluqueria>>) {
                 if (response.isSuccessful) {
                     Log.e(TAG, response.body().toString())
-                    pAdapter = PeluqueriaListAdapter(response.body(), this@PeluqueriaListFragment)
+                    pAdapter = PeluqueriaListAdapter(response.body(), this@PeluqueriaListFragment, "peluqueriaList")
                     val pLayoutManager = LinearLayoutManager(activity)
                     pRecyclerView.adapter = pAdapter
                     pRecyclerView.layoutManager = pLayoutManager
