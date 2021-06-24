@@ -1,6 +1,8 @@
 package com.example.tulook.adapters
 
 
+import android.content.ContentValues
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +39,7 @@ class PeluqueriaListAdapter(
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
         when (holder) {
             is PeluqueriasViewHolder -> holder.bind(peluqueriasList!![position], position)
+            is FavoritosViewHolder -> holder.bind(peluqueriasList!![position], position)
         }
     }
 
@@ -65,7 +68,6 @@ class PeluqueriaListAdapter(
         override fun bind(item: Peluqueria, position: Int) {
             itemView.setOnClickListener { itemClickListener.onRowClick(item.id) }
             binding.peluqueriaAddressTxt.setOnClickListener { itemClickListener.onFavClick(item.id) }
-
             binding.peluqueriaNameTxt.text = item.nombre
             binding.peluqueriaAddressTxt.text = "${item.direccion!!.calle} ${item.direccion!!.numero}"
         }

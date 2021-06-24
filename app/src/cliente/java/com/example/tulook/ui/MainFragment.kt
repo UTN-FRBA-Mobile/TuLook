@@ -57,7 +57,7 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
         }
 
         pRecyclerView = binding.rvFavoritos
-        getPeluqueriasFavortias()
+        getPeluqueriasFavoritas()
 
     }
 
@@ -66,7 +66,7 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
         _binding = null
     }
 
-    private fun getPeluqueriasFavortias() {
+    private fun getPeluqueriasFavoritas() {
         val fileNameFavoritos = "Favoritos"
 
         if(InternalStorage.getFileUri(requireContext(), fileNameFavoritos) != null){
@@ -84,7 +84,7 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
 
                             Log.e(ContentValues.TAG, peluqueriasFiltradas.toString())
                             pAdapter = PeluqueriaListAdapter(peluqueriasFiltradas, this@MainFragment, "favoritoList")
-                            val pLayoutManager = LinearLayoutManager(activity)
+                            val pLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                             pRecyclerView.adapter = pAdapter
                             pRecyclerView.layoutManager = pLayoutManager
                         } else {
