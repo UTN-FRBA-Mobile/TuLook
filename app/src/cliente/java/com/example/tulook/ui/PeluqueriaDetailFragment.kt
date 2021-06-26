@@ -1,18 +1,22 @@
 package com.example.tulook.ui
 
 import android.content.ContentValues
+import android.content.res.ColorStateList
+import com.example.tulook.R
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tulook.R
+import com.example.tulook.adapters.BannerListAdapter
 import com.example.tulook.adapters.ServicioListAdapter
 import com.example.tulook.databinding.FragmentPeluqueriaDetailBinding
 import com.example.tulook.fileSystem.InternalStorage
@@ -24,12 +28,14 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
+
 class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickListener {
 
 
     val args: PeluqueriaDetailFragmentArgs by navArgs()
     private lateinit var peluqueria: Peluqueria
-
+    private lateinit var bannerRecyclerView: RecyclerView
+    private lateinit var bannerAdapter: BannerListAdapter
     private lateinit var sRecyclerView: RecyclerView
     private lateinit var sAdapter: ServicioListAdapter
 
@@ -56,9 +62,10 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
 
         val peluqueriaId = args.peluqueriaId
         Log.e("PeluDetail", "Pelu ID: ${peluqueriaId}")
-//        binding.peluIdTxt.text = "Peluquería ID: ${peluqueriaId}"
 
+        bannerRecyclerView = binding.rvFotosSalon
         sRecyclerView = binding.rvServicios
+
         getPeluqueria(peluqueriaId)
         checkOrEditFavoritos(peluqueriaId.toString(), false)
 
@@ -72,6 +79,11 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
 
         btn_agregar_favoritos.setOnClickListener {
             checkOrEditFavoritos(peluqueriaId.toString(), true)
+        }
+
+        val btn_ver_comentarios = binding.btnVerComentarios
+        btn_ver_comentarios.setOnClickListener {
+            findNavController().navigate(R.id.comentariosDetailFragment)
         }
     }
 
@@ -89,6 +101,12 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
                     peluqueria = response.body() ?: Peluqueria()
 
                     Log.e("Peluqueria", peluqueria.toString())
+
+                    //completa el banner con las fotos de la peluqueria
+                    bannerAdapter = BannerListAdapter(peluqueria.imagenes)
+                    val bannerLayoutManager = LinearLayoutManager(activity , LinearLayoutManager.HORIZONTAL, false)
+                    bannerRecyclerView.adapter = bannerAdapter
+                    bannerRecyclerView.layoutManager = bannerLayoutManager
 
 
                     //llena el recycler con los servicios de la peluqueria
@@ -129,10 +147,10 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
 
     }
 
-    override fun onRowClick(id: Int) {
-        /* Log.e("RowClick", "Id de pelu: ${id}")
-         val action = PeluqueriaListFragmentDirections.actionPeluqueriaListFragmentToPeluqueriaDetailFragment(peluqueriaId = id)
-         findNavController().navigate(action) */
+    override fun onRowClick(){//id: Int) {
+         Log.e("RowClick", "Id de servicio: ${id}")
+         val action = PeluqueriaDetailFragmentDirections.actionPeluqueriaDetailFragmentToServicioDetailFragment() //(peluqueriaId = id)
+         findNavController().navigate(action)
     }
 
     private fun checkOrEditFavoritos(id: String, editEnabled: Boolean){
@@ -154,25 +172,25 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
             if(editEnabled){
                 arrayPeluquerias.remove(id)
                 stringToastFavoritos = "Eliminado de favoritos"
-                //Modificar el tint con alguno de estos: setImageTintList(ColorStateList) (<-preferible) o setTint()
-                // btn_agregar_favoritos.setTint (lightGrey)
-                btn_agregar_favoritos.setColorFilter(R.color.grey_ligth)
+                ImageViewCompat.setImageTintList(btn_agregar_favoritos, ColorStateList.valueOf(
+                    ContextCompat.getColor(requireContext(), R.color.grey_ligth)));
+
             }else{
-                //Modificar el tint con alguno de estos: setImageTintList(ColorStateList) (<-preferible) o setTint()
-                // btn_agregar_favoritos.setTint (primary)
-                btn_agregar_favoritos.setColorFilter(R.color.red)
+                stringToastFavoritos = "Añadido a favoritos"
+                ImageViewCompat.setImageTintList(btn_agregar_favoritos, ColorStateList.valueOf(
+                    ContextCompat.getColor(requireContext() , R.color.red)));
             }
         }else{
             if(editEnabled){
                 arrayPeluquerias.add(id)
                 stringToastFavoritos = "Añadido a favoritos"
-                //Modificar el tint con alguno de estos: setImageTintList(ColorStateList) (<-preferible) o setTint()
-                // btn_agregar_favoritos.setTint (primary)
-                btn_agregar_favoritos.setColorFilter(R.color.red)
+                ImageViewCompat.setImageTintList(btn_agregar_favoritos, ColorStateList.valueOf(
+                    ContextCompat.getColor(requireContext() , R.color.red)));
+
             }else{
-                //Modificar el tint con alguno de estos: setImageTintList(ColorStateList) (<-preferible) o setTint()
-                // btn_agregar_favoritos.setTint (lightGrey)
-                btn_agregar_favoritos.setColorFilter(R.color.grey_ligth)
+                stringToastFavoritos = "Eliminado de favoritos"
+                ImageViewCompat.setImageTintList(btn_agregar_favoritos, ColorStateList.valueOf(
+                    ContextCompat.getColor(requireContext(), R.color.grey_ligth)));
             }
         }
 

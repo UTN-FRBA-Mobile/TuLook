@@ -16,7 +16,7 @@ class ServicioListAdapter(
     RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     interface onServiceClickListener {
-        fun onRowClick(id: Int)
+        fun onRowClick()//id: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
@@ -41,7 +41,7 @@ class ServicioListAdapter(
         val binding = ServiceRowItemBinding.bind(itemView)
 
         override fun bind(item: String, position: Int) {
-           // itemView.setOnClickListener { itemClickListener.onRowClick(item.id) }
+            itemView.setOnClickListener { itemClickListener.onRowClick()}//item.id) }
             binding.serviceName.text = item
 
             when (item) {

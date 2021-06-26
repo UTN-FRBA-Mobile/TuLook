@@ -9,12 +9,13 @@
         android:id="@+id/mainFragment"
         android:name="com.example.tulook.ui.MainFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_main">
+        tools:layout="@layout/fragment_test_firebase">
         <action
             android:id="@+id/action_mainFragment_to_peluqueriaListFragment"
             app:destination="@id/peluqueriaListFragment" />
-        <action android:id="@+id/action_mainFragment_to_testFirebaseFragment"
-                app:destination="@id/testFirebaseFragment"/>
+        <action
+            android:id="@+id/action_mainFragment_to_testFirebaseFragment"
+            app:destination="@id/testFirebaseFragment" />
     </fragment>
     <fragment
         android:id="@+id/peluqueriaListFragment"
@@ -35,8 +36,14 @@
             app:destination="@id/nuevoTurnoServiciosFragment" />
         <argument
             android:name="peluqueriaId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_peluqueriaDetailFragment_to_comentarios"
+            app:destination="@id/comentariosDetailFragment" />
+        <action
+            android:id="@+id/action_peluqueriaDetailFragment_to_servicioDetailFragment"
+            app:destination="@id/ServicioDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/nuevoTurnoServiciosFragment"
@@ -61,6 +68,18 @@
         android:name="com.example.tulook.ui.turno.NuevoTurno_DetailFragment"
         android:label="Nuevo Turno - Confirmación"
         tools:layout="@layout/fragment_nuevo_turno__detail" />
-    <fragment android:id="@+id/testFirebaseFragment" android:name="com.example.tulook.ui.TestFirebaseFragment"
-              android:label="TestFirebaseFragment"/>
+    <fragment
+        android:id="@+id/testFirebaseFragment"
+        android:name="com.example.tulook.ui.TestFirebaseFragment"
+        android:label="TestFirebaseFragment" />
+    <fragment
+        android:id="@+id/comentariosDetailFragment"
+        android:name="com.example.tulook.ui.ComentariosDetailFragment"
+        android:label="comentarios"
+        tools:layout="@layout/fragment_comentarios_detail" />
+    <fragment
+        android:id="@+id/ServicioDetailFragment"
+        android:name="com.example.tulook.ui.ServicioDetailFragment"
+        android:label="Detalle del servicio"
+        tools:layout="@layout/fragment_servicio_detail" />
 </navigation>

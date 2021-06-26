@@ -37,5 +37,9 @@ data class Peluqueria(
 
     @SerializedName("rating")
     @Expose
-    var rating: Float = 0f
+    var rating: Float = 0f,
+
+    @SerializedName("imagenes")
+    @Expose
+    var imagenes: List<String> = emptyList()
 )

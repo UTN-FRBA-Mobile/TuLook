@@ -6,32 +6,38 @@
     android:orientation="vertical"
     tools:context=".ui.PeluqueriaDetailFragment">
 
-    <!--Lista de Fotos de la pelu-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_fotos_salon"
-        android:scrollbars="horizontal"
-        android:layout_gravity ="bottom|center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_marginTop="30sp"
         android:layout_height="wrap_content"
         tools:context=".ui.PeluqueriaDetailFragment">
 
-        <TextView
-            android:id="@+id/peluName"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:text="{{nombre comercio}}"
-            android:layout_marginTop="30sp"
-            android:background="@color/white"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="25sp" />
+            android:layout_height="match_parent"
+            android:weightSum="2"
+            android:orientation="vertical"
+            tools:context=".ui.PeluqueriaDetailFragment">
 
-        <!--Boton ubicacion-->
+            <!--Lista de Fotos de la pelu-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_fotos_salon"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/peluName"
+                android:layout_width="match_parent"
+                android:text="{{nombre comercio}}"
+                android:layout_marginTop="5sp"
+                android:layout_weight="0.5"
+                android:background="@color/white"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="25sp" />
+        </LinearLayout>
+        <!--Boton favoritos-->
         <ImageButton
             android:id="@+id/btn_agregar_favoritos"
             android:layout_width="wrap_content"
@@ -42,10 +48,11 @@
             android:background="@drawable/bck_rounded_corners_30"
             android:backgroundTint="@color/white"
             android:backgroundTintMode="multiply"
-            android:layout_marginBottom="30sp"
-            android:layout_gravity="top|right"
+            android:layout_marginBottom="15sp"
+            android:layout_gravity="bottom|right"
             android:src="@drawable/ic_baseline_favorite"/>
     </FrameLayout>
+
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -137,7 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:layout_gravity ="bottom|center_horizontal"
-            android:text="ELEGIR HORARIO"/>
+            android:text="OBTENER UN TURNO"/>
     </LinearLayout>
 </LinearLayout>
 

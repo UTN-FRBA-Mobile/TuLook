@@ -1,4 +1,6 @@
 package com.example.tulook.ui
 
-class ComentariosDetailFragment {
+import androidx.fragment.app.Fragment
+
+class ComentariosDetailFragment : Fragment(){
 }
