@@ -1,12 +1,14 @@
 package com.example.tulook.services
 
 import com.example.tulook.model.Peluqueria
+import com.example.tulook.model.Turno
 import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import java.util.*
 
 interface APIService {
     @GET("peluquerias")
@@ -14,6 +16,9 @@ interface APIService {
 
     @GET("peluquerias/{id}")
     fun getPeluqueria(@Path("id") id: Int): Call<Peluqueria>
+
+    @GET("turnos/byPeluquerias/{peluqueriaId}/{fecha}")
+    fun getTurnosPorPeluqueriaPorDia(@Path("peluqueriaId") peluqueriaId: Int, @Path("fecha") fecha: Date): Call<List<Turno>>
 
     companion object {
 

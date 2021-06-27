@@ -17,14 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="{{nombre del servicio}}"
+            tools:text="Peluquería 1"
             android:textSize="25sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10sp"
-            android:text="{{descripcion del servicio}}"
+            tools:text="Descripción del servicio"
             android:textSize="15sp" />
 
         <ImageView

@@ -24,7 +24,7 @@ data class Peluqueria(
 
     @SerializedName("servicios")
     @Expose
-    var servicios: List<String> = emptyList(),
+    var servicios: Array<String> = emptyArray<String>(),
 
     @SerializedName("horarioApertura")
     @Expose

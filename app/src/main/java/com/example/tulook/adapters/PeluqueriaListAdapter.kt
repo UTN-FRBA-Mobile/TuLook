@@ -36,7 +36,7 @@ class PeluqueriaListAdapter(
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
         when (holder) {
-            is PeluqueriasViewHolder -> holder.bind(peluqueriasList!![position], position)
+            is PeluqueriasViewHolder -> holder.bind(peluqueriasList!![position], position, false)
         }
     }
 
@@ -49,7 +49,7 @@ class PeluqueriaListAdapter(
     inner class PeluqueriasViewHolder(itemView: View) : BaseViewHolder<Peluqueria>(itemView) {
         val binding = PeluqueriaRowItemBinding.bind(itemView)
 
-        override fun bind(item: Peluqueria, position: Int) {
+        override fun bind(item: Peluqueria, position: Int, isActivated: Boolean) {
             itemView.setOnClickListener { itemClickListener.onRowClick(item.id) }
             binding.peluqueriaAddressTxt.setOnClickListener { itemClickListener.onFavClick(item.id) }
 
@@ -62,7 +62,7 @@ class PeluqueriaListAdapter(
     inner class FavoritosViewHolder(itemView: View) : BaseViewHolder<Peluqueria>(itemView) {
         val binding = PeluqueriaFavoritoRowItemBinding.bind(itemView)
 
-        override fun bind(item: Peluqueria, position: Int) {
+        override fun bind(item: Peluqueria, position: Int, isActivated: Boolean) {
             itemView.setOnClickListener { itemClickListener.onRowClick(item.id) }
             binding.peluqueriaAddressTxt.setOnClickListener { itemClickListener.onFavClick(item.id) }
 

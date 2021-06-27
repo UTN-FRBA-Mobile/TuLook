@@ -1,18 +1,36 @@
 package com.example.tulook.ui.turno
 
 import android.app.DatePickerDialog
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.tulook.R
 import com.example.tulook.databinding.FragmentNuevoTurnoHorariosBinding
+import com.example.tulook.model.Peluqueria
+import com.example.tulook.model.Turno
+import com.example.tulook.services.APIService
+import com.example.tulook.ui.PeluqueriaDetailFragmentArgs
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListener {
+
+    val args: NuevoTurno_HorariosFragmentArgs by navArgs()
+    var servicios = emptyArray<String>()
+    var peluqueriaId = 0
+    var duracionTurno = 0
+
+    private lateinit var turnos: List<Turno>
 
     var day = 0
     var month = 0
@@ -57,6 +75,10 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
             getDateCalendar()
             datepicker.show()
         }
+
+        servicios = args.serviciosSeleccionados
+        peluqueriaId = args.peluqueriaId
+        duracionTurno = 30 * servicios.size
     }
 
     override fun onDestroyView() {
@@ -80,5 +102,36 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
         day = calendar.get(Calendar.DAY_OF_MONTH)
         month = calendar.get(Calendar.MONTH)
         year = calendar.get(Calendar.YEAR)
+    }
+
+
+
+
+    private fun getTurnos(peluqueriaId: Int, day: Int, month: Int, year: Int) {
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month, day)
+        val fecha: Date = calendar.time
+
+        APIService.create().getTurnosPorPeluqueriaPorDia(peluqueriaId, fecha).enqueue(object : Callback<List<Turno>> {
+
+            override fun onResponse(call: Call<List<Turno>>, response: Response<List<Turno>>) {
+                if (response.isSuccessful) {
+                    Log.e(ContentValues.TAG, response.body().toString())
+                    turnos = response.body() ?: emptyList()
+
+                    Log.e("Turnos", turnos.toString())
+                } else {
+                    showError()
+                }
+            }
+
+            override fun onFailure(call: Call<List<Turno>>, t: Throwable) {
+                Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
+            }
+        })
+    }
+
+    private fun showError() {
+        Toast.makeText(activity, "Ha ocurrido un error", Toast.LENGTH_LONG).show()
     }
 }

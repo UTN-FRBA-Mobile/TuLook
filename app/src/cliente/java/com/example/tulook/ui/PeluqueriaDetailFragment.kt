@@ -4,12 +4,14 @@ import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.selection.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tulook.R
@@ -23,15 +25,17 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.ArrayList
 
 class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickListener {
 
 
-    val args: PeluqueriaDetailFragmentArgs by navArgs()
+    private val args: PeluqueriaDetailFragmentArgs by navArgs()
     private lateinit var peluqueria: Peluqueria
 
     private lateinit var sRecyclerView: RecyclerView
     private lateinit var sAdapter: ServicioListAdapter
+    private lateinit var tracker: SelectionTracker<String>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +48,7 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentPeluqueriaDetailBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -65,7 +69,18 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
         val btn_nuevoTurno = binding.btnNuevoTurno
 
         btn_nuevoTurno.setOnClickListener {
-            findNavController().navigate(R.id.nuevoTurnoServiciosFragment)
+
+            if (!tracker.selection.isEmpty()){
+                val action =
+                    PeluqueriaDetailFragmentDirections.actionPeluqueriaDetailFragmentToNuevoTurnoServiciosFragment(
+                        tracker.selection.toList().toTypedArray(),
+                        peluqueria.id
+                    )
+                findNavController().navigate(action)
+            }
+            else{
+                Toast.makeText(activity, "Debe seleccional al menos un servicio", Toast.LENGTH_LONG).show()
+            }
         }
 
         val btn_agregar_favoritos = binding.btnAgregarFavoritos
@@ -92,11 +107,32 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
 
 
                     //llena el recycler con los servicios de la peluqueria
-                    sAdapter = ServicioListAdapter(peluqueria.servicios, this@PeluqueriaDetailFragment)
+                    sAdapter = ServicioListAdapter(
+                        peluqueria.servicios.toList(),
+                        this@PeluqueriaDetailFragment
+                    )
+
                     val pLayoutManager = LinearLayoutManager(activity)
                     sRecyclerView.adapter = sAdapter
                     sRecyclerView.layoutManager = pLayoutManager
 
+                    tracker = SelectionTracker.Builder<String>(
+                        "serviceSelection",
+                        sRecyclerView,
+                        ServicioKeyProvider(sAdapter),
+                        MyItemDetailsLookup(sRecyclerView),
+                        StorageStrategy.createStringStorage()
+                    ).withSelectionPredicate(
+                        SelectionPredicates.createSelectAnything()
+                    ).build()
+                    sAdapter.tracker = tracker
+
+                    tracker.addObserver(object : SelectionTracker.SelectionObserver<String>() {
+                        override fun onSelectionChanged() {
+                            super.onSelectionChanged()
+                            Log.d("DEBUG", "selection=${tracker.selection}")
+                        }
+                    })
 
                     renderPeluqueria(peluqueria)
                 } else {
@@ -114,7 +150,7 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
         Toast.makeText(activity, "Ha ocurrido un error", Toast.LENGTH_LONG).show()
     }
 
-    private fun renderPeluqueria(peluqueria: Peluqueria){
+    private fun renderPeluqueria(peluqueria: Peluqueria) {
         val calApertura = Calendar.getInstance()
         calApertura.time = peluqueria.horarioApertura
         val hourApertura = calApertura.get(Calendar.HOUR_OF_DAY)
@@ -124,7 +160,8 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
         val hourCierre = calCierre.get(Calendar.HOUR_OF_DAY)
 
         binding.peluName.text = peluqueria.nombre
-        binding.peluDireccion.text = "${peluqueria.direccion?.calle} ${peluqueria.direccion?.numero}"
+        binding.peluDireccion.text =
+            "${peluqueria.direccion?.calle} ${peluqueria.direccion?.numero}"
         binding.peluHorario.text = "${hourApertura?.toString()}hs a ${hourCierre?.toString()}hs"
 
     }
@@ -135,54 +172,77 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
          findNavController().navigate(action) */
     }
 
-    private fun checkOrEditFavoritos(id: String, editEnabled: Boolean){
+    private fun checkOrEditFavoritos(id: String, editEnabled: Boolean) {
         val btn_agregar_favoritos = binding.btnAgregarFavoritos
         val fileNameFavoritos = "Favoritos"
 
         var readedText = "[]"
-        if(InternalStorage.getFileUri(requireContext(), fileNameFavoritos) != null){
+        if (InternalStorage.getFileUri(requireContext(), fileNameFavoritos) != null) {
             readedText = InternalStorage.readFile(requireContext(), fileNameFavoritos)
         }
 
-        Log.e("Favoritos","Lista favoritos anterior: " + readedText)
+        Log.e("Favoritos", "Lista favoritos anterior: " + readedText)
 
         val gson = Gson()
         val array = gson.fromJson(readedText, Array<String>::class.java)
         val arrayPeluquerias = ArrayList(array.toMutableList())
         var stringToastFavoritos = ""
-        if(arrayPeluquerias.contains(id)){
-            if(editEnabled){
+        if (arrayPeluquerias.contains(id)) {
+            if (editEnabled) {
                 arrayPeluquerias.remove(id)
                 stringToastFavoritos = "Eliminado de favoritos"
                 //Modificar el tint con alguno de estos: setImageTintList(ColorStateList) (<-preferible) o setTint()
                 // btn_agregar_favoritos.setTint (lightGrey)
                 btn_agregar_favoritos.setColorFilter(R.color.grey_ligth)
-            }else{
+            } else {
                 //Modificar el tint con alguno de estos: setImageTintList(ColorStateList) (<-preferible) o setTint()
                 // btn_agregar_favoritos.setTint (primary)
                 btn_agregar_favoritos.setColorFilter(R.color.red)
             }
-        }else{
-            if(editEnabled){
+        } else {
+            if (editEnabled) {
                 arrayPeluquerias.add(id)
                 stringToastFavoritos = "Añadido a favoritos"
                 //Modificar el tint con alguno de estos: setImageTintList(ColorStateList) (<-preferible) o setTint()
                 // btn_agregar_favoritos.setTint (primary)
                 btn_agregar_favoritos.setColorFilter(R.color.red)
-            }else{
+            } else {
                 //Modificar el tint con alguno de estos: setImageTintList(ColorStateList) (<-preferible) o setTint()
                 // btn_agregar_favoritos.setTint (lightGrey)
                 btn_agregar_favoritos.setColorFilter(R.color.grey_ligth)
             }
         }
 
-        if(editEnabled) {
+        if (editEnabled) {
             val json: String = gson.toJson(arrayPeluquerias).replace("\\n", "\n")
 
             InternalStorage.saveFile(requireContext(), json, fileNameFavoritos)
 
             Log.e("Favoritos", "Lista favoritos nueva: " + json)
             Toast.makeText(context, stringToastFavoritos, Toast.LENGTH_LONG).show()
+        }
+    }
+
+
+    inner class ServicioKeyProvider(private val adapter: ServicioListAdapter) :
+        ItemKeyProvider<String>(
+            SCOPE_CACHED
+        ) {
+        override fun getKey(position: Int): String? =
+            adapter.servicesList!![position]
+
+        override fun getPosition(key: String): Int =
+            adapter.servicesList!!.indexOfFirst { it == key }
+    }
+
+    private class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
+        ItemDetailsLookup<String>() {
+        override fun getItemDetails(event: MotionEvent): ItemDetails<String>? {
+            val view = recyclerView.findChildViewUnder(event.x, event.y)
+            if (view != null) {
+                return (recyclerView.getChildViewHolder(view) as ServicioListAdapter.ServiceViewHolder).getItemDetails()
+            }
+            return null
         }
     }
 }

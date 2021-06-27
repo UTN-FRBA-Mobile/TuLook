@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="vertical"           
     tools:context=".ui.PeluqueriaDetailFragment">
 
     <!--Lista de Fotos de la pelu-->
@@ -128,7 +128,10 @@
             android:layout_marginTop="15sp"
             android:layout_weight="2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
+
+
+
 
         <!--Boton elegirHorario-->
         <Button

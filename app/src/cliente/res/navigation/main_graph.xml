@@ -46,6 +46,13 @@
         <action
             android:id="@+id/action_nuevoTurnoServiciosFragment_to_nuevoTurno_HorariosFragment"
             app:destination="@id/nuevoTurno_HorariosFragment" />
+        <argument
+            android:name="servicios"
+            app:argType="string[]" />
+        <argument
+            android:name="peluqueriaId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/nuevoTurno_HorariosFragment"
@@ -55,6 +62,13 @@
         <action
             android:id="@+id/action_nuevoTurno_HorariosFragment_to_nuevoTurno_DetailFragment"
             app:destination="@id/nuevoTurno_DetailFragment" />
+        <argument
+            android:name="peluqueriaId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="serviciosSeleccionados"
+            app:argType="string[]" />
     </fragment>
     <fragment
         android:id="@+id/nuevoTurno_DetailFragment"
