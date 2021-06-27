@@ -50,11 +50,11 @@ class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaCli
         super.onViewCreated(view, savedInstanceState)
 
         //se utiliza el boton ubicacion peluqueria para llevarnos al fragment de detalle, como aun no esta diseñado, es solo una prueba.
-        val btn_lista_peluquerias = binding.btnUbicacionPeluquerias
+//        val btn_lista_peluquerias = binding.btnUbicacionPeluquerias
 
-        btn_lista_peluquerias.setOnClickListener {
-            findNavController().navigate(R.id.peluqueriaDetailFragment)
-        }
+//        btn_lista_peluquerias.setOnClickListener {
+//            findNavController().navigate(R.id.peluqueriaDetailFragment)
+//        }
 
         pRecyclerView = binding.rvPeluquerias
         getPeluquerias()

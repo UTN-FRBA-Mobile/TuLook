@@ -22,7 +22,7 @@ class ServicioListAdapter(
     var tracker: SelectionTracker<String>? = null
 
     interface onServiceClickListener {
-        fun onRowClick(id: Int)
+        fun onRowClick()//id: Int)
     }
 
     init {
@@ -56,9 +56,8 @@ class ServicioListAdapter(
     inner class ServiceViewHolder(itemView: View) : BaseViewHolder<String>(itemView) {
         val binding = ServiceRowItemBinding.bind(itemView)
 
-        //        override fun bind(item: String, position: Int) {
         override fun bind(item: String, position: Int, isActivated: Boolean) {
-            // itemView.setOnClickListener { itemClickListener.onRowClick(item.id) }
+            // itemView.setOnClickListener { itemClickListener.onRowClick()}//item.id) }
             binding.serviceName.text = item
             binding.peluqueriaItem.setBackgroundResource( if(isActivated) R.color.light_red else R.color.white)
 
