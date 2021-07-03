@@ -20,6 +20,9 @@ interface APIService {
     @GET("turnos/byPeluquerias/{peluqueriaId}/{fecha}")
     fun getTurnosPorPeluqueriaPorDia(@Path("peluqueriaId") peluqueriaId: Int, @Path("fecha") fecha: Date): Call<List<Turno>>
 
+    @GET("turnos/byUsuario/{userID}")
+    fun getTurnosPorUsuario(@Path("userID") usuarioID: Int): Call<List<Turno>>
+
     companion object {
 
         var BASE_URL = "https://tu-look-api.herokuapp.com/api/"
