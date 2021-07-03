@@ -22,7 +22,7 @@ class ServicioListAdapter(
     var tracker: SelectionTracker<String>? = null
 
     interface onServiceClickListener {
-        fun onRowClick()//id: Int)
+        fun onRowClick()
     }
 
     init {
