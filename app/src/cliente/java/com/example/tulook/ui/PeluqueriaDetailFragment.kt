@@ -32,7 +32,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickListener {
+class PeluqueriaDetailFragment : Fragment() , ServicioListAdapter.onServiceClickListener {
 
 
     private val args: PeluqueriaDetailFragmentArgs by navArgs()
@@ -98,7 +98,8 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
 
         val btn_ver_comentarios = binding.btnVerComentarios
         btn_ver_comentarios.setOnClickListener {
-            findNavController().navigate(R.id.comentariosDetailFragment)
+            val action = PeluqueriaDetailFragmentDirections.actionPeluqueriaDetailFragmentToComentarios(peluqueriaId)
+            findNavController().navigate(action)
         }
     }
 
@@ -184,11 +185,7 @@ class PeluqueriaDetailFragment : Fragment(), ServicioListAdapter.onServiceClickL
 
     }
 
-    override fun onRowClick(){//id: Int) {
-         Log.e("RowClick", "Id de servicio: ${id}")
-         val action = PeluqueriaDetailFragmentDirections.actionPeluqueriaDetailFragmentToServicioDetailFragment() //(peluqueriaId = id)
-         findNavController().navigate(action)
-    }
+    override fun onRowClick(){}
 
     private fun checkOrEditFavoritos(id: String, editEnabled: Boolean) {
         val btn_agregar_favoritos = binding.btnAgregarFavoritos
