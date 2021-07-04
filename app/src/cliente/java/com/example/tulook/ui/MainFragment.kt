@@ -3,11 +3,11 @@ package com.example.tulook.ui
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +15,7 @@ import com.example.tulook.R
 import com.example.tulook.adapters.PeluqueriaListAdapter
 import com.example.tulook.databinding.FragmentMainBinding
 import com.example.tulook.fileSystem.InternalStorage
-import com.example.tulook.fileSystem.LocationStorage
+import com.example.tulook.fileSystem.MyPreferenceManager
 import com.example.tulook.model.Peluqueria
 import com.example.tulook.model.Turno
 import com.example.tulook.services.APIService
@@ -23,10 +23,7 @@ import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalTime
 import java.util.*
 
 class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener {
@@ -71,7 +68,7 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
     override fun onResume() {
         super.onResume()
 
-        val loc = LocationStorage.getLocation(requireActivity().applicationContext)
+        val loc = MyPreferenceManager.getLocation(requireActivity().applicationContext)
 
         Log.d("LOCATION", "$loc")
 

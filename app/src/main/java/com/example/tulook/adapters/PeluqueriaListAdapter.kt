@@ -11,7 +11,6 @@ import com.example.tulook.base.BaseViewHolder
 import com.example.tulook.databinding.PeluqueriaFavoritoRowItemBinding
 import com.example.tulook.databinding.PeluqueriaRowItemBinding
 import com.example.tulook.fileSystem.LocationData
-import com.example.tulook.fileSystem.LocationStorage
 import com.example.tulook.model.Peluqueria
 
 

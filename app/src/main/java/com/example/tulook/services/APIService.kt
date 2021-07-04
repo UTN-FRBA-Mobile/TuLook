@@ -4,10 +4,14 @@ import com.example.tulook.model.Peluqueria
 import com.example.tulook.model.Turno
 import com.example.tulook.model.Review
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import java.util.*
 
@@ -27,9 +31,13 @@ interface APIService {
     @GET("turnos/byUsuario/{userID}")
     fun getTurnosPorUsuario(@Path("userID") usuarioID: Int): Call<List<Turno>>
 
+    @POST("usuarios")
+    fun login(@Body data: JsonObject): Call<ResponseBody>
+
     companion object {
 
         var BASE_URL = "https://tu-look-api.herokuapp.com/api/"
+//        var BASE_URL = "http://192.168.1.188:3000/api/"
 
         fun create(): APIService {
             val gson = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create()

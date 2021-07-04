@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.tulook.databinding.FragmentMyLocationBinding
-import com.example.tulook.fileSystem.LocationStorage
+import com.example.tulook.fileSystem.MyPreferenceManager
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
@@ -71,7 +71,7 @@ class MyLocationFragment : Fragment() {
             }
         }
 
-        val loc = LocationStorage.getLocation(requireActivity().applicationContext)
+        val loc = MyPreferenceManager.getLocation(requireActivity().applicationContext)
     }
 
     override fun onDestroyView() {
@@ -163,8 +163,8 @@ class MyLocationFragment : Fragment() {
     private fun updateStoredLocation(location: Location) {
         val address = geocoder.getFromLocation(location.latitude, location.longitude, 1)
         val addressLine = address[0].getAddressLine(0)
-        LocationStorage.setLocation(requireActivity().applicationContext, location.latitude, location.longitude, addressLine)
-        val location = LocationStorage.getLocation(requireActivity().applicationContext)
+        MyPreferenceManager.setLocation(requireActivity().applicationContext, location.latitude, location.longitude, addressLine)
+        val location = MyPreferenceManager.getLocation(requireActivity().applicationContext)
         Log.d("LOCATION", location.toString())
     }
 }

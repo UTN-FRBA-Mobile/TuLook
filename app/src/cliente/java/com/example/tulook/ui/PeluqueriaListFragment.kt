@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tulook.adapters.PeluqueriaListAdapter
 import com.example.tulook.databinding.FragmentPeluqueriaListBinding
-import com.example.tulook.fileSystem.LocationStorage
+import com.example.tulook.fileSystem.MyPreferenceManager
 import com.example.tulook.model.Peluqueria
 import com.example.tulook.services.APIService
 import retrofit2.Call
@@ -57,7 +57,7 @@ class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaCli
 
         val btnSortDistance = binding.btnSortDistance
         btnSortDistance.setOnClickListener {
-            val location = LocationStorage.getLocation(requireActivity().applicationContext)
+            val location = MyPreferenceManager.getLocation(requireActivity().applicationContext)
             if (location != null) pAdapter?.sortByDistance(location)
         }
 
@@ -73,7 +73,7 @@ class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaCli
     override fun onResume() {
         super.onResume()
 
-        val loc = LocationStorage.getLocation(requireActivity().applicationContext)
+        val loc = MyPreferenceManager.getLocation(requireActivity().applicationContext)
 
         if (loc != null) {
             val locationText = binding.layDireccion.textDireccion
