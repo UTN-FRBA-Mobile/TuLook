@@ -11,22 +11,18 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tulook.R
 import com.example.tulook.adapters.PeluqueriaListAdapter
 import com.example.tulook.databinding.FragmentPeluqueriaListBinding
+import com.example.tulook.fileSystem.LocationStorage
 import com.example.tulook.model.Peluqueria
 import com.example.tulook.services.APIService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.math.log
 
 class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener {
-
-    private val listadoPeluquerias = mutableListOf<Peluqueria>()
-
     private lateinit var pRecyclerView: RecyclerView
-    private lateinit var pAdapter: PeluqueriaListAdapter
+    private var pAdapter: PeluqueriaListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +54,34 @@ class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaCli
 
         pRecyclerView = binding.rvPeluquerias
         getPeluquerias()
+
+        val btnSortDistance = binding.btnSortDistance
+        btnSortDistance.setOnClickListener {
+            val location = LocationStorage.getLocation(requireActivity().applicationContext)
+            if (location != null) pAdapter?.sortByDistance(location)
+        }
+
+        val btnSortRating = binding.btnSortRating
+        btnSortRating.setOnClickListener { pAdapter?.sortByRating() }
+
+        val btnSortName = binding.btnSortName
+        btnSortName.setOnClickListener { pAdapter?.sortByName() }
+    }
+
+    // onresume para cosas que pueden cambiar cuando vuelve a la pantalla
+    // (por ejemplo, cambia la dirección guardada en preferences)
+    override fun onResume() {
+        super.onResume()
+
+        val loc = LocationStorage.getLocation(requireActivity().applicationContext)
+
+        if (loc != null) {
+            val locationText = binding.layDireccion.textDireccion
+            locationText.text = loc.addr
+        } else {
+            val locationLayout = binding.layDireccion
+            locationLayout.root.visibility = View.GONE
+        }
     }
 
     override fun onDestroyView() {
@@ -70,7 +94,7 @@ class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaCli
             override fun onResponse(call: Call<List<Peluqueria>>, response: Response<List<Peluqueria>>) {
                 if (response.isSuccessful) {
                     Log.e(TAG, response.body().toString())
-                    pAdapter = PeluqueriaListAdapter(response.body(), this@PeluqueriaListFragment, "peluqueriaList")
+                    pAdapter = PeluqueriaListAdapter(response.body()?.toMutableList(), this@PeluqueriaListFragment, "peluqueriaList")
                     val pLayoutManager = LinearLayoutManager(activity)
                     pRecyclerView.adapter = pAdapter
                     pRecyclerView.layoutManager = pLayoutManager

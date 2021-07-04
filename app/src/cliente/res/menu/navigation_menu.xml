@@ -12,8 +12,8 @@
         android:title="Buscar" />
 
     <item
-        android:id="@+id/peluqueriaDetailFragment"
-        android:title="Mis Direcciones" />
+        android:id="@+id/myLocationFragment"
+        android:title="Mi Dirección" />
 
     <item
         android:id="@+id/nuevoTurnoServiciosFragment"

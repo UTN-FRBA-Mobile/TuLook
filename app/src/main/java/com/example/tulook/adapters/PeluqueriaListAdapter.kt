@@ -1,8 +1,7 @@
 package com.example.tulook.adapters
 
 
-import android.content.ContentValues
-import android.util.Log
+import android.location.Location
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +10,23 @@ import com.example.tulook.R
 import com.example.tulook.base.BaseViewHolder
 import com.example.tulook.databinding.PeluqueriaFavoritoRowItemBinding
 import com.example.tulook.databinding.PeluqueriaRowItemBinding
+import com.example.tulook.fileSystem.LocationData
+import com.example.tulook.fileSystem.LocationStorage
 import com.example.tulook.model.Peluqueria
 
 
 class PeluqueriaListAdapter(
-    private val peluqueriasList: List<Peluqueria>?,
+    private val peluqueriasList: MutableList<Peluqueria>?,
     val itemClickListener: onPeluqueriaClickListener,
     val typeOfAdapter: String
 ) :
     RecyclerView.Adapter<BaseViewHolder<*>>() {
+
+    enum class SortStatus {
+        NAME, RATING, DISTANCE
+    }
+
+    var sortStatus: SortStatus = SortStatus.NAME
 
     interface onPeluqueriaClickListener {
         fun onRowClick(id: Int)
@@ -45,6 +52,47 @@ class PeluqueriaListAdapter(
 
     override fun getItemCount(): Int {
         return peluqueriasList!!.size
+    }
+
+    private fun replacePeluquerias(replacement: List<Peluqueria>) {
+        peluqueriasList?.clear()
+        peluqueriasList?.addAll(replacement)
+        notifyDataSetChanged()
+    }
+
+    fun sortByRating() {
+        val sorted = peluqueriasList?.sortedWith(compareByDescending { it.rating })
+        if (sorted != null) replacePeluquerias(sorted)
+
+        sortStatus = SortStatus.RATING
+    }
+
+    fun sortByDistance(locationData: LocationData) {
+        val user = Location("")
+        user.latitude = locationData.lat
+        user.longitude = locationData.lng
+
+        fun distanceToUser(peluqueria: Peluqueria): Comparable<*> {
+            val location = Location("")
+            // todo: temporal, hasta que el backend tenga lat/lng de las peluquerias
+            location.latitude = (Math.random() * 180) - 90
+            location.longitude = (Math.random() * 360) - 180
+
+            return location.distanceTo(user)
+        }
+
+        val sorted = peluqueriasList?.sortedWith(compareBy { distanceToUser(it) })
+        if (sorted != null) replacePeluquerias(sorted)
+
+
+        sortStatus = SortStatus.DISTANCE
+    }
+
+    fun sortByName() {
+        val sorted = peluqueriasList?.sortedWith(compareBy { it.nombre })
+        if (sorted != null) replacePeluquerias(sorted)
+
+        sortStatus = SortStatus.NAME
     }
 
     // Provide a direct reference to each of the views within a data item

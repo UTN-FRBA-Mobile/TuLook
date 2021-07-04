@@ -1,7 +1,6 @@
 package com.example.tulook.ui
 
 import android.Manifest
-import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -22,9 +21,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -33,7 +30,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class TestFirebaseFragment : Fragment() {
-
     private var _binding: FragmentTestFirebaseBinding? = null
     private val binding get() = _binding!!
 
@@ -57,10 +53,10 @@ class TestFirebaseFragment : Fragment() {
             .requestEmail()
             .build()
 
-        mGoogleSignInClient = GoogleSignIn.getClient(activity!!, gso)
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         // map
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         getLocation()
     }
 

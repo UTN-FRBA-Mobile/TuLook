@@ -15,7 +15,7 @@
             app:destination="@id/peluqueriaListFragment" />
         <action
             android:id="@+id/action_mainFragment_to_testFirebaseFragment"
-            app:destination="@id/testFirebaseFragment" />
+            app:destination="@id/myLocationFragment" />
     </fragment>
     <fragment
         android:id="@+id/peluqueriaListFragment"
@@ -80,9 +80,9 @@
         android:label="Nuevo Turno - Confirmación"
         tools:layout="@layout/fragment_nuevo_turno__detail" />
     <fragment
-        android:id="@+id/testFirebaseFragment"
-        android:name="com.example.tulook.ui.TestFirebaseFragment"
-        android:label="TestFirebaseFragment" />
+        android:id="@+id/myLocationFragment"
+        android:name="com.example.tulook.ui.MyLocationFragment"
+        android:label="Mi Ubicación" />
     <fragment
         android:id="@+id/comentariosDetailFragment"
         android:name="com.example.tulook.ui.ComentariosDetailFragment"
@@ -92,4 +92,13 @@
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/ServicioDetailFragment"-->
+<!--        android:name="com.example.tulook.ui.ServicioDetailFragment"-->
+<!--        android:label="Detalle del servicio"-->
+<!--        tools:layout="@layout/fragment_servicio_detail" />-->
+    <fragment
+        android:id="@+id/testFirebaseFragment"
+        android:name="com.example.tulook.ui.TestFirebaseFragment"
+        android:label="TestFirebaseFragment" />
 </navigation>

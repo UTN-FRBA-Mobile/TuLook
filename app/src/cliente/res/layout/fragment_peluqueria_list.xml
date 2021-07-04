@@ -13,65 +13,42 @@
         tools:context=".ui.PeluqueriaListFragment">
         <!--Direccion-->
         <include
+            android:id="@+id/layDireccion"
             layout="@layout/direccion_actual" />
 
         <!--Filtros-->
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30sp"
-        android:layout_width="match_parent"
-        android:layout_marginRight="30sp"
-        android:layout_marginLeft="30sp"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill"
+            android:layout_marginLeft="30sp"
+            android:layout_marginTop="30sp"
+            android:layout_marginRight="30sp"
+            android:orientation="horizontal">
 
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+            <Button
+                android:id="@+id/btn_sort_name"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:layout_weight="1.0"
+                android:text="@string/peluqueria_sort_name" />
 
-                <Button
-                    android:id="@+id/btn_boton_prueba"
-                    android:layout_width="wrap_content"
-                    android:background="@drawable/bck_rounded_corners_30"
-                    android:textSize="10sp"
-                    android:minHeight="0sp"
-                    android:minWidth="0sp"
-                    android:drawableLeft="@drawable/ic_baseline_check"
-                    android:drawableRight="@drawable/ic_baseline_cancel"
-                    style="@style/Button"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textAllCaps="false"
-                    android:layout_gravity="center_vertical"
-                    android:text="Corte"/>
-            </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+            <Button
+                android:id="@+id/btn_sort_distance"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_marginTop="5sp"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:layout_weight="1.0"
+                android:text="@string/peluqueria_sort_distance" />
 
-                <Button
-                    android:id="@+id/btn_listado_mas"
-                    android:layout_width="wrap_content"
-                    android:textSize="10sp"
-                    android:minHeight="0sp"
-                    style="@style/Button"
-                    android:minWidth="0sp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textAllCaps="false"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/bck_rounded_corners_30"
-                    android:text="+ Más..."/>
-            </LinearLayout>
+            <Button
+                android:id="@+id/btn_sort_rating"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/peluqueria_sort_rating"
+                android:layout_weight="1.0" />
         </LinearLayout>
 
         <!--Lista de Peluquerias-->

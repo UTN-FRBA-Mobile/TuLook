@@ -15,6 +15,7 @@ import com.example.tulook.R
 import com.example.tulook.adapters.PeluqueriaListAdapter
 import com.example.tulook.databinding.FragmentMainBinding
 import com.example.tulook.fileSystem.InternalStorage
+import com.example.tulook.fileSystem.LocationStorage
 import com.example.tulook.model.Peluqueria
 import com.example.tulook.model.Turno
 import com.example.tulook.services.APIService
@@ -63,7 +64,24 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
         getProximoTurno()
         pRecyclerView = binding.rvFavoritos
         getPeluqueriasFavoritas()
+    }
 
+    // onresume para cosas que pueden cambiar cuando vuelve a la pantalla
+    // (por ejemplo, cambia la dirección guardada en preferences)
+    override fun onResume() {
+        super.onResume()
+
+        val loc = LocationStorage.getLocation(requireActivity().applicationContext)
+
+        Log.d("LOCATION", "$loc")
+
+        if (loc != null) {
+            val locationText = binding.layDireccion.textDireccion
+            locationText.text = loc.addr
+        } else {
+            val locationLayout = binding.layDireccion
+            locationLayout.root.visibility = View.GONE
+        }
     }
 
     override fun onDestroyView() {
@@ -77,31 +95,34 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
             override fun onResponse(call: Call<List<Turno>>, response: Response<List<Turno>>) {
                 if (response.isSuccessful) {
                     //ordeno las fechas ascendente
-                    val turnosOrdenadosPorFecha = response.body()!!.sortedBy { getTime(it.fecha, it.horario).time }
+                    val turnosOrdenadosPorFecha =
+                        response.body()!!.sortedBy { getTime(it.fecha).time }
                     //filtro las fechas mayores que hoy
-                    val proximosTurnos = turnosOrdenadosPorFecha.filter { java.util.Calendar.getInstance().time <= getTime(it.fecha, it.horario).time }
+                    val proximosTurnos =
+                        turnosOrdenadosPorFecha.filter { Calendar.getInstance().time <= getTime(it.fecha).time }
 
-                    if(proximosTurnos.isNotEmpty()){
-                        val fechaProximoTurno = SimpleDateFormat("dd-MM-yyyy").format(proximosTurnos[0].fecha)
-                        binding.textProxTurno.text = fechaProximoTurno.toString() + " " + proximosTurnos[0].horario
-                    }else{
+                    if (proximosTurnos.isNotEmpty()) {
+                        val fechaProximoTurno =
+                            SimpleDateFormat("dd-MM-yyyy, hh:mm").format(proximosTurnos[0].fecha)
+
+                        binding.textProxTurno.text = fechaProximoTurno.toString()
+                    } else {
                         binding.textProxTurno.text = "Sin Prox. Turno"
                     }
                 } else {
                     showErrorTurnos()
                 }
             }
+
             override fun onFailure(call: Call<List<Turno>>, t: Throwable) {
                 Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
             }
         })
     }
 
-    private fun getTime(fecha: Date, horario: String): Calendar{
-        var calendario = Calendar.getInstance()
-        val tiempos = horario.split(":")
-        val fechas = SimpleDateFormat("dd-MM-yyyy").format(fecha).split("-")
-        calendario.set(fechas[2].toInt(),fechas[1].toInt()-1,fechas[0].toInt(),tiempos[0].toInt(), tiempos[1].toInt())
+    private fun getTime(fecha: Date): Calendar{
+        val calendario = Calendar.getInstance()
+        calendario.time = fecha
         return calendario
     }
 
@@ -122,7 +143,8 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
                             val peluqueriasFiltradas = response.body()?.filter { peluqueria -> arrayPeluquerias.contains(peluqueria.id.toString()) }
 
                             Log.e(ContentValues.TAG, peluqueriasFiltradas.toString())
-                            pAdapter = PeluqueriaListAdapter(peluqueriasFiltradas, this@MainFragment, "favoritoList")
+
+                            pAdapter = PeluqueriaListAdapter(peluqueriasFiltradas?.toMutableList(), this@MainFragment, "favoritoList")
                             val pLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                             pRecyclerView.adapter = pAdapter
                             pRecyclerView.layoutManager = pLayoutManager

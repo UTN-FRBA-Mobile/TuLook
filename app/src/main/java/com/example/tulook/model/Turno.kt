@@ -25,10 +25,6 @@ data class Turno (
     @Expose
     var fecha: Date = Date(),
 
-    @SerializedName("horario")
-    @Expose
-    var horario: String = "",
-
     @SerializedName("duracion")
     @Expose
     var duracion: Int = 0
