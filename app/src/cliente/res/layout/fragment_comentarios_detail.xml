@@ -18,78 +18,147 @@
         android:gravity="center"
         android:textSize="25sp" />
 
-    <TextView
-        android:id="@+id/calificacion"
-        android:layout_width="match_parent"
-        android:text="{{4.4}}"
-        android:layout_marginTop="5sp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="20sp" />
-
-    <RatingBar
-        android:id="@+id/estrellas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:numStars="5"
-        style="?android:attr/ratingBarStyleSmall"
-        android:layout_marginTop="5sp" />
-
-    <TextView
-        android:id="@+id/cantidad_comentarios"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="{{cantidad de comentarios}}"
-        android:textSize="15sp"
-        />
-
     <View style="@style/Divider"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5sp"
-        android:text="Calificar y opinar"
-        android:textSize="20sp" />
-
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:isIndicator="false"
-        android:layout_height="wrap_content"
-        android:progressTint="@color/yellow"
-        android:numStars="5"
-        style="?android:attr/ratingBarStyleIndicator"
-        android:layout_marginTop="5sp" />
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/shipper_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:background="@color/white"
+        tools:context=".ui.ComentariosDetailFragment"
+        android:clickable="true"
+        android:focusableInTouchMode="true">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/shipper_field"
-            android:layout_width="match_parent"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:inputType="textImeMultiLine"
-            android:hint="Comparte detalles sobre tu experiencia"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_weight="1"
+            android:gravity="right"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:background="@color/white"
+            tools:context=".ui.ComentariosDetailFragment"
+            android:clickable="true"
+            android:focusableInTouchMode="true">
 
-    <!--Boton Publicar-->
-    <Button
-        android:id="@+id/btn_publicar_review"
-        android:layout_width="wrap_content"
+
+            <ImageView
+                android:id="@+id/peluqueriaImageView"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:layout_marginRight="10sp"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_launcher"/>
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical"
+            android:gravity="left"
+            android:background="@color/white"
+            tools:context=".ui.ComentariosDetailFragment"
+            android:clickable="true"
+            android:focusableInTouchMode="true">
+
+            <TextView
+                android:id="@+id/calificacion"
+                android:layout_width="match_parent"
+                android:text="{{4.4}}"
+                android:layout_marginTop="5sp"
+                android:layout_marginLeft="10sp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:textSize="20sp" />
+
+            <RatingBar
+                android:id="@+id/estrellas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:progressTint="@color/yellow"
+                android:numStars="5"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_marginTop="5sp" />
+
+            <TextView
+                android:id="@+id/cantidad_comentarios"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20sp"
+                android:layout_gravity="left"
+                android:text="{{cantidad de comentarios}}"
+                android:textSize="15sp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <View style="@style/Divider"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity ="bottom|center_horizontal"
-        android:text="PUBLICAR"/>
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:background="@color/white"
+        tools:context=".ui.ComentariosDetailFragment"
+        android:clickable="true"
+        android:focusableInTouchMode="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
+            android:text="Calificar y opinar"
+            android:textSize="20sp" />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:isIndicator="false"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/yellow"
+            android:numStars="5"
+            style="?android:attr/ratingBarStyleIndicator"
+            android:layout_marginTop="5sp" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/shipper_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/shipper_field"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textImeMultiLine"
+                android:hint="Comparte detalles sobre tu experiencia"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Boton Publicar-->
+        <Button
+            android:id="@+id/btn_publicar_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity ="bottom|center_horizontal"
+            android:text="PUBLICAR"/>
+    </LinearLayout>
+
+    <View style="@style/Divider"/>
 
     <!--Lista de comentarios-->
     <androidx.recyclerview.widget.RecyclerView

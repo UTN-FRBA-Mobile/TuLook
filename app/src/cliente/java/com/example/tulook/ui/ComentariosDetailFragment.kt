@@ -9,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.tulook.adapters.ReviewListAdapter
 import com.example.tulook.databinding.FragmentComentariosDetailBinding
 import com.example.tulook.model.Peluqueria
 import com.example.tulook.model.Review
@@ -17,13 +20,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ComentariosDetailFragment : Fragment(){
+class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickListener{
 
     private val args: ComentariosDetailFragmentArgs by navArgs()
     private lateinit var peluqueria: Peluqueria
     private lateinit var reviews: List<Review>
-   // private lateinit var pRecyclerView: RecyclerView
-    //private lateinit var pAdapter: PeluqueriaListAdapter
+    private lateinit var rRecyclerView: RecyclerView
+    private lateinit var rAdapter: ReviewListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,10 +50,13 @@ class ComentariosDetailFragment : Fragment(){
     //En el ciclo de vida esto viene después de onCreateView => desde acá podemos acceder a todos los controles del fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        rRecyclerView = binding.rvReview
         getPeluqueria(args.peluqueriaId)
         getComentarios(args.peluqueriaId)
 
     }
+
+    override fun onRowClick(){}
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -88,7 +94,13 @@ class ComentariosDetailFragment : Fragment(){
                     Log.e(ContentValues.TAG, response.body().toString())
 
                     //Lleno la cantidad de comentarios
-                    binding.cantidadComentarios.text = response.body()!!.size.toString()
+                    binding.cantidadComentarios.text = "(" + response.body()!!.size.toString() + ")"
+
+                    //Lleno con los comentarios de la peluqueria.
+                    rAdapter = ReviewListAdapter(response.body()?.toMutableList(), this@ComentariosDetailFragment)
+                    val reviewLayoutManager = LinearLayoutManager(activity)
+                    rRecyclerView.adapter = rAdapter
+                    rRecyclerView.layoutManager = reviewLayoutManager
 
                 } else {
                     showError()
@@ -100,20 +112,8 @@ class ComentariosDetailFragment : Fragment(){
             }
         })
     }
-
-
     private fun showError() {
         Toast.makeText(activity, "Ha ocurrido un error al obtener los comentarios", Toast.LENGTH_LONG).show()
     }
-/*
-    override fun onRowClick(id: Int) {
-        Log.e("RowClick", "Id de pelu: ${id}")
-        val action = PeluqueriaListFragmentDirections.actionPeluqueriaListFragmentToPeluqueriaDetailFragment(peluqueriaId = id)
-        findNavController().navigate(action)
-    }
-
-    override fun onFavClick(id: Int) {
-        Log.e("FavClick", "Id de pelu: ${id}")
-    }*/
 
 }
