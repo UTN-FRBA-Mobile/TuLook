@@ -3,7 +3,7 @@ package com.example.tulook.model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Review(
+data class Review(
     @SerializedName("id")
     @Expose
     var id: Int,
@@ -18,5 +18,5 @@ class Review(
 
     @SerializedName("calificacion")
     @Expose
-    var calificacion: Int
+    var calificacion: Float = 0f
 )
