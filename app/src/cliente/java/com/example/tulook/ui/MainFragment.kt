@@ -29,6 +29,8 @@ import java.util.*
 class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener {
     private lateinit var pRecyclerView: RecyclerView
     private lateinit var pAdapter: PeluqueriaListAdapter
+    private var peluqueriasConsultadas: List<Peluqueria>? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +62,8 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
         }
         getProximoTurno()
         pRecyclerView = binding.rvFavoritos
-        getPeluqueriasFavoritas()
+        getPeluquerias("Favoritos")
+        getPeluquerias("Recientes")
     }
 
     // onresume para cosas que pueden cambiar cuando vuelve a la pantalla
@@ -123,38 +126,47 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
         return calendario
     }
 
-    private fun getPeluqueriasFavoritas() {
-        val fileNameFavoritos = "Favoritos"
-
-        if(InternalStorage.getFileUri(requireContext(), fileNameFavoritos) != null){
-            val readedText = InternalStorage.readFile(requireContext(), fileNameFavoritos)
+    private fun getPeluquerias(fileName: String) {
+        if(InternalStorage.getFileUri(requireContext(), fileName) != null){
+            val readedText = InternalStorage.readFile(requireContext(), fileName)
             if(readedText != "[]"){
                 val gson = Gson()
                 val array = gson.fromJson(readedText, Array<String>::class.java)
                 val arrayPeluquerias = ArrayList(array.toMutableList())
 
-                APIService.create().getPeluquerias().enqueue(object : Callback<List<Peluqueria>> {
-                    override fun onResponse(call: Call<List<Peluqueria>>, response: Response<List<Peluqueria>>) {
-                        if (response.isSuccessful) {
-
-                            val peluqueriasFiltradas = response.body()?.filter { peluqueria -> arrayPeluquerias.contains(peluqueria.id.toString()) }
-
-                            Log.e(ContentValues.TAG, peluqueriasFiltradas.toString())
-
-                            pAdapter = PeluqueriaListAdapter(peluqueriasFiltradas?.toMutableList(), this@MainFragment, "favoritoList")
-                            val pLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                            pRecyclerView.adapter = pAdapter
-                            pRecyclerView.layoutManager = pLayoutManager
-                        } else {
-                            showErrorPeluquerias()
+                if (peluqueriasConsultadas.isNullOrEmpty()) {
+                    APIService.create().getPeluquerias().enqueue(object : Callback<List<Peluqueria>> {
+                        override fun onResponse(call: Call<List<Peluqueria>>, response: Response<List<Peluqueria>>) {
+                            if (response.isSuccessful) {
+                                peluqueriasConsultadas = response.body()
+                                filtrarPeluqueriasObtenidas(fileName, arrayPeluquerias)
+                            } else {
+                                showErrorPeluquerias()
+                            }
                         }
-                    }
-                    override fun onFailure(call: Call<List<Peluqueria>>, t: Throwable) {
-                        Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
-                    }
-                })
+                        override fun onFailure(call: Call<List<Peluqueria>>, t: Throwable) {
+                            Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
+                        }
+                    })
+                }else{
+                    filtrarPeluqueriasObtenidas(fileName, arrayPeluquerias)
+                }
             }
         }
+    }
+
+    private fun filtrarPeluqueriasObtenidas(fileName: String, arrayPeluquerias: ArrayList<String>) {
+        val peluqueriasFiltradas = peluqueriasConsultadas?.filter { peluqueria -> arrayPeluquerias.contains(peluqueria.id.toString()) }
+
+        var typeOfAdapter = ""
+        if (fileName=="Favoritos") { typeOfAdapter = "favoritoList" } else { typeOfAdapter = "recienteList" } //falta codear el de recienteList
+
+        Log.e("typeOfAdapter", typeOfAdapter)
+
+        pAdapter = PeluqueriaListAdapter(peluqueriasFiltradas?.toMutableList(), this@MainFragment, typeOfAdapter)
+        val pLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        pRecyclerView.adapter = pAdapter
+        pRecyclerView.layoutManager = pLayoutManager
     }
 
     private fun showErrorPeluquerias() {

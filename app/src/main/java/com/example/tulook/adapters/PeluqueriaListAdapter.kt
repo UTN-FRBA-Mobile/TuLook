@@ -50,6 +50,9 @@ class PeluqueriaListAdapter(
     }
 
     override fun getItemCount(): Int {
+        if(peluqueriasList == null ){
+            return 0
+        }
         return peluqueriasList!!.size
     }
 
