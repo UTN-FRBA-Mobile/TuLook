@@ -8,14 +8,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tulook.R
+import com.example.tulook.UserData
 import com.example.tulook.adapters.ReviewListAdapter
 import com.example.tulook.databinding.FragmentComentariosDetailBinding
+import com.example.tulook.model.Comentario
 import com.example.tulook.model.Peluqueria
 import com.example.tulook.model.Review
 import com.example.tulook.services.APIService
+import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,6 +55,13 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
     //En el ciclo de vida esto viene después de onCreateView => desde acá podemos acceder a todos los controles del fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val btn_publicar_review = binding.btnPublicarReview
+
+        btn_publicar_review.setOnClickListener {
+            if(!binding.nuevoComentario.text.isNullOrEmpty()) { publicarComentario() }
+        }
+
         rRecyclerView = binding.rvReview
         getPeluqueria(args.peluqueriaId)
         getComentarios(args.peluqueriaId)
@@ -115,6 +127,35 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
     }
     private fun showError() {
         Toast.makeText(activity, "Ha ocurrido un error al obtener los comentarios", Toast.LENGTH_LONG).show()
+    }
+
+    private fun publicarComentario(){
+        val gson = GsonBuilder().create()
+
+        val comentario = Comentario(
+            binding.nuevoComentario.text.toString(), binding.nuevaPuntuacion.rating.toFloat(), args.peluqueriaId, 1, 1
+        )//TODO:CAMBIAR EL USUARIOID
+
+        var body = gson.toJsonTree(comentario).asJsonObject
+        body.remove("id")
+        APIService.create().postNewReview(body).enqueue(object : Callback<Comentario> {
+            override fun onResponse(call: Call<Comentario>, response: Response<Comentario>) {
+                if (response.isSuccessful) {
+                    Log.e(ContentValues.TAG, response.body().toString())
+                    Toast.makeText(activity, "Comentario subido con éxito", Toast.LENGTH_LONG).show()
+                    /*response.body()!!.comentario == comentario.comentario
+                    response.body()!!.calificacion == comentario.calificacion
+                    response.body()!!.peluqueriaId == comentario.peluqueriaId
+                    response.body()!!.usuarioId == comentario.usuarioId*/
+                } else {
+                    showError()
+                }
+            }
+
+            override fun onFailure(call: Call<Comentario>, t: Throwable) {
+                Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
+            }
+        })
     }
 
 }

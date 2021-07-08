@@ -1,5 +1,6 @@
 package com.example.tulook.services
 
+import com.example.tulook.model.Comentario
 import com.example.tulook.model.Peluqueria
 import com.example.tulook.model.Turno
 import com.example.tulook.model.Review
@@ -33,6 +34,9 @@ interface APIService {
 
     @POST("usuarios")
     fun login(@Body data: JsonObject): Call<ResponseBody>
+
+    @POST("reviews")
+    fun postNewReview(@Body data: JsonObject): Call<Comentario>
 
     companion object {
 
