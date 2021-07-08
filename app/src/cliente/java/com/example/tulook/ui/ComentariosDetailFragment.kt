@@ -75,6 +75,7 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
                     binding.peluName.text = peluqueria.nombre
                     binding.calificacion.text = peluqueria.rating.toString()
                     binding.estrellas.setRating(peluqueria.rating)
+                    binding.icon.text = peluqueria.nombre.get(0).toString()
 
                 } else {
                     showError()

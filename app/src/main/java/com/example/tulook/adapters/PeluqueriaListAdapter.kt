@@ -106,6 +106,7 @@ class PeluqueriaListAdapter(
             binding.peluqueriaNameTxt.text = item.nombre
             binding.peluqueriaAddressTxt.text = "${item.direccion!!.calle} ${item.direccion!!.numero}"
             binding.peluqueriaRatingBar.rating = item.rating
+            binding.icon.text = item.nombre.get(0).toString()
         }
     }
 

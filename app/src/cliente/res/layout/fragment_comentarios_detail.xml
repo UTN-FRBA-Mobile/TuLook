@@ -35,24 +35,33 @@
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="right"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:background="@color/white"
-            tools:context=".ui.ComentariosDetailFragment"
+            android:layout_height="match_parent"
             android:clickable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            tools:context=".ui.MainFragment">
 
-
-            <ImageView
-                android:id="@+id/peluqueriaImageView"
-                android:layout_width="50sp"
-                android:layout_height="50sp"
-                android:layout_marginRight="10sp"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="wrap_content"
                 android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher"/>
+                android:gravity="center|right"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10sp"
+                android:background="@drawable/bck_rounded_corners_30"
+                android:backgroundTint="@color/yellow"
+                tools:context=".ui.MainFragment">
+                <TextView
+                    android:id="@+id/icon"
+                    android:layout_width="50sp"
+                    android:layout_height="50sp"
+                    android:text="L"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="30dp" />
 
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -1,6 +1,8 @@
 package com.example.tulook.adapters
 
 
+import android.content.Context
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,10 +51,18 @@ class ReviewListAdapter(
             binding.rating.setRating(item.calificacion)
             binding.comentario.text = item.comentario
 
-            //val randomValues = List(10) { Random.nextInt(0, 100) }
+            val perfil : String
+            if (position > 12){
+                val randomValue = Random.nextInt(1, 12)
+                perfil = "ic_perfil_" + randomValue.toString()
+            }
+            else {
+                val pos = position + 1
+                perfil = "ic_perfil_" + pos.toString()
+            }
+            val id = itemView.context.resources.getIdentifier(perfil, "mipmap", itemView.context.packageName);
 
-            //val perfil = "ic_perfil_" + randomValues.toString()
-            binding.imagen.setImageResource(R.mipmap.ic_perfil_1)
+            binding.imagen.setImageResource(id)
         }
     }
 
