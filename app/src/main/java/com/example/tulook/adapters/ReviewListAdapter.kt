@@ -52,7 +52,7 @@ class ReviewListAdapter(
             binding.comentario.text = item.comentario
 
             val perfil : String
-            if (position > 12){
+            if (position >= 12){
                 val randomValue = Random.nextInt(1, 12)
                 perfil = "ic_perfil_" + randomValue.toString()
             }
