@@ -37,7 +37,7 @@ class PeluqueriaListAdapter(
         when (typeOfAdapter) {
             "peluqueriaList" -> return PeluqueriasViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_row_item, parent, false))
             "favoritoList" -> return FavoritosViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_favorito_row_item, parent, false))
-            //"recienteList" -> return PelqueriasViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_row_item, parent, false)) HACEEEER!
+            "recienteList" -> return RecientesViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_favorito_row_item, parent, false))
             else -> return PeluqueriasViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_row_item, parent, false))
         }
     }
@@ -46,6 +46,7 @@ class PeluqueriaListAdapter(
         when (holder) {
             is PeluqueriasViewHolder -> holder.bind(peluqueriasList!![position], position, false)
             is FavoritosViewHolder -> holder.bind(peluqueriasList!![position], position, false)
+            is RecientesViewHolder -> holder.bind(peluqueriasList!![position], position, false)
         }
     }
 
@@ -133,6 +134,17 @@ class PeluqueriaListAdapter(
     }
 
     inner class FavoritosViewHolder(itemView: View) : BaseViewHolder<Peluqueria>(itemView) {
+        val binding = PeluqueriaFavoritoRowItemBinding.bind(itemView)
+
+        override fun bind(item: Peluqueria, position: Int, isActivated: Boolean) {
+            itemView.setOnClickListener { itemClickListener.onRowClick(item.id) }
+            binding.peluqueriaAddressTxt.setOnClickListener { itemClickListener.onFavClick(item.id) }
+            binding.peluqueriaNameTxt.text = item.nombre
+            binding.peluqueriaAddressTxt.text = "${item.direccion!!.calle} ${item.direccion!!.numero}"
+        }
+    }
+
+    inner class RecientesViewHolder(itemView: View) : BaseViewHolder<Peluqueria>(itemView) {
         val binding = PeluqueriaFavoritoRowItemBinding.bind(itemView)
 
         override fun bind(item: Peluqueria, position: Int, isActivated: Boolean) {

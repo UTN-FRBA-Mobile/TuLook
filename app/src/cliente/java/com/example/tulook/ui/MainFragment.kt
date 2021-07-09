@@ -27,8 +27,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener {
-    private lateinit var pRecyclerView: RecyclerView
-    private lateinit var pAdapter: PeluqueriaListAdapter
+    private lateinit var pRecyclerViewFav: RecyclerView
+    private lateinit var pRecyclerViewRec: RecyclerView
+    private lateinit var pAdapterFav: PeluqueriaListAdapter
+    private lateinit var pAdapterRec: PeluqueriaListAdapter
     private var peluqueriasConsultadas: List<Peluqueria>? = null
 
 
@@ -61,8 +63,9 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
             findNavController().navigate(R.id.peluqueriaListFragment)
         }
         getProximoTurno()
-        pRecyclerView = binding.rvFavoritos
+        pRecyclerViewFav = binding.rvFavoritos
         getPeluquerias("Favoritos")
+        pRecyclerViewRec = binding.rvRecientes
         getPeluquerias("Recientes")
     }
 
@@ -90,7 +93,7 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
     }
 
     private fun getProximoTurno(){
-        val idUsuario = 2 //AHORA ESTA HARCODEADO, CAMBIAR !!!!!!!!!!!!!!!!!!!!!!!
+        val idUsuario = 2 //TODO:AHORA ESTA HARCODEADO, CAMBIAR !!!!!!!!!!!!!!!!!!!!!!!
         APIService.create().getTurnosPorUsuario(idUsuario).enqueue(object : Callback<List<Turno>> {
             override fun onResponse(call: Call<List<Turno>>, response: Response<List<Turno>>) {
                 if (response.isSuccessful) {
@@ -127,8 +130,11 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
     }
 
     private fun getPeluquerias(fileName: String) {
-        if(InternalStorage.getFileUri(requireContext(), fileName) != null){
-            val readedText = InternalStorage.readFile(requireContext(), fileName)
+        //TODO: cdo se terminen los favoritos sacar esta validacion harcodeada
+        //if(InternalStorage.getFileUri(requireContext(), fileName) != null){
+        if(InternalStorage.getFileUri(requireContext(), "Favoritos") != null){
+            //val readedText = InternalStorage.readFile(requireContext(), fileName)
+            val readedText = InternalStorage.readFile(requireContext(), "Favoritos")
             if(readedText != "[]"){
                 val gson = Gson()
                 val array = gson.fromJson(readedText, Array<String>::class.java)
@@ -162,11 +168,17 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
         if (fileName=="Favoritos") { typeOfAdapter = "favoritoList" } else { typeOfAdapter = "recienteList" } //falta codear el de recienteList
 
         Log.e("typeOfAdapter", typeOfAdapter)
-
-        pAdapter = PeluqueriaListAdapter(peluqueriasFiltradas?.toMutableList(), this@MainFragment, typeOfAdapter)
-        val pLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        pRecyclerView.adapter = pAdapter
-        pRecyclerView.layoutManager = pLayoutManager
+        if(fileName=="Favoritos"){
+            pAdapterFav = PeluqueriaListAdapter(peluqueriasFiltradas?.toMutableList(), this@MainFragment, typeOfAdapter)
+            val pLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            pRecyclerViewFav.adapter = pAdapterFav
+            pRecyclerViewFav.layoutManager = pLayoutManager
+        }else{
+            pAdapterRec = PeluqueriaListAdapter(peluqueriasFiltradas?.toMutableList(), this@MainFragment, typeOfAdapter)
+            val pLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            pRecyclerViewRec.adapter = pAdapterRec
+            pRecyclerViewRec.layoutManager = pLayoutManager
+        }
     }
 
     private fun showErrorPeluquerias() {
