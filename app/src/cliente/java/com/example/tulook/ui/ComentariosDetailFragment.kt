@@ -1,19 +1,19 @@
 package com.example.tulook.ui
 
+import android.app.Activity
 import android.content.ContentValues
-import androidx.fragment.app.Fragment
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tulook.R
-import com.example.tulook.UserData
 import com.example.tulook.adapters.ReviewListAdapter
 import com.example.tulook.databinding.FragmentComentariosDetailBinding
 import com.example.tulook.model.Comentario
@@ -24,6 +24,7 @@ import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickListener{
 
@@ -62,6 +63,13 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
             if(!binding.nuevoComentario.text.isNullOrEmpty()) { publicarComentario() }
         }
 
+        binding.nuevoComentario.onFocusChangeListener  = View.OnFocusChangeListener { view, hasFocus ->
+            if (!hasFocus) {
+                hideKeyboard()
+
+            }
+        }
+
         rRecyclerView = binding.rvReview
         getPeluqueria(args.peluqueriaId)
         getComentarios(args.peluqueriaId)
@@ -74,6 +82,18 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
         super.onDestroyView()
         _binding = null
     }
+
+    private fun hideKeyboard() {//view: View) {
+        (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).apply{
+            hideSoftInputFromWindow(
+                binding.nuevoComentario.windowToken,
+                0
+            )
+        }
+    }
+
+
+
     private fun getPeluqueria(id: Int) {
         APIService.create().getPeluqueria(id).enqueue(object : Callback<Peluqueria> {
             override fun onResponse(call: Call<Peluqueria>, response: Response<Peluqueria>) {
