@@ -1,12 +1,14 @@
 package com.example.tulook
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -36,6 +38,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
+import com.squareup.picasso.Picasso
 import okhttp3.Callback
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -113,7 +116,6 @@ class MainActivity : AppCompatActivity() {
         val navigationView: NavigationView = findViewById(R.id.nav_view)
         val menu = navigationView.menu
         val loginItem = menu.findItem(R.id.loginAction)
-
         val isLoggedIn = auth?.currentUser != null
 
         Log.d("auth", "updating auth button, isLoggedIn: $isLoggedIn")
@@ -131,7 +133,7 @@ class MainActivity : AppCompatActivity() {
     private fun startSignin(): Boolean {
         val signInIntent = mGoogleSignInClient?.signInIntent
         Log.d("auth", "$signInIntent, starting signin")
-        if (signInIntent != null) startActivityForResult(signInIntent, RC_SIGN_IN)
+        if (signInIntent != null) { startActivityForResult(signInIntent, RC_SIGN_IN) }
         return true
     }
 
@@ -199,6 +201,12 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 Log.d("auth", "onresponse")
 //                TODO("Not yet implemented")
+                //TODO: Revisar si esto va acá (actualizar texto e imagen del usuario en el nav_header)
+                val headerText: TextView = findViewById(R.id.nav_header_textView)
+                headerText.text = MyPreferenceManager.getUser(this@MainActivity)?.displayName //TODO: verificar que el preferences contenga los datos del usuario antes de cambiar el nombre
+                // TODO: Revisar esto, si carga la url de las preferences correctamente
+                val headerImage: ImageView = findViewById(R.id.nav_header_imageView)
+                Picasso.get().load(Uri.parse(MyPreferenceManager.getUser(this@MainActivity)?.photoUrl)).fit().centerCrop().into(headerImage)
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
