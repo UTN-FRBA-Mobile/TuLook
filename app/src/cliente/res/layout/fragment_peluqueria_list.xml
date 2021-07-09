@@ -25,30 +25,66 @@
             android:layout_marginTop="30sp"
             android:layout_marginRight="30sp"
             android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_sort_name"
-                style="?android:attr/buttonBarButtonStyle"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.0"
-                android:text="@string/peluqueria_sort_name" />
-
-            <Button
-                android:id="@+id/btn_sort_distance"
-                style="?android:attr/buttonBarButtonStyle"
+                android:background="@drawable/bck_rounded_corners_30"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_sort_name"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:text="@string/peluqueria_sort_name" />
+                <TextView
+                    android:id="@+id/text_sort_name"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:textAlignment="center"
+                    tools:ignore="RtlCompat" />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.0"
-                android:text="@string/peluqueria_sort_distance" />
-
-            <Button
-                android:id="@+id/btn_sort_rating"
-                style="?android:attr/buttonBarButtonStyle"
+                android:background="@drawable/bck_rounded_corners_30"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_sort_distance"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:text="@string/peluqueria_sort_distance" />
+                <TextView
+                    android:id="@+id/text_sort_distance"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:textAlignment="center"
+                    tools:ignore="RtlCompat" />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/peluqueria_sort_rating"
-                android:layout_weight="1.0" />
+                android:background="@drawable/bck_rounded_corners_30"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_sort_rating"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/peluqueria_sort_rating"
+                    android:layout_weight="1.0" />
+                <TextView
+                    android:id="@+id/text_sort_rating"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:textAlignment="center"
+                    tools:ignore="RtlCompat" />
+            </LinearLayout>
         </LinearLayout>
 
         <!--Lista de Peluquerias-->

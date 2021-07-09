@@ -58,14 +58,40 @@ class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaCli
         val btnSortDistance = binding.btnSortDistance
         btnSortDistance.setOnClickListener {
             val location = MyPreferenceManager.getLocation(requireActivity().applicationContext)
-            if (location != null) pAdapter?.sortByDistance(location)
+            if (location != null) {
+                if(pAdapter?.sortByDistance(location) == "ASC"){
+                    binding.textSortDistance.text = "↑"
+                }else{
+                    binding.textSortDistance.text = "↓"
+                }
+                binding.textSortRating.text = ""
+                binding.textSortName.text = ""
+            }else{
+                Toast.makeText(activity, "Primero debe establecer su dirección", Toast.LENGTH_SHORT).show()
+            }
         }
 
         val btnSortRating = binding.btnSortRating
-        btnSortRating.setOnClickListener { pAdapter?.sortByRating() }
+        btnSortRating.setOnClickListener {
+            if(pAdapter?.sortByRating() == "ASC"){
+                binding.textSortRating.text = "↑"
+            }else{
+                binding.textSortRating.text = "↓"
+            }
+            binding.textSortDistance.text = ""
+            binding.textSortName.text = ""
+        }
 
         val btnSortName = binding.btnSortName
-        btnSortName.setOnClickListener { pAdapter?.sortByName() }
+        btnSortName.setOnClickListener {
+            if(pAdapter?.sortByName()  == "ASC"){
+                binding.textSortName.text = "↑"
+            }else{
+                binding.textSortName.text = "↓"
+            }
+            binding.textSortRating.text = ""
+            binding.textSortDistance.text = ""
+        }
     }
 
     // onresume para cosas que pueden cambiar cuando vuelve a la pantalla

@@ -22,10 +22,10 @@ class PeluqueriaListAdapter(
     RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     enum class SortStatus {
-        NAME, RATING, DISTANCE
+        NOTHING, NAME, RATING, DISTANCE
     }
 
-    var sortStatus: SortStatus = SortStatus.NAME
+    var sortStatus: SortStatus = SortStatus.NOTHING
 
     interface onPeluqueriaClickListener {
         fun onRowClick(id: Int)
@@ -62,14 +62,21 @@ class PeluqueriaListAdapter(
         notifyDataSetChanged()
     }
 
-    fun sortByRating() {
-        val sorted = peluqueriasList?.sortedWith(compareByDescending { it.rating })
-        if (sorted != null) replacePeluquerias(sorted)
-
-        sortStatus = SortStatus.RATING
+    fun sortByRating(): String{
+        if(sortStatus == SortStatus.RATING){
+            val sorted = peluqueriasList?.sortedWith(compareBy { it.rating })
+            if (sorted != null) replacePeluquerias(sorted)
+            sortStatus = SortStatus.NOTHING
+            return "ASC"
+        }else{
+            val sorted = peluqueriasList?.sortedWith(compareByDescending { it.rating })
+            if (sorted != null) replacePeluquerias(sorted)
+            sortStatus = SortStatus.RATING
+            return "DESC"
+        }
     }
 
-    fun sortByDistance(locationData: LocationData) {
+    fun sortByDistance(locationData: LocationData): String {
         val user = Location("")
         user.latitude = locationData.lat
         user.longitude = locationData.lng
@@ -82,19 +89,31 @@ class PeluqueriaListAdapter(
 
             return location.distanceTo(user)
         }
-
-        val sorted = peluqueriasList?.sortedWith(compareBy { distanceToUser(it) })
-        if (sorted != null) replacePeluquerias(sorted)
-
-
-        sortStatus = SortStatus.DISTANCE
+        if(sortStatus == SortStatus.DISTANCE){
+            val sorted = peluqueriasList?.sortedWith(compareBy { distanceToUser(it) })
+            if (sorted != null) replacePeluquerias(sorted)
+            sortStatus = SortStatus.NOTHING
+            return "ASC"
+        }else{
+            val sorted = peluqueriasList?.sortedWith(compareByDescending { distanceToUser(it) })
+            if (sorted != null) replacePeluquerias(sorted)
+            sortStatus = SortStatus.DISTANCE
+            return "DESC"
+        }
     }
 
-    fun sortByName() {
-        val sorted = peluqueriasList?.sortedWith(compareBy { it.nombre })
-        if (sorted != null) replacePeluquerias(sorted)
-
-        sortStatus = SortStatus.NAME
+    fun sortByName(): String{
+        if(sortStatus == SortStatus.NAME){
+            val sorted = peluqueriasList?.sortedWith(compareBy { it.nombre })
+            if (sorted != null) replacePeluquerias(sorted)
+            sortStatus = SortStatus.NOTHING
+            return "ASC"
+        }else{
+            val sorted = peluqueriasList?.sortedWith(compareByDescending { it.nombre })
+            if (sorted != null) replacePeluquerias(sorted)
+            sortStatus = SortStatus.NAME
+            return "DESC"
+        }
     }
 
     // Provide a direct reference to each of the views within a data item
