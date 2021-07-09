@@ -1,6 +1,7 @@
 package com.example.tulook.ui
 
 import android.content.ContentValues.TAG
+import com.example.tulook.R.drawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -60,12 +61,12 @@ class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaCli
             val location = MyPreferenceManager.getLocation(requireActivity().applicationContext)
             if (location != null) {
                 if(pAdapter?.sortByDistance(location) == "ASC"){
-                    binding.textSortDistance.text = "↑"
+                    binding.btnSortDistance.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable.ic_baseline_arrow_upward, 0);
                 }else{
-                    binding.textSortDistance.text = "↓"
+                    binding.btnSortDistance.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable.ic_baseline_arrow_downward, 0);
                 }
-                binding.textSortRating.text = ""
-                binding.textSortName.text = ""
+                binding.btnSortRating.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                binding.btnSortName.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             }else{
                 Toast.makeText(activity, "Primero debe establecer su dirección", Toast.LENGTH_SHORT).show()
             }
@@ -74,23 +75,23 @@ class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaCli
         val btnSortRating = binding.btnSortRating
         btnSortRating.setOnClickListener {
             if(pAdapter?.sortByRating() == "ASC"){
-                binding.textSortRating.text = "↑"
+                binding.btnSortRating.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable.ic_baseline_arrow_upward, 0);
             }else{
-                binding.textSortRating.text = "↓"
+                binding.btnSortRating.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable.ic_baseline_arrow_downward, 0);
             }
-            binding.textSortDistance.text = ""
-            binding.textSortName.text = ""
+            binding.btnSortDistance.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            binding.btnSortName.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         }
 
         val btnSortName = binding.btnSortName
         btnSortName.setOnClickListener {
             if(pAdapter?.sortByName()  == "ASC"){
-                binding.textSortName.text = "↑"
+               binding.btnSortName.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable.ic_baseline_arrow_upward, 0);
             }else{
-                binding.textSortName.text = "↓"
+                binding.btnSortName.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable.ic_baseline_arrow_downward, 0);
             }
-            binding.textSortRating.text = ""
-            binding.textSortDistance.text = ""
+            binding.btnSortRating.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            binding.btnSortDistance.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         }
     }
 
