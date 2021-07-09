@@ -66,4 +66,8 @@ class ReviewListAdapter(
         }
     }
 
+    fun addReview(newReview: Review){
+        reviewList?.add(0,newReview)
+    }
+
 }
