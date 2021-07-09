@@ -43,7 +43,6 @@
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
                         android:textColor="@color/black"
-                        android:drawableRight="@drawable/ic_baseline_arrow_upward"
                         android:text="@string/peluqueria_sort_name"
                         android:textAllCaps="false"/>
 
@@ -61,7 +60,6 @@
                         android:textAllCaps="false"
                         android:textSize="10sp"
                         android:textColor="@color/black"
-                        android:drawableRight="@drawable/ic_baseline_arrow_upward"
                         android:text="@string/peluqueria_sort_distance" />
                 </LinearLayout>
                 <LinearLayout
@@ -78,7 +76,6 @@
                         android:text="@string/peluqueria_sort_rating"
                         android:textAllCaps="false"
                         android:textColor="@color/black"
-                        android:drawableRight="@drawable/ic_baseline_arrow_upward"
                         android:layout_weight="1.0" />
                 </LinearLayout>
             </LinearLayout>
