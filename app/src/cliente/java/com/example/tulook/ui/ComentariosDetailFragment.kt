@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tulook.adapters.ReviewListAdapter
 import com.example.tulook.databinding.FragmentComentariosDetailBinding
-import com.example.tulook.model.Comentario
 import com.example.tulook.model.Peluqueria
 import com.example.tulook.model.Review
 import com.example.tulook.services.APIService
@@ -60,7 +59,11 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
         val btn_publicar_review = binding.btnPublicarReview
 
         btn_publicar_review.setOnClickListener {
-            if(!binding.nuevoComentario.text.isNullOrEmpty()) { publicarComentario() }
+            if(!binding.nuevoComentario.text.isNullOrEmpty() && binding.nuevaPuntuacion.rating.toFloat() != 0f) {
+                publicarComentario()
+            }else{
+                Toast.makeText(activity, "Debe escribir un comentario y puntuar con al menos media estrella.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.nuevoComentario.onFocusChangeListener  = View.OnFocusChangeListener { view, hasFocus ->
@@ -151,18 +154,21 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
 
     private fun publicarComentario(){
         val gson = GsonBuilder().create()
-
-        val comentario = Comentario(
-            binding.nuevoComentario.text.toString(), binding.nuevaPuntuacion.rating.toFloat(), args.peluqueriaId, 1, 1
+        val comentario = Review(
+            binding.nuevoComentario.text.toString(), binding.nuevaPuntuacion.rating.toFloat(), args.peluqueriaId, 1
         )//TODO:CAMBIAR EL USUARIOID
 
         var body = gson.toJsonTree(comentario).asJsonObject
         body.remove("id")
-        APIService.create().postNewReview(body).enqueue(object : Callback<Comentario> {
-            override fun onResponse(call: Call<Comentario>, response: Response<Comentario>) {
+        APIService.create().postNewReview(body).enqueue(object : Callback<Review> {
+            override fun onResponse(call: Call<Review>, response: Response<Review>) {
                 if (response.isSuccessful) {
                     Log.e(ContentValues.TAG, response.body().toString())
                     Toast.makeText(activity, "Comentario subido con éxito", Toast.LENGTH_LONG).show()
+                    rAdapter.addReview(response.body()!!)
+                    rRecyclerView.adapter = rAdapter
+                    val reviewLayoutManager = LinearLayoutManager(activity)
+                    rRecyclerView.layoutManager = reviewLayoutManager
                     /*response.body()!!.comentario == comentario.comentario
                     response.body()!!.calificacion == comentario.calificacion
                     response.body()!!.peluqueriaId == comentario.peluqueriaId
@@ -172,7 +178,7 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
                 }
             }
 
-            override fun onFailure(call: Call<Comentario>, t: Throwable) {
+            override fun onFailure(call: Call<Review>, t: Throwable) {
                 Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
             }
         })
