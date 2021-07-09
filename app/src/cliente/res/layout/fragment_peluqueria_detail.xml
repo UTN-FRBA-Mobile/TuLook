@@ -1,152 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"           
-    tools:context=".ui.PeluqueriaDetailFragment">
-
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".ui.PeluqueriaDetailFragment">
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:weightSum="2"
-            android:orientation="vertical"
-            tools:context=".ui.PeluqueriaDetailFragment">
-
-            <!--Lista de Fotos de la pelu-->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_fotos_salon"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/peluName"
-                android:layout_width="match_parent"
-                android:text="{{nombre comercio}}"
-                android:layout_marginTop="5sp"
-                android:layout_weight="0.5"
-                android:background="@color/white"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="25sp" />
-        </LinearLayout>
-        <!--Boton favoritos-->
-        <ImageButton
-            android:id="@+id/btn_agregar_favoritos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30sp"
-            android:minHeight="50sp"
-            android:minWidth="50sp"
-            android:background="@drawable/bck_rounded_corners_30"
-            android:backgroundTint="@color/white"
-            android:backgroundTintMode="multiply"
-            android:layout_marginBottom="15sp"
-            android:layout_gravity="bottom|right"
-            android:src="@drawable/ic_baseline_favorite"/>
-    </FrameLayout>
-
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:weightSum="2"
-        android:layout_marginTop="10sp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        tools:context=".ui.PeluqueriaDetailFragment">
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="8sp"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            tools:context=".ui.PeluqueriaDetailFragment">
-
-            <TextView
-                android:id="@+id/peluDireccion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:drawableTint="@color/black"
-                android:drawableLeft="@drawable/ic_baseline_location_on"
-                android:text="{{direcion}}"
-                android:textSize="15sp" />
-            <TextView
-                android:id="@+id/peluHorario"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:drawableLeft="@drawable/ic_baseline_clock"
-                android:layout_height="wrap_content"
-                android:text="{{Horario}}"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginLeft="5sp"
-            tools:context=".ui.PeluqueriaDetailFragment">
-
-            <!--Boton Ver comentarios-->
-            <Button
-                android:id="@+id/btn_ver_comentarios"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bck_rounded_corners_30"
-                android:textSize="10sp"
-                android:minHeight="0sp"
-                android:minWidth="0sp"
-                android:textAllCaps="false"
-                android:layout_marginTop="5sp"
-                android:text="Ver Comentarios"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="3"
         android:orientation="vertical"
-        android:gravity="center"
         tools:context=".ui.PeluqueriaDetailFragment">
 
-        <!--Lista de Servicios-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_servicios"
-            android:scrollbars="vertical"
-            android:layout_marginTop="15sp"
-            android:layout_weight="2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!--Boton elegirHorario-->
-        <Button
-            android:id="@+id/btn_nuevo_turno"
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:layout_gravity ="bottom|center_horizontal"
-            android:text="OBTENER UN TURNO"/>
-    </LinearLayout>
-</LinearLayout>
+            tools:context=".ui.PeluqueriaDetailFragment">
 
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2"
+                android:orientation="vertical"
+                tools:context=".ui.PeluqueriaDetailFragment">
+
+                <!--Lista de Fotos de la pelu-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_fotos_salon"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/peluName"
+                    android:layout_width="match_parent"
+                    android:text="{{nombre comercio}}"
+                    android:layout_marginTop="5sp"
+                    android:layout_weight="0.5"
+                    android:background="@color/white"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="25sp" />
+            </LinearLayout>
+            <!--Boton favoritos-->
+            <ImageButton
+                android:id="@+id/btn_agregar_favoritos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30sp"
+                android:minHeight="50sp"
+                android:minWidth="50sp"
+                android:background="@drawable/bck_rounded_corners_30"
+                android:backgroundTint="@color/white"
+                android:backgroundTintMode="multiply"
+                android:layout_marginBottom="15sp"
+                android:layout_gravity="bottom|right"
+                android:src="@drawable/ic_baseline_favorite"/>
+        </FrameLayout>
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_marginTop="10sp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:context=".ui.PeluqueriaDetailFragment">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="8sp"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                tools:context=".ui.PeluqueriaDetailFragment">
+
+                <TextView
+                    android:id="@+id/peluDireccion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:drawableTint="@color/black"
+                    android:drawableLeft="@drawable/ic_baseline_location_on"
+                    android:text="{{direcion}}"
+                    android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/peluHorario"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:drawableLeft="@drawable/ic_baseline_clock"
+                    android:layout_height="wrap_content"
+                    android:text="{{Horario}}"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginLeft="5sp"
+                tools:context=".ui.PeluqueriaDetailFragment">
+
+                <!--Boton Ver comentarios-->
+                <Button
+                    android:id="@+id/btn_ver_comentarios"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bck_rounded_corners_30"
+                    android:textSize="10sp"
+                    android:minHeight="0sp"
+                    android:minWidth="0sp"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="5sp"
+                    android:text="Ver Comentarios"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="3"
+            android:orientation="vertical"
+            android:gravity="center"
+            tools:context=".ui.PeluqueriaDetailFragment">
+
+            <!--Lista de Servicios-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_servicios"
+                android:scrollbars="vertical"
+                android:layout_marginTop="15sp"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <!--Boton elegirHorario-->
+            <Button
+                android:id="@+id/btn_nuevo_turno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_gravity ="bottom|center_horizontal"
+                android:text="OBTENER UN TURNO"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
 
 
