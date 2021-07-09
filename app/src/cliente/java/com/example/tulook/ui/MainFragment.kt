@@ -197,7 +197,7 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
 
     override fun onRowClick(id: Int) {
         Log.e("RowClick", "Id de pelu: ${id}")
-        val action = PeluqueriaListFragmentDirections.actionPeluqueriaListFragmentToPeluqueriaDetailFragment(peluqueriaId = id)
+        val action = MainFragmentDirections.actionMainFragmentToPeluqueriaDetailFragment(peluqueriaId = id)
         findNavController().navigate(action)
     }
 
