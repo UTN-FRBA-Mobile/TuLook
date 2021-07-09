@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_peluqueriaListFragment_to_peluqueriaDetailFragment"
             app:destination="@id/peluqueriaDetailFragment" />
+        <action
+            android:id="@+id/action_peluqueriaListFragment_to_myLocationFragment"
+            app:destination="@id/myLocationFragment" />
     </fragment>
     <fragment
         android:id="@+id/peluqueriaDetailFragment"

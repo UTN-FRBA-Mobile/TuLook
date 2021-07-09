@@ -35,7 +35,7 @@
             android:textSize="10sp" />
     </LinearLayout>
     <Button
-        android:id="@+id/btn_cambiar"
+        android:id="@+id/btn_cambiar_direccion"
         android:layout_weight="0.5"
         android:layout_width="0sp"
         android:backgroundTint="@android:color/transparent"

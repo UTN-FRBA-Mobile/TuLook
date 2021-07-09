@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.tulook.databinding.FragmentMyLocationBinding
@@ -57,6 +58,14 @@ class MyLocationFragment : Fragment() {
         btnSaveLocation.setOnClickListener {
             val location = savedLocation
             if (location != null) updateStoredLocation(location)
+            Toast.makeText(activity, "Ubicación guardada", Toast.LENGTH_SHORT).show()
+        }
+
+        val btnDeleteLocation = binding.btnDeleteLocation
+        btnDeleteLocation.setOnClickListener {
+            savedLocation = null
+            MyPreferenceManager.clearLocation(requireActivity().applicationContext)
+            Toast.makeText(activity, "Ubicación eliminada", Toast.LENGTH_SHORT).show()
         }
 
         val mapFragment = childFragmentManager.findFragmentByTag("test_map") as SupportMapFragment

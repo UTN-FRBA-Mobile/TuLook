@@ -57,6 +57,12 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val btn_cambiar_direccion = binding.layDireccion.btnCambiarDireccion
+
+        btn_cambiar_direccion.setOnClickListener {
+            findNavController().navigate(R.id.myLocationFragment)
+        }
+
         val btn_lista_peluquerias = binding.btnListaPeluquerias
 
         btn_lista_peluquerias.setOnClickListener {

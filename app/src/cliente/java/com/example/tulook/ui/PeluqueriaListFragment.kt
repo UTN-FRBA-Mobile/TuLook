@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tulook.R
 import com.example.tulook.adapters.PeluqueriaListAdapter
 import com.example.tulook.databinding.FragmentPeluqueriaListBinding
 import com.example.tulook.fileSystem.MyPreferenceManager
@@ -46,12 +47,18 @@ class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaCli
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //se utiliza el boton ubicacion peluqueria para llevarnos al fragment de detalle, como aun no esta diseñado, es solo una prueba.
+        //TODO: (Revisar) se utiliza el boton ubicacion peluqueria para llevarnos al fragment de detalle, como aun no esta diseñado, es solo una prueba.
 //        val btn_lista_peluquerias = binding.btnUbicacionPeluquerias
 
 //        btn_lista_peluquerias.setOnClickListener {
 //            findNavController().navigate(R.id.peluqueriaDetailFragment)
 //        }
+
+        val btn_cambiar_direccion = binding.layDireccion.btnCambiarDireccion
+
+        btn_cambiar_direccion.setOnClickListener {
+            findNavController().navigate(R.id.myLocationFragment)
+        }
 
         pRecyclerView = binding.rvPeluquerias
         getPeluquerias()
