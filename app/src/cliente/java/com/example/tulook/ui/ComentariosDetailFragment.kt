@@ -1,6 +1,5 @@
 package com.example.tulook.ui
 
-import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.os.Bundle
@@ -61,6 +60,9 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
         btn_publicar_review.setOnClickListener {
             if(!binding.nuevoComentario.text.isNullOrEmpty() && binding.nuevaPuntuacion.rating.toFloat() != 0f) {
                 publicarComentario()
+                binding.nuevoComentario.setText("")
+                binding.nuevaPuntuacion.rating = 0f
+
             }else{
                 Toast.makeText(activity, "Debe escribir un comentario y puntuar con al menos media estrella.", Toast.LENGTH_SHORT).show()
             }
