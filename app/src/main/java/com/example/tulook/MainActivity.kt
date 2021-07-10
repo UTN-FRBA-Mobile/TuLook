@@ -3,18 +3,13 @@ package com.example.tulook
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log
-import android.view.MenuItem
-import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.children
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -23,8 +18,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.tulook.databinding.ActivityMainBinding
 import com.example.tulook.fileSystem.MyPreferenceManager
 import com.example.tulook.services.APIService
-import com.example.tulook.services.MyFirebaseMessagingService
 import com.example.tulook.services.getToken
+import com.example.tulook.util.CircleTransform
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -34,16 +29,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import com.squareup.picasso.Picasso
-import okhttp3.Callback
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
-import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
@@ -53,7 +44,6 @@ class MainActivity : AppCompatActivity() {
     var drawerLayout: DrawerLayout? = null
     var actionBarDrawerToggle: ActionBarDrawerToggle? = null
 
-    // auth
     private var auth: FirebaseAuth? = null
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private val RC_SIGN_IN = 1
@@ -74,9 +64,6 @@ class MainActivity : AppCompatActivity() {
 
         setupDrawerLayout()
 
-        // TODO temp, para mandar notificaciones desde consola
-        Log.d("token", getToken(this) ?: "empty")
-
         // auth
         auth = Firebase.auth
 
@@ -86,6 +73,8 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        auth?.addAuthStateListener { updateAuthStatus() }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -95,7 +84,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupDrawerLayout() {
         binding.navView.setupWithNavController(navController)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
-        updateAuthButton()
+        updateAuthStatus()
     }
 
     override fun onBackPressed() {
@@ -108,19 +97,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        updateAuthStatus()
+    }
+
+    private fun updateAuthStatus() {
         updateAuthButton()
+        updateAuthHeader()
     }
 
     // https://stackoverflow.com/questions/34973456/how-to-change-text-of-a-textview-in-navigation-drawer-header
     private fun updateAuthButton() {
-        val navigationView: NavigationView = findViewById(R.id.nav_view)
+        val user = MyPreferenceManager.getUser(this)
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
         val menu = navigationView.menu
         val loginItem = menu.findItem(R.id.loginAction)
-        val isLoggedIn = auth?.currentUser != null
 
-        Log.d("auth", "updating auth button, isLoggedIn: $isLoggedIn")
-
-        if (isLoggedIn) {
+        if (user != null) {
             loginItem?.title = "Cerrar Sesión"
             loginItem.setOnMenuItemClickListener { startSignout() }
         } else {
@@ -129,23 +121,47 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateAuthHeader() {
+        val user = MyPreferenceManager.getUser(this)
+
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        val header = navigationView.getHeaderView(0)
+        val headerText = header.findViewById<TextView>(R.id.nav_header_textView)
+        val headerImage = header.findViewById<ImageView>(R.id.nav_header_imageView)
+
+        Log.d("auth", "updating header, user is $user, headerImage is $headerImage")
+
+        if (user == null) {
+            headerText?.text = "TuLook"
+            headerImage?.setImageResource(R.mipmap.ic_init)
+        } else {
+            if (headerImage == null) return
+
+            headerText?.text = user.displayName
+
+            Picasso.get()
+                .load(Uri.parse(user.photoUrl))
+                .transform(CircleTransform())
+                .fit()
+                .centerCrop()
+                .into(headerImage)
+        }
+    }
+
     // auth
     private fun startSignin(): Boolean {
         val signInIntent = mGoogleSignInClient?.signInIntent
-        Log.d("auth", "$signInIntent, starting signin")
         if (signInIntent != null) { startActivityForResult(signInIntent, RC_SIGN_IN) }
         return true
     }
 
     private fun startSignout(): Boolean {
-        val user = auth?.currentUser
-
-        if (user == null) return true
+        val user = auth?.currentUser ?: return true
 
         updateBackend(user.uid, user.displayName!!, null)
         auth?.signOut()
         MyPreferenceManager.clearUser(this)
-        updateAuthButton()
+        updateAuthStatus()
         return true
     }
 
@@ -174,8 +190,12 @@ class MainActivity : AppCompatActivity() {
                 // Sign in success, update UI with the signed-in user's information
                 Log.d("auth", "signInWithCredential:success")
                 val user = auth?.currentUser
-                if (user != null) MyPreferenceManager.setUser(this, user.displayName!!, user.photoUrl.toString())
-                updateAuthButton()
+                if (user != null) {
+                    Log.d("auth", "setting user, $user")
+                    MyPreferenceManager.setUser(this, user.displayName!!, user.photoUrl.toString())
+                    Log.d("auth", "Saved value: ${MyPreferenceManager.getUser(this)}")
+                }
+                updateAuthStatus()
                 updateBackend(
                     user!!.uid,
                     user.displayName!!,
@@ -201,12 +221,6 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 Log.d("auth", "onresponse")
 //                TODO("Not yet implemented")
-                //TODO: Revisar si esto va acá (actualizar texto e imagen del usuario en el nav_header)
-                val headerText: TextView = findViewById(R.id.nav_header_textView)
-                headerText.text = MyPreferenceManager.getUser(this@MainActivity)?.displayName //TODO: verificar que el preferences contenga los datos del usuario antes de cambiar el nombre
-                // TODO: Revisar esto, si carga la url de las preferences correctamente
-                val headerImage: ImageView = findViewById(R.id.nav_header_imageView)
-                Picasso.get().load(Uri.parse(MyPreferenceManager.getUser(this@MainActivity)?.photoUrl)).fit().centerCrop().into(headerImage)
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
