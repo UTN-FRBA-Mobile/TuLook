@@ -105,7 +105,14 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
         if(!idUsuario.isNullOrBlank()){
             APIService.create().getTurnosPorUsuario(idUsuario).enqueue(object : Callback<List<Turno>> {
                 override fun onResponse(call: Call<List<Turno>>, response: Response<List<Turno>>) {
-                    if (response.isSuccessful) {
+                    /*  puede suceder que empiece a cargar este request y el usuario cambie de
+                     *  fragment antes de que se termine. si pasa esto, cuando termina el request,
+                     *  trata de usar este binding pero es null porque se eliminó el fragment,
+                     *  entonces debemos checkear que siga existiendo.
+                     *  en realidad está mal asumir siempre que el binding no es null,
+                     *  y el atajo que tenemos en todos los fragments es una trampa,
+                     *  pero refactorizar todos los fragments sería mucho laburo.                */
+                    if (response.isSuccessful && binding != null) {
                         //ordeno las fechas ascendente
                         val turnosOrdenadosPorFecha =
                             response.body()!!.sortedBy { getTime(it.fecha).time }
