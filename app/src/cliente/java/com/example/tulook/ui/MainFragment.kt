@@ -101,7 +101,7 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
     }
 
     private fun getProximoTurno(){
-        var idUsuario: String? = "2" //TODO:AHORA ESTA HARCODEADO, OBTENERUSUARIOID DESDE ACTIVITY
+        var idUsuario: String? = "1" //TODO:AHORA ESTA HARCODEADO, OBTENERUSUARIOID DESDE ACTIVITY
         if(!idUsuario.isNullOrBlank()){
             APIService.create().getTurnosPorUsuario(idUsuario).enqueue(object : Callback<List<Turno>> {
                 override fun onResponse(call: Call<List<Turno>>, response: Response<List<Turno>>) {
@@ -143,11 +143,8 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
     }
 
     private fun getPeluquerias(fileName: String) {
-        //TODO: cdo se terminen los favoritos sacar esta validacion harcodeada
-        //if(InternalStorage.getFileUri(requireContext(), fileName) != null){
-        if(InternalStorage.getFileUri(requireContext(), "Favoritos") != null){
-            //val readedText = InternalStorage.readFile(requireContext(), fileName)
-            val readedText = InternalStorage.readFile(requireContext(), "Favoritos")
+        if(InternalStorage.getFileUri(requireContext(), fileName) != null){
+            val readedText = InternalStorage.readFile(requireContext(), fileName)
             if(readedText != "[]"){
                 val gson = Gson()
                 val array = gson.fromJson(readedText, Array<String>::class.java)

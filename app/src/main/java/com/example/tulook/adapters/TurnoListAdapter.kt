@@ -1,5 +1,5 @@
 package com.example.tulook.adapters
-
+/*
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -85,4 +85,4 @@ class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
         }
         return null
     }
-}
+}*/

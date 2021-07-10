@@ -83,7 +83,7 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
         datepicker.datePicker.minDate = Date().time
 
         btn_solicitarTurno.setOnClickListener {
-            turno = Turno(0, peluqueriaId, "1", 1, turnoElegido, duracionTurno)
+            turno = Turno(0, peluqueriaId, "1", 1, turnoElegido, duracionTurno) //TODO: cambiar UsuarioID por Activity
             guardarTurno(turno)
             agregarPeluqueriaReciente(peluqueriaId.toString())
         }
@@ -254,7 +254,7 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
 
         if (!arrayPeluquerias.contains(peluqueriaID)) {
             if(arrayPeluquerias.size >= tamanioMaxRecientes){
-                arrayPeluquerias.removeAt(arrayPeluquerias.size-1)
+                arrayPeluquerias.removeAt(0)
             }
             arrayPeluquerias.add(peluqueriaID)
 
