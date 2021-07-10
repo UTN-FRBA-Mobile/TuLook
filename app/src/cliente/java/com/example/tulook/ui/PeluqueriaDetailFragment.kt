@@ -86,7 +86,7 @@ class PeluqueriaDetailFragment : Fragment() , ServicioListAdapter.onServiceClick
                 findNavController().navigate(action)
             }
             else{
-                Toast.makeText(activity, "Debe seleccional al menos un servicio", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "Debe seleccionar al menos un servicio", Toast.LENGTH_LONG).show()
             }
         }
 

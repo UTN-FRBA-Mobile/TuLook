@@ -36,6 +36,17 @@ class MyPreferenceManager {
             }
         }
 
+        fun clearLocation(context: Context) {
+            val pref = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE)
+
+            with(pref.edit()) {
+                remove("LAT")
+                remove("LNG")
+                remove("ADDR")
+                commit()
+            }
+        }
+
         fun getUser(context: Context): UserData? {
             val pref = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE)
 

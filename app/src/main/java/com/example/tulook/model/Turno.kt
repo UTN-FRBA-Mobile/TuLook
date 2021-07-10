@@ -15,7 +15,7 @@ data class Turno (
 
     @SerializedName("usuarioId")
     @Expose
-    var usuarioId: Int = 0,
+    var usuarioId: String = "0",
 
     @SerializedName("estado")
     @Expose

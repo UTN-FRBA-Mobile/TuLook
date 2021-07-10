@@ -18,7 +18,7 @@ data class Review(
 
     @SerializedName("usuarioId")
     @Expose
-    var usuarioId: Int,
+    var usuarioId: String,
 
     @SerializedName("id")
     @Expose
