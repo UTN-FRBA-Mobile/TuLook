@@ -5,8 +5,9 @@ import android.content.SharedPreferences
 import android.util.Log
 
 data class LocationData(val lat: Double, val lng: Double, val addr: String)
+data class UserData(val displayName: String, val photoUrl: String)
 
-class LocationStorage {
+class MyPreferenceManager {
     companion object {
         private var PREFERENCE_KEY = "TULOOK_LOCATION_PREFERENCE_KEY"
 
@@ -31,6 +32,50 @@ class LocationStorage {
                 putDouble("LAT", lat)
                 putDouble("LNG", lng)
                 putString("ADDR", addr)
+                commit()
+            }
+        }
+
+        fun clearLocation(context: Context) {
+            val pref = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE)
+
+            with(pref.edit()) {
+                remove("LAT")
+                remove("LNG")
+                remove("ADDR")
+                commit()
+            }
+        }
+
+        fun getUser(context: Context): UserData? {
+            val pref = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE)
+
+            val isSet = pref.contains("LAT") && pref.contains("LNG") && pref.contains("ADDR")
+
+            if (!isSet) return null
+
+            val displayName = pref.getString("USR", "")
+            val photoUrl = pref.getString("PIC", "")
+
+            return UserData(displayName!!, photoUrl!!)
+        }
+
+        fun setUser(context: Context, displayName: String, photoUrl: String) {
+            val pref = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE)
+
+            with(pref.edit()) {
+                putString("USR", displayName)
+                putString("PIC", photoUrl)
+                commit()
+            }
+        }
+
+        fun clearUser(context: Context) {
+            val pref = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE)
+
+            with(pref.edit()) {
+                remove("USR")
+                remove("PIC")
                 commit()
             }
         }

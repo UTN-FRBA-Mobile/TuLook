@@ -13,8 +13,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.tulook.R
 import com.example.tulook.databinding.FragmentNuevoTurnoHorariosBinding
+import com.example.tulook.fileSystem.InternalStorage
 import com.example.tulook.model.Turno
 import com.example.tulook.services.APIService
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -81,8 +83,9 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
         datepicker.datePicker.minDate = Date().time
 
         btn_solicitarTurno.setOnClickListener {
-            turno = Turno(0, peluqueriaId, 1, 1, turnoElegido, duracionTurno)
+            turno = Turno(0, peluqueriaId, "1", 1, turnoElegido, duracionTurno)
             guardarTurno(turno)
+            agregarPeluqueriaReciente(peluqueriaId.toString())
         }
 
         btn_datepicker.setOnClickListener {
@@ -232,5 +235,32 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
                     Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
                 }
             })
+    }
+
+    private fun agregarPeluqueriaReciente(peluqueriaID: String) {
+        val fileNameRecientes = "Recientes"
+        val tamanioMaxRecientes = 5
+
+        var readedText = "[]"
+        if (InternalStorage.getFileUri(requireContext(), fileNameRecientes) != null) {
+            readedText = InternalStorage.readFile(requireContext(), fileNameRecientes)
+        }
+
+        Log.e("Recientes", "Lista recientes anterior: " + readedText)
+
+        val gson = Gson()
+        val array = gson.fromJson(readedText, Array<String>::class.java)
+        val arrayPeluquerias = ArrayList(array.toMutableList())
+
+        if (!arrayPeluquerias.contains(peluqueriaID)) {
+            if(arrayPeluquerias.size >= tamanioMaxRecientes){
+                arrayPeluquerias.removeAt(arrayPeluquerias.size-1)
+            }
+            arrayPeluquerias.add(peluqueriaID)
+
+            val json: String = gson.toJson(arrayPeluquerias).replace("\\n", "\n")
+            InternalStorage.saveFile(requireContext(), json, fileNameRecientes)
+            Log.e("Recientes", "Lista recientes nueva: " + json)
+        }
     }
 }

@@ -3,19 +3,20 @@ package com.example.tulook.ui
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tulook.MainActivity
 import com.example.tulook.R
 import com.example.tulook.adapters.PeluqueriaListAdapter
 import com.example.tulook.databinding.FragmentMainBinding
 import com.example.tulook.fileSystem.InternalStorage
-import com.example.tulook.fileSystem.LocationStorage
+import com.example.tulook.fileSystem.MyPreferenceManager
 import com.example.tulook.model.Peluqueria
 import com.example.tulook.model.Turno
 import com.example.tulook.services.APIService
@@ -23,15 +24,16 @@ import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalTime
 import java.util.*
 
 class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener {
-    private lateinit var pRecyclerView: RecyclerView
-    private lateinit var pAdapter: PeluqueriaListAdapter
+    private lateinit var pRecyclerViewFav: RecyclerView
+    private lateinit var pRecyclerViewRec: RecyclerView
+    private lateinit var pAdapterFav: PeluqueriaListAdapter
+    private lateinit var pAdapterRec: PeluqueriaListAdapter
+    private var peluqueriasConsultadas: List<Peluqueria>? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,14 +58,23 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val btn_cambiar_direccion = binding.layDireccion.btnCambiarDireccion
+
+        btn_cambiar_direccion.setOnClickListener {
+            findNavController().navigate(R.id.myLocationFragment)
+        }
+
         val btn_lista_peluquerias = binding.btnListaPeluquerias
 
         btn_lista_peluquerias.setOnClickListener {
             findNavController().navigate(R.id.peluqueriaListFragment)
         }
         getProximoTurno()
-        pRecyclerView = binding.rvFavoritos
-        getPeluqueriasFavoritas()
+        pRecyclerViewFav = binding.rvFavoritos
+        getPeluquerias("Favoritos")
+        pRecyclerViewRec = binding.rvRecientes
+        getPeluquerias("Recientes")
+
     }
 
     // onresume para cosas que pueden cambiar cuando vuelve a la pantalla
@@ -71,7 +82,7 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
     override fun onResume() {
         super.onResume()
 
-        val loc = LocationStorage.getLocation(requireActivity().applicationContext)
+        val loc = MyPreferenceManager.getLocation(requireActivity().applicationContext)
 
         Log.d("LOCATION", "$loc")
 
@@ -90,34 +101,39 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
     }
 
     private fun getProximoTurno(){
-        val idUsuario = 2 //AHORA ESTA HARCODEADO, CAMBIAR !!!!!!!!!!!!!!!!!!!!!!!
-        APIService.create().getTurnosPorUsuario(idUsuario).enqueue(object : Callback<List<Turno>> {
-            override fun onResponse(call: Call<List<Turno>>, response: Response<List<Turno>>) {
-                if (response.isSuccessful) {
-                    //ordeno las fechas ascendente
-                    val turnosOrdenadosPorFecha =
-                        response.body()!!.sortedBy { getTime(it.fecha).time }
-                    //filtro las fechas mayores que hoy
-                    val proximosTurnos =
-                        turnosOrdenadosPorFecha.filter { Calendar.getInstance().time <= getTime(it.fecha).time }
+        var idUsuario: String? = "2" //TODO:AHORA ESTA HARCODEADO, OBTENERUSUARIOID DESDE ACTIVITY
+        if(!idUsuario.isNullOrBlank()){
+            APIService.create().getTurnosPorUsuario(idUsuario).enqueue(object : Callback<List<Turno>> {
+                override fun onResponse(call: Call<List<Turno>>, response: Response<List<Turno>>) {
+                    if (response.isSuccessful) {
+                        //ordeno las fechas ascendente
+                        val turnosOrdenadosPorFecha =
+                            response.body()!!.sortedBy { getTime(it.fecha).time }
+                        //filtro las fechas mayores que hoy
+                        val proximosTurnos =
+                            turnosOrdenadosPorFecha.filter { Calendar.getInstance().time <= getTime(it.fecha).time }
 
-                    if (proximosTurnos.isNotEmpty()) {
-                        val fechaProximoTurno =
-                            SimpleDateFormat("dd-MM-yyyy, hh:mm").format(proximosTurnos[0].fecha)
+                        if (proximosTurnos.isNotEmpty()) {
+                            val fechaProximoTurno =
+                                SimpleDateFormat("dd-MM-yyyy, hh:mm").format(proximosTurnos[0].fecha)
 
-                        binding.textProxTurno.text = fechaProximoTurno.toString()
+                            binding.textProxTurno.text = fechaProximoTurno.toString()
+                        } else {
+                            binding.textProxTurno.text = "Sin Prox. Turno"
+                        }
                     } else {
-                        binding.textProxTurno.text = "Sin Prox. Turno"
+                        showErrorTurnos()
                     }
-                } else {
-                    showErrorTurnos()
                 }
-            }
 
-            override fun onFailure(call: Call<List<Turno>>, t: Throwable) {
-                Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
-            }
-        })
+                override fun onFailure(call: Call<List<Turno>>, t: Throwable) {
+                    Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
+                }
+            })
+        }else{
+            //Este caso es para cuando no estas logueado como usuario y no podes obtener los turnos
+            //TODO: (MARU) Agregar logica de mostrar un layout para cuando no hay turnos por falta de logueo
+        }
     }
 
     private fun getTime(fecha: Date): Calendar{
@@ -126,37 +142,68 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
         return calendario
     }
 
-    private fun getPeluqueriasFavoritas() {
-        val fileNameFavoritos = "Favoritos"
-
-        if(InternalStorage.getFileUri(requireContext(), fileNameFavoritos) != null){
-            val readedText = InternalStorage.readFile(requireContext(), fileNameFavoritos)
+    private fun getPeluquerias(fileName: String) {
+        //TODO: cdo se terminen los favoritos sacar esta validacion harcodeada
+        //if(InternalStorage.getFileUri(requireContext(), fileName) != null){
+        if(InternalStorage.getFileUri(requireContext(), "Favoritos") != null){
+            //val readedText = InternalStorage.readFile(requireContext(), fileName)
+            val readedText = InternalStorage.readFile(requireContext(), "Favoritos")
             if(readedText != "[]"){
                 val gson = Gson()
                 val array = gson.fromJson(readedText, Array<String>::class.java)
                 val arrayPeluquerias = ArrayList(array.toMutableList())
 
-                APIService.create().getPeluquerias().enqueue(object : Callback<List<Peluqueria>> {
-                    override fun onResponse(call: Call<List<Peluqueria>>, response: Response<List<Peluqueria>>) {
-                        if (response.isSuccessful) {
-
-                            val peluqueriasFiltradas = response.body()?.filter { peluqueria -> arrayPeluquerias.contains(peluqueria.id.toString()) }
-
-                            Log.e(ContentValues.TAG, peluqueriasFiltradas.toString())
-
-                            pAdapter = PeluqueriaListAdapter(peluqueriasFiltradas?.toMutableList(), this@MainFragment, "favoritoList")
-                            val pLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                            pRecyclerView.adapter = pAdapter
-                            pRecyclerView.layoutManager = pLayoutManager
-                        } else {
-                            showErrorPeluquerias()
+                if (peluqueriasConsultadas.isNullOrEmpty()) {
+                    APIService.create().getPeluquerias().enqueue(object : Callback<List<Peluqueria>> {
+                        override fun onResponse(call: Call<List<Peluqueria>>, response: Response<List<Peluqueria>>) {
+                            if (response.isSuccessful) {
+                                peluqueriasConsultadas = response.body()
+                                filtrarPeluqueriasObtenidas(fileName, arrayPeluquerias)
+                            } else {
+                                showErrorPeluquerias()
+                            }
                         }
-                    }
-                    override fun onFailure(call: Call<List<Peluqueria>>, t: Throwable) {
-                        Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
-                    }
-                })
+                        override fun onFailure(call: Call<List<Peluqueria>>, t: Throwable) {
+                            Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
+                        }
+                    })
+                }else{
+                    filtrarPeluqueriasObtenidas(fileName, arrayPeluquerias)
+                }
+            } else {
+                if(fileName == "Favoritos"){
+                    binding.textFavoritos0.visibility = View.VISIBLE
+                }else{
+                    binding.textRecientes0.visibility = View.VISIBLE
+                }
             }
+        } else{
+            if(fileName == "Favoritos"){
+                binding.textFavoritos0.visibility = View.VISIBLE
+            }else{
+                binding.textRecientes0.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun filtrarPeluqueriasObtenidas(fileName: String, arrayPeluquerias: ArrayList<String>) {
+        val peluqueriasFiltradas = peluqueriasConsultadas?.filter { peluqueria -> arrayPeluquerias.contains(peluqueria.id.toString()) }
+
+        var typeOfAdapter = ""
+        if (fileName=="Favoritos") { typeOfAdapter = "favoritoList" } else { typeOfAdapter = "recienteList" } //falta codear el de recienteList
+
+        Log.e("typeOfAdapter", typeOfAdapter)
+        if(fileName=="Favoritos"){
+
+            pAdapterFav = PeluqueriaListAdapter(peluqueriasFiltradas?.toMutableList(), this@MainFragment, typeOfAdapter)
+            val pLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            pRecyclerViewFav.adapter = pAdapterFav
+            pRecyclerViewFav.layoutManager = pLayoutManager
+        }else{
+            pAdapterRec = PeluqueriaListAdapter(peluqueriasFiltradas?.toMutableList(), this@MainFragment, typeOfAdapter)
+            val pLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            pRecyclerViewRec.adapter = pAdapterRec
+            pRecyclerViewRec.layoutManager = pLayoutManager
         }
     }
 
@@ -170,7 +217,7 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
 
     override fun onRowClick(id: Int) {
         Log.e("RowClick", "Id de pelu: ${id}")
-        val action = PeluqueriaListFragmentDirections.actionPeluqueriaListFragmentToPeluqueriaDetailFragment(peluqueriaId = id)
+        val action = MainFragmentDirections.actionMainFragmentToPeluqueriaDetailFragment(peluqueriaId = id)
         findNavController().navigate(action)
     }
 

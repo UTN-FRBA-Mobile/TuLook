@@ -1,6 +1,7 @@
 package com.example.tulook.ui
 
 import android.content.ContentValues.TAG
+import com.example.tulook.R.drawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,9 +12,10 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tulook.R
 import com.example.tulook.adapters.PeluqueriaListAdapter
 import com.example.tulook.databinding.FragmentPeluqueriaListBinding
-import com.example.tulook.fileSystem.LocationStorage
+import com.example.tulook.fileSystem.MyPreferenceManager
 import com.example.tulook.model.Peluqueria
 import com.example.tulook.services.APIService
 import retrofit2.Call
@@ -45,27 +47,59 @@ class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaCli
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //se utiliza el boton ubicacion peluqueria para llevarnos al fragment de detalle, como aun no esta diseñado, es solo una prueba.
+        //TODO: (Revisar) se utiliza el boton ubicacion peluqueria para llevarnos al fragment de detalle, como aun no esta diseñado, es solo una prueba.
 //        val btn_lista_peluquerias = binding.btnUbicacionPeluquerias
 
 //        btn_lista_peluquerias.setOnClickListener {
 //            findNavController().navigate(R.id.peluqueriaDetailFragment)
 //        }
 
+        val btn_cambiar_direccion = binding.layDireccion.btnCambiarDireccion
+
+        btn_cambiar_direccion.setOnClickListener {
+            findNavController().navigate(R.id.myLocationFragment)
+        }
+
         pRecyclerView = binding.rvPeluquerias
         getPeluquerias()
 
         val btnSortDistance = binding.btnSortDistance
         btnSortDistance.setOnClickListener {
-            val location = LocationStorage.getLocation(requireActivity().applicationContext)
-            if (location != null) pAdapter?.sortByDistance(location)
+            val location = MyPreferenceManager.getLocation(requireActivity().applicationContext)
+            if (location != null) {
+                if(pAdapter?.sortByDistance(location) == "ASC"){
+                    binding.btnSortDistance.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable.ic_baseline_arrow_upward, 0);
+                }else{
+                    binding.btnSortDistance.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable.ic_baseline_arrow_downward, 0);
+                }
+                binding.btnSortRating.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                binding.btnSortName.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            }else{
+                Toast.makeText(activity, "Primero debe establecer su dirección", Toast.LENGTH_SHORT).show()
+            }
         }
 
         val btnSortRating = binding.btnSortRating
-        btnSortRating.setOnClickListener { pAdapter?.sortByRating() }
+        btnSortRating.setOnClickListener {
+            if(pAdapter?.sortByRating() == "ASC"){
+                binding.btnSortRating.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable.ic_baseline_arrow_upward, 0);
+            }else{
+                binding.btnSortRating.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable.ic_baseline_arrow_downward, 0);
+            }
+            binding.btnSortDistance.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            binding.btnSortName.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        }
 
         val btnSortName = binding.btnSortName
-        btnSortName.setOnClickListener { pAdapter?.sortByName() }
+        btnSortName.setOnClickListener {
+            if(pAdapter?.sortByName()  == "ASC"){
+               binding.btnSortName.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable.ic_baseline_arrow_upward, 0);
+            }else{
+                binding.btnSortName.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable.ic_baseline_arrow_downward, 0);
+            }
+            binding.btnSortRating.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            binding.btnSortDistance.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        }
     }
 
     // onresume para cosas que pueden cambiar cuando vuelve a la pantalla
@@ -73,7 +107,7 @@ class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaCli
     override fun onResume() {
         super.onResume()
 
-        val loc = LocationStorage.getLocation(requireActivity().applicationContext)
+        val loc = MyPreferenceManager.getLocation(requireActivity().applicationContext)
 
         if (loc != null) {
             val locationText = binding.layDireccion.textDireccion

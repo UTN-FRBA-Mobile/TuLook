@@ -9,10 +9,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.tulook.databinding.FragmentMyLocationBinding
-import com.example.tulook.fileSystem.LocationStorage
+import com.example.tulook.fileSystem.MyPreferenceManager
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
@@ -57,6 +58,14 @@ class MyLocationFragment : Fragment() {
         btnSaveLocation.setOnClickListener {
             val location = savedLocation
             if (location != null) updateStoredLocation(location)
+            Toast.makeText(activity, "Ubicación guardada", Toast.LENGTH_SHORT).show()
+        }
+
+        val btnDeleteLocation = binding.btnDeleteLocation
+        btnDeleteLocation.setOnClickListener {
+            savedLocation = null
+            MyPreferenceManager.clearLocation(requireActivity().applicationContext)
+            Toast.makeText(activity, "Ubicación eliminada", Toast.LENGTH_SHORT).show()
         }
 
         val mapFragment = childFragmentManager.findFragmentByTag("test_map") as SupportMapFragment
@@ -71,7 +80,7 @@ class MyLocationFragment : Fragment() {
             }
         }
 
-        val loc = LocationStorage.getLocation(requireActivity().applicationContext)
+        val loc = MyPreferenceManager.getLocation(requireActivity().applicationContext)
     }
 
     override fun onDestroyView() {
@@ -163,8 +172,8 @@ class MyLocationFragment : Fragment() {
     private fun updateStoredLocation(location: Location) {
         val address = geocoder.getFromLocation(location.latitude, location.longitude, 1)
         val addressLine = address[0].getAddressLine(0)
-        LocationStorage.setLocation(requireActivity().applicationContext, location.latitude, location.longitude, addressLine)
-        val location = LocationStorage.getLocation(requireActivity().applicationContext)
+        MyPreferenceManager.setLocation(requireActivity().applicationContext, location.latitude, location.longitude, addressLine)
+        val location = MyPreferenceManager.getLocation(requireActivity().applicationContext)
         Log.d("LOCATION", location.toString())
     }
 }

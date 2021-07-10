@@ -42,6 +42,13 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:text="@string/btn_save_location" />
+
+        <Button
+            android:id="@+id/btn_delete_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:text="@string/btn_delete_location" />
     </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView

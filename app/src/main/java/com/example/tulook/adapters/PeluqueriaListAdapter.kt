@@ -11,7 +11,6 @@ import com.example.tulook.base.BaseViewHolder
 import com.example.tulook.databinding.PeluqueriaFavoritoRowItemBinding
 import com.example.tulook.databinding.PeluqueriaRowItemBinding
 import com.example.tulook.fileSystem.LocationData
-import com.example.tulook.fileSystem.LocationStorage
 import com.example.tulook.model.Peluqueria
 
 
@@ -23,10 +22,10 @@ class PeluqueriaListAdapter(
     RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     enum class SortStatus {
-        NAME, RATING, DISTANCE
+        NOTHING, NAME, RATING, DISTANCE
     }
 
-    var sortStatus: SortStatus = SortStatus.NAME
+    var sortStatus: SortStatus = SortStatus.NOTHING
 
     interface onPeluqueriaClickListener {
         fun onRowClick(id: Int)
@@ -38,7 +37,7 @@ class PeluqueriaListAdapter(
         when (typeOfAdapter) {
             "peluqueriaList" -> return PeluqueriasViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_row_item, parent, false))
             "favoritoList" -> return FavoritosViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_favorito_row_item, parent, false))
-            //"recienteList" -> return PelqueriasViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_row_item, parent, false)) HACEEEER!
+            "recienteList" -> return RecientesViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_favorito_row_item, parent, false))
             else -> return PeluqueriasViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_row_item, parent, false))
         }
     }
@@ -47,10 +46,14 @@ class PeluqueriaListAdapter(
         when (holder) {
             is PeluqueriasViewHolder -> holder.bind(peluqueriasList!![position], position, false)
             is FavoritosViewHolder -> holder.bind(peluqueriasList!![position], position, false)
+            is RecientesViewHolder -> holder.bind(peluqueriasList!![position], position, false)
         }
     }
 
     override fun getItemCount(): Int {
+        if(peluqueriasList == null ){
+            return 0
+        }
         return peluqueriasList!!.size
     }
 
@@ -60,14 +63,21 @@ class PeluqueriaListAdapter(
         notifyDataSetChanged()
     }
 
-    fun sortByRating() {
-        val sorted = peluqueriasList?.sortedWith(compareByDescending { it.rating })
-        if (sorted != null) replacePeluquerias(sorted)
-
-        sortStatus = SortStatus.RATING
+    fun sortByRating(): String{
+        if(sortStatus == SortStatus.RATING){
+            val sorted = peluqueriasList?.sortedWith(compareBy { it.rating })
+            if (sorted != null) replacePeluquerias(sorted)
+            sortStatus = SortStatus.NOTHING
+            return "ASC"
+        }else{
+            val sorted = peluqueriasList?.sortedWith(compareByDescending { it.rating })
+            if (sorted != null) replacePeluquerias(sorted)
+            sortStatus = SortStatus.RATING
+            return "DESC"
+        }
     }
 
-    fun sortByDistance(locationData: LocationData) {
+    fun sortByDistance(locationData: LocationData): String {
         val user = Location("")
         user.latitude = locationData.lat
         user.longitude = locationData.lng
@@ -80,19 +90,31 @@ class PeluqueriaListAdapter(
 
             return location.distanceTo(user)
         }
-
-        val sorted = peluqueriasList?.sortedWith(compareBy { distanceToUser(it) })
-        if (sorted != null) replacePeluquerias(sorted)
-
-
-        sortStatus = SortStatus.DISTANCE
+        if(sortStatus == SortStatus.DISTANCE){
+            val sorted = peluqueriasList?.sortedWith(compareBy { distanceToUser(it) })
+            if (sorted != null) replacePeluquerias(sorted)
+            sortStatus = SortStatus.NOTHING
+            return "ASC"
+        }else{
+            val sorted = peluqueriasList?.sortedWith(compareByDescending { distanceToUser(it) })
+            if (sorted != null) replacePeluquerias(sorted)
+            sortStatus = SortStatus.DISTANCE
+            return "DESC"
+        }
     }
 
-    fun sortByName() {
-        val sorted = peluqueriasList?.sortedWith(compareBy { it.nombre })
-        if (sorted != null) replacePeluquerias(sorted)
-
-        sortStatus = SortStatus.NAME
+    fun sortByName(): String{
+        if(sortStatus == SortStatus.NAME){
+            val sorted = peluqueriasList?.sortedWith(compareBy { it.nombre })
+            if (sorted != null) replacePeluquerias(sorted)
+            sortStatus = SortStatus.NOTHING
+            return "ASC"
+        }else{
+            val sorted = peluqueriasList?.sortedWith(compareByDescending { it.nombre })
+            if (sorted != null) replacePeluquerias(sorted)
+            sortStatus = SortStatus.NAME
+            return "DESC"
+        }
     }
 
     // Provide a direct reference to each of the views within a data item
@@ -107,6 +129,7 @@ class PeluqueriaListAdapter(
             binding.peluqueriaNameTxt.text = item.nombre
             binding.peluqueriaAddressTxt.text = "${item.direccion!!.calle} ${item.direccion!!.numero}"
             binding.peluqueriaRatingBar.rating = item.rating
+            binding.icon.text = item.nombre.get(0).toString()
         }
     }
 
@@ -115,6 +138,19 @@ class PeluqueriaListAdapter(
 
         override fun bind(item: Peluqueria, position: Int, isActivated: Boolean) {
             itemView.setOnClickListener { itemClickListener.onRowClick(item.id) }
+            binding.peluqueriaImageView.text = item.nombre.get(0).toString()
+            binding.peluqueriaAddressTxt.setOnClickListener { itemClickListener.onFavClick(item.id) }
+            binding.peluqueriaNameTxt.text = item.nombre
+            binding.peluqueriaAddressTxt.text = "${item.direccion!!.calle} ${item.direccion!!.numero}"
+        }
+    }
+
+    inner class RecientesViewHolder(itemView: View) : BaseViewHolder<Peluqueria>(itemView) {
+        val binding = PeluqueriaFavoritoRowItemBinding.bind(itemView)
+
+        override fun bind(item: Peluqueria, position: Int, isActivated: Boolean) {
+            itemView.setOnClickListener { itemClickListener.onRowClick(item.id) }
+            binding.peluqueriaImageView.text = item.nombre.get(0).toString()
             binding.peluqueriaAddressTxt.setOnClickListener { itemClickListener.onFavClick(item.id) }
             binding.peluqueriaNameTxt.text = item.nombre
             binding.peluqueriaAddressTxt.text = "${item.direccion!!.calle} ${item.direccion!!.numero}"

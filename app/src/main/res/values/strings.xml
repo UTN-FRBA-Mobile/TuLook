@@ -3,6 +3,7 @@
     <string name="location_instructions">Esta dirección es un aproximado, para que puedas ver primero las peluquerías que tenés mas cerca. Podés tocar el botón para recargar tu ubicación desde el GPS, o tocar sobre el mapa para indicar cuál es tu ubicación.</string>
     <string name="btn_retry_location">Recargar</string>
     <string name="btn_save_location">Guardar</string>
+    <string name="btn_delete_location">Eliminar</string>
     <string name="peluqueria_sort_name">Nombre</string>
     <string name="peluqueria_sort_distance">Distancia</string>
     <string name="peluqueria_sort_rating">Rating</string>

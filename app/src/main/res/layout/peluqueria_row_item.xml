@@ -13,33 +13,38 @@
     app:cardElevation="4dp"
     app:cardUseCompatPadding="false">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
-        android:orientation="vertical">
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="6dp">
 
-            <ImageView
-                android:id="@+id/peluqueriaImageView"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:paddingLeft="14dp"
-                android:paddingRight="14dp"
-                android:src="@mipmap/ic_launcher"
-                android:layout_alignParentLeft="true"/>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="14dp"
+                android:layout_marginLeft="14dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5sp"
+                android:background="@drawable/bck_rounded_corners_30"
+                android:backgroundTint="@color/yellow"
+                tools:context=".ui.MainFragment">
+
+                <TextView
+                    android:id="@+id/icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="L"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="30dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/peluqueriaData"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="4dp"
@@ -60,11 +65,9 @@
                     android:textColor="@color/black"/>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:weightSum="2"
-                    android:layout_marginStart="4dp"
                     android:layout_marginTop="2dp"
                     android:orientation="horizontal">
 
@@ -72,17 +75,16 @@
                         android:id="@+id/peluqueriaRatingBar"
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:stepSize="0.25"
+                        android:padding="1sp"
                         android:theme="@style/Widget.AppCompat.RatingBar"
                         android:numStars="5"/>
 
                     <TextView
                         android:id="@+id/peluqueriaAddressTxt"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10sp"
                         android:layout_height="wrap_content"
@@ -90,12 +92,6 @@
                         tools:text="Gerli" />
 
                 </LinearLayout>
-
-
-
             </LinearLayout>
-
-        </RelativeLayout>
-    </LinearLayout>
-
+        </LinearLayout>
 </androidx.cardview.widget.CardView>
