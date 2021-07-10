@@ -28,7 +28,6 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
 
     private val args: ComentariosDetailFragmentArgs by navArgs()
     private lateinit var peluqueria: Peluqueria
-    private lateinit var reviews: List<Review>
     private lateinit var rRecyclerView: RecyclerView
     private lateinit var rAdapter: ReviewListAdapter
 
@@ -58,13 +57,19 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
         val btn_publicar_review = binding.btnPublicarReview
 
         btn_publicar_review.setOnClickListener {
-            if(!binding.nuevoComentario.text.isNullOrEmpty() && binding.nuevaPuntuacion.rating.toFloat() != 0f) {
-                publicarComentario()
-                binding.nuevoComentario.setText("")
-                binding.nuevaPuntuacion.rating = 0f
+            var idUsuario: String? = "2" //TODO:AHORA ESTA HARCODEADO, OBTENERUSUARIOID DESDE ACTIVITY
+            if(!idUsuario.isNullOrBlank()){
+                if(!binding.nuevoComentario.text.isNullOrEmpty() && binding.nuevaPuntuacion.rating.toFloat() != 0f) {
+                    publicarComentario()
+                    binding.nuevoComentario.setText("")
+                    binding.nuevaPuntuacion.rating = 0f
+                }else{
+                    Toast.makeText(activity, "Debe escribir un comentario y puntuar con al menos media estrella.", Toast.LENGTH_SHORT).show()
+                }
             }else{
-                Toast.makeText(activity, "Debe escribir un comentario y puntuar con al menos media estrella.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Debe iniciar sesión para publicar un comentario", Toast.LENGTH_SHORT).show()
             }
+
         }
 
         binding.nuevoComentario.onFocusChangeListener  = View.OnFocusChangeListener { view, hasFocus ->
@@ -156,8 +161,8 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
     private fun publicarComentario(){
         val gson = GsonBuilder().create()
         val comentario = Review(
-            binding.nuevoComentario.text.toString(), binding.nuevaPuntuacion.rating.toFloat(), args.peluqueriaId, 1
-        )//TODO:CAMBIAR EL USUARIOID
+            binding.nuevoComentario.text.toString(), binding.nuevaPuntuacion.rating.toFloat(), args.peluqueriaId, "1"
+        )//TODO:CAMBIAR EL USUARIOID POR EL DEL ACTIVITY
 
         var body = gson.toJsonTree(comentario).asJsonObject
         body.remove("id")

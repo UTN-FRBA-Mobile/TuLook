@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tulook.MainActivity
 import com.example.tulook.R
 import com.example.tulook.adapters.PeluqueriaListAdapter
 import com.example.tulook.databinding.FragmentMainBinding
@@ -73,6 +74,7 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
         getPeluquerias("Favoritos")
         pRecyclerViewRec = binding.rvRecientes
         getPeluquerias("Recientes")
+
     }
 
     // onresume para cosas que pueden cambiar cuando vuelve a la pantalla
@@ -99,34 +101,39 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
     }
 
     private fun getProximoTurno(){
-        val idUsuario = 2 //TODO:AHORA ESTA HARCODEADO, CAMBIAR !!!!!!!!!!!!!!!!!!!!!!!
-        APIService.create().getTurnosPorUsuario(idUsuario).enqueue(object : Callback<List<Turno>> {
-            override fun onResponse(call: Call<List<Turno>>, response: Response<List<Turno>>) {
-                if (response.isSuccessful) {
-                    //ordeno las fechas ascendente
-                    val turnosOrdenadosPorFecha =
-                        response.body()!!.sortedBy { getTime(it.fecha).time }
-                    //filtro las fechas mayores que hoy
-                    val proximosTurnos =
-                        turnosOrdenadosPorFecha.filter { Calendar.getInstance().time <= getTime(it.fecha).time }
+        var idUsuario: String? = "2" //TODO:AHORA ESTA HARCODEADO, OBTENERUSUARIOID DESDE ACTIVITY
+        if(!idUsuario.isNullOrBlank()){
+            APIService.create().getTurnosPorUsuario(idUsuario).enqueue(object : Callback<List<Turno>> {
+                override fun onResponse(call: Call<List<Turno>>, response: Response<List<Turno>>) {
+                    if (response.isSuccessful) {
+                        //ordeno las fechas ascendente
+                        val turnosOrdenadosPorFecha =
+                            response.body()!!.sortedBy { getTime(it.fecha).time }
+                        //filtro las fechas mayores que hoy
+                        val proximosTurnos =
+                            turnosOrdenadosPorFecha.filter { Calendar.getInstance().time <= getTime(it.fecha).time }
 
-                    if (proximosTurnos.isNotEmpty()) {
-                        val fechaProximoTurno =
-                            SimpleDateFormat("dd-MM-yyyy, hh:mm").format(proximosTurnos[0].fecha)
+                        if (proximosTurnos.isNotEmpty()) {
+                            val fechaProximoTurno =
+                                SimpleDateFormat("dd-MM-yyyy, hh:mm").format(proximosTurnos[0].fecha)
 
-                        binding.textProxTurno.text = fechaProximoTurno.toString()
+                            binding.textProxTurno.text = fechaProximoTurno.toString()
+                        } else {
+                            binding.textProxTurno.text = "Sin Prox. Turno"
+                        }
                     } else {
-                        binding.textProxTurno.text = "Sin Prox. Turno"
+                        showErrorTurnos()
                     }
-                } else {
-                    showErrorTurnos()
                 }
-            }
 
-            override fun onFailure(call: Call<List<Turno>>, t: Throwable) {
-                Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
-            }
-        })
+                override fun onFailure(call: Call<List<Turno>>, t: Throwable) {
+                    Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
+                }
+            })
+        }else{
+            //Este caso es para cuando no estas logueado como usuario y no podes obtener los turnos
+            //TODO: (MARU) Agregar logica de mostrar un layout para cuando no hay turnos por falta de logueo
+        }
     }
 
     private fun getTime(fecha: Date): Calendar{

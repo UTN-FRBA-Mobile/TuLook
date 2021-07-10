@@ -29,7 +29,7 @@ interface APIService {
     fun getTurnosPorPeluqueriaPorDia(@Path("peluqueriaId") peluqueriaId: Int, @Path("fecha") fecha: Date): Call<List<Turno>>
 
     @GET("turnos/byUsuario/{userID}")
-    fun getTurnosPorUsuario(@Path("userID") usuarioID: Int): Call<List<Turno>>
+    fun getTurnosPorUsuario(@Path("userID") usuarioID: String): Call<List<Turno>>
 
     @POST("usuarios")
     fun login(@Body data: JsonObject): Call<ResponseBody>
