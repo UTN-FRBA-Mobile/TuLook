@@ -25,7 +25,7 @@ interface APIService {
     @GET("reviews/byPeluqueria/{id}")
     fun getReviewsPorPeluqueria(@Path("id") id: Int): Call<List<Review>>
 
-    @GET("turnos/byPeluquerias/{peluqueriaId}")
+    @GET("turnos/byPeluqueria/{peluqueriaId}")
     fun getTurnosPorPeluqueria(@Path("peluqueriaId") peluqueriaId: Int): Call<List<Turno>>
 
     @GET("turnos/byPeluquerias/{peluqueriaId}/{fecha}")

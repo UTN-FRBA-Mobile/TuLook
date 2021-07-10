@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tulook.MainActivity
 import com.example.tulook.adapters.ReviewListAdapter
 import com.example.tulook.databinding.FragmentComentariosDetailBinding
 import com.example.tulook.model.Peluqueria
@@ -159,35 +160,50 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
     }
 
     private fun publicarComentario(){
-        val gson = GsonBuilder().create()
-        val comentario = Review(
-            binding.nuevoComentario.text.toString(), binding.nuevaPuntuacion.rating.toFloat(), args.peluqueriaId, "1"
-        )//TODO:CAMBIAR EL USUARIOID POR EL DEL ACTIVITY
+        val mainActivity = requireActivity() as MainActivity
+        val user = mainActivity.auth?.currentUser
 
-        var body = gson.toJsonTree(comentario).asJsonObject
-        body.remove("id")
-        APIService.create().postNewReview(body).enqueue(object : Callback<Review> {
-            override fun onResponse(call: Call<Review>, response: Response<Review>) {
-                if (response.isSuccessful) {
-                    Log.e(ContentValues.TAG, response.body().toString())
-                    Toast.makeText(activity, "Comentario subido con éxito", Toast.LENGTH_LONG).show()
-                    rAdapter.addReview(response.body()!!)
-                    rRecyclerView.adapter = rAdapter
-                    val reviewLayoutManager = LinearLayoutManager(activity)
-                    rRecyclerView.layoutManager = reviewLayoutManager
-                    /*response.body()!!.comentario == comentario.comentario
-                    response.body()!!.calificacion == comentario.calificacion
-                    response.body()!!.peluqueriaId == comentario.peluqueriaId
-                    response.body()!!.usuarioId == comentario.usuarioId*/
-                } else {
-                    showError()
+        if (user == null) {
+            //TODO: validar esto
+            mainActivity.startSignin()
+            Toast.makeText(activity, "Debe estar logeado para poder pedir un turno.", Toast.LENGTH_LONG).show()
+        } else {
+            Log.e("UserId: ", user.uid)
+
+            val gson = GsonBuilder().create()
+            val comentario = Review(
+                binding.nuevoComentario.text.toString(),
+                binding.nuevaPuntuacion.rating.toFloat(),
+                args.peluqueriaId,
+                user.uid
+            )
+
+            var body = gson.toJsonTree(comentario).asJsonObject
+            body.remove("id")
+            APIService.create().postNewReview(body).enqueue(object : Callback<Review> {
+                override fun onResponse(call: Call<Review>, response: Response<Review>) {
+                    if (response.isSuccessful) {
+                        Log.e(ContentValues.TAG, response.body().toString())
+                        Toast.makeText(activity, "Comentario subido con éxito", Toast.LENGTH_LONG)
+                            .show()
+                        rAdapter.addReview(response.body()!!)
+                        rRecyclerView.adapter = rAdapter
+                        val reviewLayoutManager = LinearLayoutManager(activity)
+                        rRecyclerView.layoutManager = reviewLayoutManager
+                        /*response.body()!!.comentario == comentario.comentario
+                        response.body()!!.calificacion == comentario.calificacion
+                        response.body()!!.peluqueriaId == comentario.peluqueriaId
+                        response.body()!!.usuarioId == comentario.usuarioId*/
+                    } else {
+                        showError()
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<Review>, t: Throwable) {
-                Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
-            }
-        })
+                override fun onFailure(call: Call<Review>, t: Throwable) {
+                    Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
+                }
+            })
+        }
     }
 
 }

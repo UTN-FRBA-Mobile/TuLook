@@ -101,9 +101,17 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
     }
 
     private fun getProximoTurno(){
-        var idUsuario: String? = "1" //TODO:AHORA ESTA HARCODEADO, OBTENERUSUARIOID DESDE ACTIVITY
-        if(!idUsuario.isNullOrBlank()){
-            APIService.create().getTurnosPorUsuario(idUsuario).enqueue(object : Callback<List<Turno>> {
+
+        val mainActivity = requireActivity() as MainActivity
+        val user = mainActivity.auth?.currentUser
+
+        if (user == null) {
+            //TODO: validar esto
+            mainActivity.startSignin()
+            Toast.makeText(activity, "Debe estar logeado para poder pedir un turno.", Toast.LENGTH_LONG).show()
+        } else {
+            Log.e("UserId: ", user.uid)
+            APIService.create().getTurnosPorUsuario(user.uid).enqueue(object : Callback<List<Turno>> {
                 override fun onResponse(call: Call<List<Turno>>, response: Response<List<Turno>>) {
                     /*  puede suceder que empiece a cargar este request y el usuario cambie de
                      *  fragment antes de que se termine. si pasa esto, cuando termina el request,
@@ -132,14 +140,10 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
                         showErrorTurnos()
                     }
                 }
-
                 override fun onFailure(call: Call<List<Turno>>, t: Throwable) {
                     Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
                 }
             })
-        }else{
-            //Este caso es para cuando no estas logueado como usuario y no podes obtener los turnos
-            //TODO: (MARU) Agregar logica de mostrar un layout para cuando no hay turnos por falta de logueo
         }
     }
 

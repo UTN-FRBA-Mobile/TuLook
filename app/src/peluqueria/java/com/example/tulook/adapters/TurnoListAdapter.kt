@@ -1,25 +1,23 @@
 package com.example.tulook.adapters
-/*
+
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.selection.ItemDetailsLookup
-import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tulook.R
 import com.example.tulook.base.BaseViewHolder
-import com.example.tulook.databinding.ServiceRowItemBinding
 import com.example.tulook.databinding.TurnoRowItemBinding
 import com.example.tulook.model.Turno
 
 class TurnoListAdapter(
-    val turnosList: List<Turno>?,
+    val turnosList: List<String>?,
+    val turnos: List<Turno>?,
     val itemClickListener: onTurnoClickListener
 ) :
     RecyclerView.Adapter<BaseViewHolder<*>>() {
-
     var tracker: SelectionTracker<String>? = null
 
     interface onTurnoClickListener {
@@ -41,7 +39,6 @@ class TurnoListAdapter(
             is TurnoViewHolder -> {
                 val turno = turnosList!![position]
                 holder.bind(getItem(position), position, tracker!!.isSelected(turno))
-//                holder.bind(turnosList!![position], position)
             }
         }
     }
@@ -59,7 +56,8 @@ class TurnoListAdapter(
 
         override fun bind(item: String, position: Int, isActivated: Boolean) {
             // itemView.setOnClickListener { itemClickListener.onRowClick()}//item.id) }
-            binding.turnoName.text = item
+            val turno = turnos?.find { it.id.toString() == item }
+            binding.turnoName.text = turno?.usuarioId + turno?.fecha.toString()
             binding.turnoItem.setBackgroundResource( if(isActivated) R.color.light_blue_600 else R.color.white)
         }
 
@@ -75,7 +73,7 @@ class TurnoListAdapter(
         return turnosList!![index]
     }
 }
-
+/*
 class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
     ItemDetailsLookup<String>() {
     override fun getItemDetails(event: MotionEvent): ItemDetails<String>? {
@@ -85,4 +83,5 @@ class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
         }
         return null
     }
-}*/
+}
+*/
