@@ -36,7 +36,7 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
 
     private lateinit var turnosLibres: List<Date>
     private lateinit var txtDate: TextView
-    private lateinit var turnoElegido: Date
+    private lateinit var horarioElegido: Date
     private lateinit var turno: Turno
 
     var day = 0
@@ -83,7 +83,7 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
         datepicker.datePicker.minDate = Date().time
 
         btn_solicitarTurno.setOnClickListener {
-            turno = Turno(0, peluqueriaId, "1", 1, turnoElegido, duracionTurno)
+            turno = Turno(0, peluqueriaId, "1", 1, horarioElegido, duracionTurno, servicios)
             guardarTurno(turno)
             agregarPeluqueriaReciente(peluqueriaId.toString())
         }
@@ -108,7 +108,7 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
         }
         
         initializeDate()
-        txtDate.text = "$day-${month+1}-$year"
+        txtDate.text = "$day-${month}-$year"
         getTurnosLibres(peluqueriaId, day, month, year)
     }
 
@@ -133,7 +133,7 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
         val cal = Calendar.getInstance()
         cal.time = today
         year = cal[Calendar.YEAR]
-        month = cal[Calendar.MONTH]
+        month = cal[Calendar.MONTH]+1
         day = cal[Calendar.DAY_OF_MONTH]
     }
 
@@ -190,8 +190,8 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         var items: String = parent?.getItemAtPosition(position) as String
-        turnoElegido = turnosLibres.get(position)
-        Log.e("Turno elegido", turnoElegido.toString())
+        horarioElegido = turnosLibres.get(position)
+        Log.e("Turno elegido", horarioElegido.toString())
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -200,7 +200,7 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
 
     private fun turnosToString(turnos: List<Date>): List<String> {
         var ts = mutableListOf<String>()
-        val formatter: SimpleDateFormat = SimpleDateFormat("hh:mm")
+        val formatter: SimpleDateFormat = SimpleDateFormat("HH:mm a")
         for (turno in turnos) {
             ts.add(formatter.format(turno))
         }

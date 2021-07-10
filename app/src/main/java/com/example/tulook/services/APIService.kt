@@ -45,8 +45,8 @@ interface APIService {
 
     companion object {
 
-        var BASE_URL = "https://tu-look-api.herokuapp.com/api/"
-//        var BASE_URL = "http://192.168.1.188:3000/api/"
+//        var BASE_URL = "https://tu-look-api.herokuapp.com/api/"
+        var BASE_URL = "http://192.168.0.91:3000/api/"
 
         fun create(): APIService {
             val gson = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create()
