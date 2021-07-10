@@ -138,6 +138,7 @@ class PeluqueriaListAdapter(
 
         override fun bind(item: Peluqueria, position: Int, isActivated: Boolean) {
             itemView.setOnClickListener { itemClickListener.onRowClick(item.id) }
+            binding.peluqueriaImageView.text = item.nombre.get(0).toString()
             binding.peluqueriaAddressTxt.setOnClickListener { itemClickListener.onFavClick(item.id) }
             binding.peluqueriaNameTxt.text = item.nombre
             binding.peluqueriaAddressTxt.text = "${item.direccion!!.calle} ${item.direccion!!.numero}"
@@ -149,6 +150,7 @@ class PeluqueriaListAdapter(
 
         override fun bind(item: Peluqueria, position: Int, isActivated: Boolean) {
             itemView.setOnClickListener { itemClickListener.onRowClick(item.id) }
+            binding.peluqueriaImageView.text = item.nombre.get(0).toString()
             binding.peluqueriaAddressTxt.setOnClickListener { itemClickListener.onFavClick(item.id) }
             binding.peluqueriaNameTxt.text = item.nombre
             binding.peluqueriaAddressTxt.text = "${item.direccion!!.calle} ${item.direccion!!.numero}"
