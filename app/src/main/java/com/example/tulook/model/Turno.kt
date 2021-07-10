@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
-data class Turno (
+data class Turno(
     @SerializedName("id")
     @Expose
     var id: Int = 0,
@@ -27,5 +27,9 @@ data class Turno (
 
     @SerializedName("duracion")
     @Expose
-    var duracion: Int = 0
+    var duracion: Int = 0,
+
+    @SerializedName("servicios")
+    @Expose
+    var servicios: Array<String> = emptyArray<String>()
 )
