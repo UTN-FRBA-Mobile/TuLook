@@ -84,7 +84,7 @@ class ServicioListAdapter(
         return servicesList!![index]
     }
 }
-
+/*
 class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
     ItemDetailsLookup<String>() {
     override fun getItemDetails(event: MotionEvent): ItemDetails<String>? {
@@ -95,3 +95,4 @@ class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
         return null
     }
 }
+*/

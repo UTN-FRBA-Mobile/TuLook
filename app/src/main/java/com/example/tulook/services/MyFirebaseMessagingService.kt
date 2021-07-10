@@ -3,12 +3,14 @@ package com.example.tulook.services
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.tulook.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+
 
 val TOKEN_KEY = "FIREBASE_MESSAGING_TOKEN"
 
@@ -30,10 +32,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        val notification = remoteMessage.notification
+        val notification = remoteMessage.notification ?: return
+
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance)
@@ -41,10 +42,19 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.createNotificationChannel(channel)
         }
 
+        val largeIcon = BitmapFactory.decodeResource(resources, R.mipmap.ic_init)
+
         val noti = NotificationCompat.Builder(this, CHANNEL_NAME)
-            .setContentTitle(notification?.title ?: "TuLook")
-            .setContentText(notification?.body ?: "Notificación")
+            .setContentTitle(notification.title ?: "TuLook")
             .setSmallIcon(R.drawable.logo_inicial)
+            .setLargeIcon(largeIcon)
+
+        if (notification.title == "Turno Aceptado") {
+            Log.d("token", "mensaje de turno aceptado recibido")
+            noti.setStyle(NotificationCompat.InboxStyle().addLine(notification.body))
+        } else {
+            noti.setContentText(notification.body)
+        }
 
         notificationManager.notify(0, noti.build())
 

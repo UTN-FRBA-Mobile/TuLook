@@ -50,7 +50,7 @@ class MyPreferenceManager {
         fun getUser(context: Context): UserData? {
             val pref = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE)
 
-            val isSet = pref.contains("LAT") && pref.contains("LNG") && pref.contains("ADDR")
+            val isSet = pref.contains("USR") && pref.contains("PIC")
 
             if (!isSet) return null
 

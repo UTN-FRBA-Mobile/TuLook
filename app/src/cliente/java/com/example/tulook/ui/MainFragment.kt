@@ -101,11 +101,26 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
     }
 
     private fun getProximoTurno(){
-        var idUsuario: String? = "2" //TODO:AHORA ESTA HARCODEADO, OBTENERUSUARIOID DESDE ACTIVITY
-        if(!idUsuario.isNullOrBlank()){
-            APIService.create().getTurnosPorUsuario(idUsuario).enqueue(object : Callback<List<Turno>> {
+
+        val mainActivity = requireActivity() as MainActivity
+        val user = mainActivity.auth?.currentUser
+
+        if (user == null) {
+            //TODO: validar esto
+            mainActivity.startSignin()
+            Toast.makeText(activity, "Debe estar logeado para poder pedir un turno.", Toast.LENGTH_LONG).show()
+        } else {
+            Log.e("UserId: ", user.uid)
+            APIService.create().getTurnosPorUsuario(user.uid).enqueue(object : Callback<List<Turno>> {
                 override fun onResponse(call: Call<List<Turno>>, response: Response<List<Turno>>) {
-                    if (response.isSuccessful) {
+                    /*  puede suceder que empiece a cargar este request y el usuario cambie de
+                     *  fragment antes de que se termine. si pasa esto, cuando termina el request,
+                     *  trata de usar este binding pero es null porque se eliminó el fragment,
+                     *  entonces debemos checkear que siga existiendo.
+                     *  en realidad está mal asumir siempre que el binding no es null,
+                     *  y el atajo que tenemos en todos los fragments es una trampa,
+                     *  pero refactorizar todos los fragments sería mucho laburo.                */
+                    if (response.isSuccessful && binding != null) {
                         //ordeno las fechas ascendente
                         val turnosOrdenadosPorFecha =
                             response.body()!!.sortedBy { getTime(it.fecha).time }
@@ -125,14 +140,10 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
                         showErrorTurnos()
                     }
                 }
-
                 override fun onFailure(call: Call<List<Turno>>, t: Throwable) {
                     Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
                 }
             })
-        }else{
-            //Este caso es para cuando no estas logueado como usuario y no podes obtener los turnos
-            //TODO: (MARU) Agregar logica de mostrar un layout para cuando no hay turnos por falta de logueo
         }
     }
 
@@ -143,11 +154,8 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
     }
 
     private fun getPeluquerias(fileName: String) {
-        //TODO: cdo se terminen los favoritos sacar esta validacion harcodeada
-        //if(InternalStorage.getFileUri(requireContext(), fileName) != null){
-        if(InternalStorage.getFileUri(requireContext(), "Favoritos") != null){
-            //val readedText = InternalStorage.readFile(requireContext(), fileName)
-            val readedText = InternalStorage.readFile(requireContext(), "Favoritos")
+        if(InternalStorage.getFileUri(requireContext(), fileName) != null){
+            val readedText = InternalStorage.readFile(requireContext(), fileName)
             if(readedText != "[]"){
                 val gson = Gson()
                 val array = gson.fromJson(readedText, Array<String>::class.java)

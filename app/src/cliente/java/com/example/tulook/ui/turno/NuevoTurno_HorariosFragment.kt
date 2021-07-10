@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.tulook.MainActivity
 import com.example.tulook.R
 import com.example.tulook.databinding.FragmentNuevoTurnoHorariosBinding
 import com.example.tulook.fileSystem.InternalStorage
@@ -83,9 +84,17 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
         datepicker.datePicker.minDate = Date().time
 
         btn_solicitarTurno.setOnClickListener {
-            turno = Turno(0, peluqueriaId, "1", 1, horarioElegido, duracionTurno, servicios)
-            guardarTurno(turno)
-            agregarPeluqueriaReciente(peluqueriaId.toString())
+            val mainActivity = requireActivity() as MainActivity
+            val user = mainActivity.auth?.currentUser
+
+            if (user == null) {
+                mainActivity.startSignin()
+                Toast.makeText(activity, "Debe estar logeado para poder pedir un turno.", Toast.LENGTH_LONG).show()
+            } else {
+                turno = Turno(0, peluqueriaId, user.uid, 1, horarioElegido, duracionTurno)
+                guardarTurno(turno)
+                agregarPeluqueriaReciente(peluqueriaId.toString())
+            }
         }
 
         btn_datepicker.setOnClickListener {
@@ -207,7 +216,7 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
         return ts;
     }
 
-    private fun guardarTurno(turno: Turno){
+    private fun guardarTurno(turno: Turno) {
         APIService.create().crearTurno(turno)
             .enqueue(object : Callback<Turno> {
 
@@ -254,7 +263,7 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
 
         if (!arrayPeluquerias.contains(peluqueriaID)) {
             if(arrayPeluquerias.size >= tamanioMaxRecientes){
-                arrayPeluquerias.removeAt(arrayPeluquerias.size-1)
+                arrayPeluquerias.removeAt(0)
             }
             arrayPeluquerias.add(peluqueriaID)
 
