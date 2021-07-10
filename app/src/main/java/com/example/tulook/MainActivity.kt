@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     var drawerLayout: DrawerLayout? = null
     var actionBarDrawerToggle: ActionBarDrawerToggle? = null
 
-    private var auth: FirebaseAuth? = null
+    var auth: FirebaseAuth? = null
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private val RC_SIGN_IN = 1
 
@@ -149,7 +149,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // auth
-    private fun startSignin(): Boolean {
+    fun startSignin(): Boolean {
         val signInIntent = mGoogleSignInClient?.signInIntent
         if (signInIntent != null) { startActivityForResult(signInIntent, RC_SIGN_IN) }
         return true
@@ -171,14 +171,11 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
-                // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
-                Log.d("auth", "firebaseAuthWithGoogle:" + account.id)
-                Toast.makeText(this, account.id, Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Login exitoso! Bienvenido, ${account.displayName}", Toast.LENGTH_LONG).show()
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.w("auth", "Google sign in failed", e)
+                Toast.makeText(this, "Falló el login. Por favor, intente nuevamente.", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -187,27 +184,26 @@ class MainActivity : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth?.signInWithCredential(credential)?.addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                // Sign in success, update UI with the signed-in user's information
-                Log.d("auth", "signInWithCredential:success")
                 val user = auth?.currentUser
                 if (user != null) {
-                    Log.d("auth", "setting user, $user")
                     MyPreferenceManager.setUser(this, user.displayName!!, user.photoUrl.toString())
-                    Log.d("auth", "Saved value: ${MyPreferenceManager.getUser(this)}")
+                    updateAuthStatus()
+                    updateBackend(
+                        user.uid,
+                        user.displayName!!,
+                        getToken(this)!!
+                    )
                 }
-                updateAuthStatus()
-                updateBackend(
-                    user!!.uid,
-                    user.displayName!!,
-                    getToken(this)!!
-                )
             } else {
-                // If sign in fails, display a message to the user.
-                Log.w("auth", "signInWithCredential:failure", task.exception)
+                Toast.makeText(this, "Falló el login. Por favor, intente nuevamente.", Toast.LENGTH_LONG).show()
             }
         }
     }
 
+    /* esta función en realidad no hace ningún login, solo hace put en el backend
+     * de los datos de usuario. la idea es que cuando hace login le paso el uid de firebase
+     * con el notification token, y cuando hace logout le paso el uid sin notification token
+     * de esa forma manejo la "suscripción" a las notificaciones                                 */
     private fun updateBackend(uid: String, name: String, notificationToken: String?) {
         val gson = GsonBuilder().create()
 
