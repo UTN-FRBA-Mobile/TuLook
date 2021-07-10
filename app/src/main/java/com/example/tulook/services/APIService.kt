@@ -29,7 +29,7 @@ interface APIService {
     fun getTurnosPorPeluqueria(@Path("peluqueriaId") peluqueriaId: Int): Call<List<Turno>>
 
     @GET("turnos/byPeluquerias/{peluqueriaId}/{fecha}")
-    fun getTurnosPorPeluqueriaPorDia(@Path("peluqueriaId") peluqueriaId: Int, @Path("fecha") fecha: Date): Call<List<Turno>>
+    fun getTurnosPorPeluqueriaPorDia(@Path("peluqueriaId") peluqueriaId: Int, @Path("fecha") fecha: String): Call<List<Turno>>
 
     @GET("turnos/byUsuario/{userID}")
     fun getTurnosPorUsuario(@Path("userID") usuarioID: String): Call<List<Turno>>
@@ -39,6 +39,12 @@ interface APIService {
 
     @POST("reviews")
     fun postNewReview(@Body data: JsonObject): Call<Review>
+
+    @GET("turnos/turnosLibres/{peluqueriaId}/{fecha}")
+    fun getTurnosLibres(@Path("peluqueriaId") peluqueriaId: Int, @Path("fecha") fecha: String) : Call<List<Date>>
+
+    @POST("turnos")
+    fun crearTurno(@Body turno: Turno) : Call<Turno>
 
     companion object {
 

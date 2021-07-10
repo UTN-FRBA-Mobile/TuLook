@@ -170,6 +170,18 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
                 }else{
                     filtrarPeluqueriasObtenidas(fileName, arrayPeluquerias)
                 }
+            } else {
+                if(fileName == "Favoritos"){
+                    binding.textFavoritos0.visibility = View.VISIBLE
+                }else{
+                    binding.textRecientes0.visibility = View.VISIBLE
+                }
+            }
+        } else{
+            if(fileName == "Favoritos"){
+                binding.textFavoritos0.visibility = View.VISIBLE
+            }else{
+                binding.textRecientes0.visibility = View.VISIBLE
             }
         }
     }
@@ -182,6 +194,7 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
 
         Log.e("typeOfAdapter", typeOfAdapter)
         if(fileName=="Favoritos"){
+
             pAdapterFav = PeluqueriaListAdapter(peluqueriasFiltradas?.toMutableList(), this@MainFragment, typeOfAdapter)
             val pLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             pRecyclerViewFav.adapter = pAdapterFav
