@@ -31,9 +31,6 @@
         android:name="com.example.tulook.ui.PeluqueriaDetailFragment"
         android:label="Detalle de peluquería"
         tools:layout="@layout/fragment_peluqueria_detail">
-        <action
-            android:id="@+id/action_peluqueriaDetailFragment_to_nuevoTurnoServiciosFragment"
-            app:destination="@id/nuevoTurnoServiciosFragment" />
         <argument
             android:name="peluqueriaId"
             android:defaultValue="0"
@@ -41,22 +38,9 @@
         <action
             android:id="@+id/action_peluqueriaDetailFragment_to_comentarios"
             app:destination="@id/comentariosDetailFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/nuevoTurnoServiciosFragment"
-        android:name="com.example.tulook.ui.turno.NuevoTurnoServiciosFragment"
-        android:label="Nuevo Turno - Servicios"
-        tools:layout="@layout/fragment_nuevo_turno_servicios">
         <action
-            android:id="@+id/action_nuevoTurnoServiciosFragment_to_nuevoTurno_HorariosFragment"
+            android:id="@+id/action_peluqueriaDetailFragment_to_nuevoTurno_HorariosFragment"
             app:destination="@id/nuevoTurno_HorariosFragment" />
-        <argument
-            android:name="servicios"
-            app:argType="string[]" />
-        <argument
-            android:name="peluqueriaId"
-            app:argType="integer"
-            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/nuevoTurno_HorariosFragment"
@@ -73,6 +57,12 @@
         <argument
             android:name="serviciosSeleccionados"
             app:argType="string[]" />
+        <argument
+            android:name="peluqueriaName"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_nuevoTurno_HorariosFragment_to_testFirebaseFragment"
+            app:destination="@id/testFirebaseFragment" />
     </fragment>
     <fragment
         android:id="@+id/nuevoTurno_DetailFragment"

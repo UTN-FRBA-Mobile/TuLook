@@ -7,8 +7,7 @@ import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.*
 import java.util.*
 
 interface APIService {
@@ -22,10 +21,16 @@ interface APIService {
     fun getReviewsPorPeluqueria(@Path("id") id: Int): Call<List<Review>>
 
     @GET("turnos/byPeluquerias/{peluqueriaId}/{fecha}")
-    fun getTurnosPorPeluqueriaPorDia(@Path("peluqueriaId") peluqueriaId: Int, @Path("fecha") fecha: Date): Call<List<Turno>>
+    fun getTurnosPorPeluqueriaPorDia(@Path("peluqueriaId") peluqueriaId: Int, @Path("fecha") fecha: String): Call<List<Turno>>
 
     @GET("turnos/byUsuario/{userID}")
     fun getTurnosPorUsuario(@Path("userID") usuarioID: Int): Call<List<Turno>>
+
+    @GET("turnos/turnosLibres/{peluqueriaId}/{fecha}")
+    fun getTurnosLibres(@Path("peluqueriaId") peluqueriaId: Int, @Path("fecha") fecha: String) : Call<List<Date>>
+
+    @POST("turnos")
+    fun crearTurno(@Body turno: Turno) : Call<Turno>
 
     companion object {
 

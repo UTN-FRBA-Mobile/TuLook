@@ -79,9 +79,10 @@ class PeluqueriaDetailFragment : Fragment() , ServicioListAdapter.onServiceClick
 
             if (!tracker.selection.isEmpty()){
                 val action =
-                    PeluqueriaDetailFragmentDirections.actionPeluqueriaDetailFragmentToNuevoTurnoServiciosFragment(
+                    PeluqueriaDetailFragmentDirections.actionPeluqueriaDetailFragmentToNuevoTurnoHorariosFragment(
+                        peluqueria.id,
                         tracker.selection.toList().toTypedArray(),
-                        peluqueria.id
+                        peluqueria.nombre
                     )
                 findNavController().navigate(action)
             }
