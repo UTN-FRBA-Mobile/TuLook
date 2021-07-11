@@ -36,7 +36,7 @@
                     android:id="@+id/icon"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:text="L"
+                    android:text=""
                     android:gravity="center"
                     android:fontFamily="sans-serif-black"
                     android:textSize="30dp" />
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
                     android:textStyle="bold"
-                    tools:text="Pelu1"
+                    tools:text=""
                     android:textSize="20sp"
                     android:textColor="@color/black"/>
 
@@ -89,7 +89,7 @@
                         android:layout_marginLeft="10sp"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
-                        tools:text="Gerli" />
+                        tools:text="" />
 
                 </LinearLayout>
             </LinearLayout>

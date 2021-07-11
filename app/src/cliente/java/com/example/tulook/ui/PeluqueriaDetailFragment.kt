@@ -18,6 +18,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.selection.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tulook.MainActivity
 import com.example.tulook.adapters.BannerListAdapter
 import com.example.tulook.adapters.ServicioListAdapter
 import com.example.tulook.databinding.FragmentPeluqueriaDetailBinding
@@ -96,7 +97,15 @@ class PeluqueriaDetailFragment : Fragment() , ServicioListAdapter.onServiceClick
         val btn_agregar_favoritos = binding.btnAgregarFavoritos
 
         btn_agregar_favoritos.setOnClickListener {
-            checkOrEditFavoritos(peluqueriaId.toString(), true)
+            val mainActivity = requireActivity() as MainActivity
+            val user = mainActivity.auth?.currentUser
+
+            if (user == null) {
+                mainActivity.startSignin()
+                Toast.makeText(activity, "Debe estar logeado para poder agregar favoritos", Toast.LENGTH_LONG).show()
+            } else {
+                checkOrEditFavoritos(peluqueriaId.toString(), true)
+            }
         }
 
         val btn_ver_comentarios = binding.btnVerComentarios

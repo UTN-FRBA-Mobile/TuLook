@@ -63,7 +63,7 @@
                         android:id="@+id/text_prox_turno"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="{{fecha_proximo_turno}}"
+                        android:text=""
                         android:textSize="12sp" />
                 </LinearLayout>
                 <Button
@@ -77,7 +77,7 @@
                     android:layout_weight="0.8"
                     android:layout_gravity="center_vertical"
                     android:textSize="9sp"
-                    android:text="A CONFIRMAR"/>
+                    android:text=""/>
             </LinearLayout>
 
             <LinearLayout
