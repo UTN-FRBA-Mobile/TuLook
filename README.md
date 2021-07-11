@@ -4,12 +4,12 @@ Se trata de una aplicación orientada a la reserva de turnos para peluquerías y
 ### Funcionalidades:
   - El usuario deberá crear su perfil con sus datos. Esto se hará a través de la autenticación de Gmail.
   - Permitirá elegir una peluquería cercana al domicilio del usuario, basada en la geolocalización.
-  - Se le mostrará al usuario información sobre la peluquería, comentarios de otros usuarios, su puntuación, y fotos. Esto permitirá elegir el mejor salón adaptado a sus necesidades.
+  - Se le mostrará al usuario información sobre la peluquería, comentarios de otros usuarios, puntuación y fotos. Esto permitirá elegir el mejor salón adaptado a sus necesidades.
   - Reserva de turno en la peluquería seleccionada, basada en disponibilidades tanto del usuario como del salón.
   - Se podrá poner como favoritos los salones que más le gustaron para tenerlos siempre a mano, al igual que las últimas peluquerías solicitadas.
   - Para poder hacer efectiva la reserva, se seleccionarán los servicios que se desea realizar, según un sistema de catálogo ofrecido por cada peluquería (corte, color, peinado, barba, depilación, manicura o pedicura) y se indicará además la duración estimada del turno.
   - Una vez que el turno fuera solicitado con éxito, desde la peluquería se deberá confirmar si el turno se hará efectivo o si no será tomado, llegándole una notificación al usuario con el resultado de esta validación, para saber si debe presentarse o no a la peluquería.
-  -La aplicación ofrecerá a sus usuarios la opción de ver el listado con las peluquerías mejor puntuadas o más cercanas a su dirección o algún punto específico que se elija. También ofrecerá la posibilidad de ver sus próximos turnos, así como también su estado (pendiente o aceptado).
+  - La aplicación ofrecerá a sus usuarios la opción de ver el listado con las peluquerías mejor puntuadas o más cercanas a su dirección o algún punto específico que se elija. También ofrecerá la posibilidad de ver sus próximos turnos, así como también su estado (pendiente o aceptado).
 
 ### Capturas:
 <img src="/imagenes/Menu Sin Loguear.jpeg" alt="Menu Sin Loguear" width="200"/>
