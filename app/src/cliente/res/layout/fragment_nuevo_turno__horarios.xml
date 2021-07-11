@@ -15,15 +15,46 @@
         android:orientation="vertical"
         tools:context=".ui.turno.NuevoTurno_HorariosFragment">
 
-        <TextView
-            android:id="@+id/txt_peluqueria"
-            android:layout_width="match_parent"
-            android:text="{{nombre comercio}}"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="5sp"
-            android:background="@color/white"
+            android:layout_marginBottom="5sp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="25sp" />
+            android:orientation="horizontal"
+            tools:context=".ui.MainFragment">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10sp"
+                android:background="@drawable/bck_rounded_corners_30"
+                android:backgroundTint="@color/yellow"
+                tools:context=".ui.MainFragment">
+                <TextView
+                    android:id="@+id/icon"
+                    android:layout_width="50sp"
+                    android:layout_height="50sp"
+                    android:text="L"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="30dp" />
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/txt_peluqueria"
+                android:layout_width="match_parent"
+                android:text="{{nombre comercio}}"
+                android:background="@color/white"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:textSize="25sp" />
+        </LinearLayout>
 
         <View style="@style/Divider"/>
 

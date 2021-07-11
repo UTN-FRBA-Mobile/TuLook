@@ -100,9 +100,8 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
         if (loc != null) {
             locationText.text = loc.addr
         } else {
-            locationText.text = "No tenés ninguna dirección configurada. Podés guardar una ubicación y ver las peluquerías que tenés cerca!"
-//            val locationLayout = binding.layDireccion
-//            locationLayout.root.visibility = GONE
+            locationText.text = "No tenés ninguna dirección configurada"
+            binding.layDireccion.btnCambiarDireccion.text = "CONFIGURAR"
         }
     }
 

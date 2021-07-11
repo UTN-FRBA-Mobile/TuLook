@@ -109,6 +109,7 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
         val txtPeluqueriaName = binding.txtPeluqueria
         txtPeluqueriaName.text = peluqueriaName
         binding.direccion.text = peluqueriaDireccion
+        binding.icon.text = peluqueriaName.get(0).toString()
 
         val txtServicios = binding.txtServicios
         val serviciosIterator = servicios.iterator()

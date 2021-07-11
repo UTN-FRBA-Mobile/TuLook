@@ -126,7 +126,7 @@
                         android:layout_marginLeft="42sp"
                         android:drawablePadding="10sp"
                         android:paddingBottom="10dp"
-                        android:text="Para guardar peluquerías favoritas, debés estar logeado. Podés logearte desde el menú lateral."
+                        android:text="Inicia sesion para ver tus peluquerías favoritas"
                         android:textSize="12sp"
                         android:visibility="gone" />
 
@@ -174,7 +174,7 @@
                         android:layout_marginLeft="42sp"
                         android:drawablePadding="10sp"
                         android:paddingBottom="10dp"
-                        android:text="Para ver tus turnos recientes, debés estar logeado. Podés logearte desde el menú lateral."
+                        android:text="Inicia sesion para ver tus turnos más recientes"
                         android:textSize="12sp"
                         android:visibility="gone" />
 
