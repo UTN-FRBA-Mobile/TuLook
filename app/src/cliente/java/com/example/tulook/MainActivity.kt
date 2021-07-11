@@ -74,7 +74,9 @@ class MainActivity : AppCompatActivity() {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        auth?.addAuthStateListener { updateAuthStatus() }
+        auth?.addAuthStateListener {
+            updateAuthStatus()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -128,8 +130,6 @@ class MainActivity : AppCompatActivity() {
         val header = navigationView.getHeaderView(0)
         val headerText = header.findViewById<TextView>(R.id.nav_header_textView)
         val headerImage = header.findViewById<ImageView>(R.id.nav_header_imageView)
-
-        Log.d("auth", "updating header, user is $user, headerImage is $headerImage")
 
         if (user == null) {
             headerText?.text = "TuLook"

@@ -161,6 +161,7 @@ class MyLocationFragment : Fragment() {
             val marker = MarkerOptions()
             val position = LatLng(location.latitude, location.longitude)
             marker.position(position)
+            map.clear()
             map.addMarker(marker)
 
 
