@@ -12,18 +12,18 @@ Se trata de una aplicación orientada a la reserva de turnos para peluquerías y
   -La aplicación ofrecerá a sus usuarios la opción de ver el listado con las peluquerías mejor puntuadas o más cercanas a su dirección o algún punto específico que se elija. También ofrecerá la posibilidad de ver sus próximos turnos, así como también su estado (pendiente o aceptado).
 
 ### Capturas:
-<img src="/imagenes/Menu Sin Loguear.jpeg" alt="Menu Sin Loguear" width="48"/>
-<img src="/imagenes/Menu Logueado.jpeg" alt="Menu Logueado" width="48"/>
-<img src="/imagenes/Inicio Sin Loguear.jpeg" alt="Inicio Sin Loguear" width="48"/>
-<img src="/imagenes/Inicio Logueado.jpeg" alt="Inicio Logueado" width="48"/>
-<img src="/imagenes/Mi Ubicacion.jpeg" alt="Mi Ubicacion" width="48"/>
-<img src="/imagenes/Listado Peluquerias.jpeg" alt="Listado Peluquerias" width="48"/>
-<img src="/imagenes/Mapa Peluquerias.jpeg" alt="Mapa Peluquerias" width="48"/>
-<img src="/imagenes/Detalle Peluqueria.jpeg" alt="Detalle Peluqueria" width="48"/>
-<img src="/imagenes/Comentarios 2.jpeg" alt="Comentarios 2" width="48"/>
-<img src="/imagenes/Seleccion Turno.jpeg" alt="Seleccion Turno" width="48"/>
-<img src="/imagenes/Menu Peluqueria.jpeg" alt="Menu Peluqueria" width="48"/>
-<img src="/imagenes/Inicio Peluqueria.jpeg" alt="Inicio Peluqueria" width="48"/>
-<img src="/imagenes/Notificacion Confirmada.jpeg" alt="Notificacion Confirmada" width="48"/>
-<img src="/imagenes/Notificacion Cancelada.jpeg" alt="Notificacion Cancelada" width="48"/>
+<img src="/imagenes/Menu Sin Loguear.jpeg" alt="Menu Sin Loguear" width="100"/>
+<img src="/imagenes/Menu Logueado.jpeg" alt="Menu Logueado" width="100"/>
+<img src="/imagenes/Inicio Sin Loguear.jpeg" alt="Inicio Sin Loguear" width="100"/>
+<img src="/imagenes/Inicio Logueado.jpeg" alt="Inicio Logueado" width="100"/>
+<img src="/imagenes/Mi Ubicacion.jpeg" alt="Mi Ubicacion" width="100"/>
+<img src="/imagenes/Listado Peluquerias.jpeg" alt="Listado Peluquerias" width="100"/>
+<img src="/imagenes/Mapa Peluquerias.jpeg" alt="Mapa Peluquerias" width="100"/>
+<img src="/imagenes/Detalle Peluqueria.jpeg" alt="Detalle Peluqueria" width="100"/>
+<img src="/imagenes/Comentarios 2.jpeg" alt="Comentarios 2" width="100"/>
+<img src="/imagenes/Seleccion Turno.jpeg" alt="Seleccion Turno" width="100"/>
+<img src="/imagenes/Menu Peluqueria.jpeg" alt="Menu Peluqueria" width="100"/>
+<img src="/imagenes/Inicio Peluqueria.jpeg" alt="Inicio Peluqueria" width="100"/>
+<img src="/imagenes/Notificacion Confirmada.jpeg" alt="Notificacion Confirmada" width="100"/>
+<img src="/imagenes/Notificacion Cancelada.jpeg" alt="Notificacion Cancelada" width="100"/>
 
