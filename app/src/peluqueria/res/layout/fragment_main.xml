@@ -96,14 +96,12 @@
                 android:id="@+id/btn_confirmar_turnos"
                 android:layout_width="130sp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30sp"
                 android:text="Confirmar"/>
 
             <Button
                 android:id="@+id/btn_rechazar_turnos"
                 android:layout_width="130sp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30sp"
                 android:text="Rechazar"/>
         </LinearLayout>
 

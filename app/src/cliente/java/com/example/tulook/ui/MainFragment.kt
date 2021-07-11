@@ -1,6 +1,7 @@
 package com.example.tulook.ui
 
 import android.content.ContentValues
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -80,8 +81,10 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
         pRecyclerViewRec = binding.rvRecientes
 
         (requireActivity() as MainActivity).auth?.addAuthStateListener {
-            getProximoTurno()
-            updateLayoutVisibilityOnAuthChange(it.currentUser)
+            if (_binding != null) {
+                getProximoTurno()
+                updateLayoutVisibilityOnAuthChange(it.currentUser)
+            }
         }
 
     }
@@ -92,13 +95,14 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
         super.onResume()
 
         val loc = MyPreferenceManager.getLocation(requireActivity().applicationContext)
+        val locationText = binding.layDireccion.textDireccion
 
         if (loc != null) {
-            val locationText = binding.layDireccion.textDireccion
             locationText.text = loc.addr
         } else {
-            val locationLayout = binding.layDireccion
-            locationLayout.root.visibility = GONE
+            locationText.text = "No tenés ninguna dirección configurada. Podés guardar una ubicación y ver las peluquerías que tenés cerca!"
+//            val locationLayout = binding.layDireccion
+//            locationLayout.root.visibility = GONE
         }
     }
 
