@@ -9,10 +9,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 import java.util.*
 
 interface APIService {
@@ -26,7 +23,7 @@ interface APIService {
     fun getReviewsPorPeluqueria(@Path("id") id: Int): Call<List<Review>>
 
     @GET("turnos/byPeluqueria/{peluqueriaId}")
-    fun getTurnosPorPeluqueria(@Path("peluqueriaId") peluqueriaId: Int): Call<List<Turno>>
+    fun getTurnosPorPeluqueria(@Path("peluqueriaId") peluqueriaId: Int): Call<MutableList<Turno>>
 
     @GET("turnos/byPeluquerias/{peluqueriaId}/{fecha}")
     fun getTurnosPorPeluqueriaPorDia(@Path("peluqueriaId") peluqueriaId: Int, @Path("fecha") fecha: String): Call<List<Turno>>
@@ -46,10 +43,13 @@ interface APIService {
     @POST("turnos")
     fun crearTurno(@Body turno: Turno) : Call<Turno>
 
+    @PUT("turnos/{id}")
+    fun modificarTurno(@Path("id") id: Int, @Body data: JsonObject): Call<ResponseBody>
+
     companion object {
 
-//        var BASE_URL = "https://tu-look-api.herokuapp.com/api/"
-        var BASE_URL = "http://192.168.0.91:3000/api/"
+        var BASE_URL = "https://tu-look-api.herokuapp.com/api/"
+//        var BASE_URL = "http://192.168.0.91:3000/api/"
 
         fun create(): APIService {
             val gson = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create()
