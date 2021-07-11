@@ -16,19 +16,6 @@
         android:title="Mi Dirección" />
 
     <item
-        android:id="@+id/nuevoTurnoServiciosFragment"
-        android:title="Mi Cuenta" />
-
-    <item
-        android:id="@+id/nuevoTurno_HorariosFragment"
-        android:title="Configuracion" />
-
-    <item
         android:id="@+id/loginAction"
         android:title="Login" />
-
-    <item
-        android:id="@+id/testFirebaseFragment"
-        android:title="Test Firebase" />
-
 </menu>
