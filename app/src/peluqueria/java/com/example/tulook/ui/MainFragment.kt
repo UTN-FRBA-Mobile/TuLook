@@ -15,6 +15,10 @@ import com.example.tulook.adapters.TurnoListAdapter
 import com.example.tulook.databinding.FragmentMainBinding
 import com.example.tulook.model.Turno
 import com.example.tulook.services.APIService
+import com.google.gson.GsonBuilder
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,7 +27,7 @@ class MainFragment : Fragment(), TurnoListAdapter.onTurnoClickListener {
     private lateinit var turnosRecyclerView: RecyclerView
     private lateinit var turnosAdapter: TurnoListAdapter
     private lateinit var tracker: SelectionTracker<String>
-    private lateinit var turnos: List<Turno>
+    private lateinit var turnos: MutableList<Turno>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +60,7 @@ class MainFragment : Fragment(), TurnoListAdapter.onTurnoClickListener {
                 Toast.makeText(context, "Debe ingresar un ID de peluquería", Toast.LENGTH_SHORT).show()
             } else {
                 binding.idPeluqueria.text = binding.textIdPeluqueria.text
+                Toast.makeText(context, "Actualizando lista de turnos...", Toast.LENGTH_SHORT).show()
                 pedirTurnos()
             }
         }
@@ -65,6 +70,8 @@ class MainFragment : Fragment(), TurnoListAdapter.onTurnoClickListener {
                 Toast.makeText(context, "Debe ingresar un ID de peluquería", Toast.LENGTH_SHORT).show()
             } else {
                 //confirmacion de los turnos seleccionados (mover estado 1 a 2)
+                confirmarRechazarTurnos(2)
+                pedirTurnos()
             }
         }
 
@@ -73,6 +80,8 @@ class MainFragment : Fragment(), TurnoListAdapter.onTurnoClickListener {
                 Toast.makeText(context, "Debe ingresar un ID de peluquería", Toast.LENGTH_SHORT).show()
             } else {
                 //rechazo de los turnos seleccionados (eliminar los turnos de la lista)
+                confirmarRechazarTurnos(3)
+                pedirTurnos()
             }
         }
     }
@@ -84,8 +93,8 @@ class MainFragment : Fragment(), TurnoListAdapter.onTurnoClickListener {
 
     fun pedirTurnos(){
         Log.e("PEDIRTURNOS", binding.idPeluqueria.text.toString())
-        APIService.create().getTurnosPorPeluqueria(binding.idPeluqueria.text.toString().toInt()).enqueue(object : Callback<List<Turno>> {
-            override fun onResponse(call: Call<List<Turno>>, response: Response<List<Turno>>) {
+        APIService.create().getTurnosPorPeluqueria(binding.idPeluqueria.text.toString().toInt()).enqueue(object : Callback<MutableList<Turno>> {
+            override fun onResponse(call: Call<MutableList<Turno>>, response: Response<MutableList<Turno>>) {
                 if (response.isSuccessful) {
                     turnos = response.body()!!
                     llenarTurnos()
@@ -94,7 +103,7 @@ class MainFragment : Fragment(), TurnoListAdapter.onTurnoClickListener {
                 }
             }
 
-            override fun onFailure(call: Call<List<Turno>>, t: Throwable) {
+            override fun onFailure(call: Call<MutableList<Turno>>, t: Throwable) {
                 Log.e("PedirTurnos", "onFailure: Ha fallado la llamada")
             }
         })
@@ -102,7 +111,7 @@ class MainFragment : Fragment(), TurnoListAdapter.onTurnoClickListener {
 
     fun llenarTurnos(){
         //llena el recycler con los servicios de la peluqueria
-        val turnosID = turnos.map { it.id.toString() }
+        val turnosID = turnos.map { it.id.toString() } as MutableList<String>
         turnosAdapter = TurnoListAdapter(
             turnosID,
             turnos,
@@ -136,6 +145,36 @@ class MainFragment : Fragment(), TurnoListAdapter.onTurnoClickListener {
 
     }
 
+    private fun confirmarRechazarTurnos(estado: Int){
+        if (!tracker.selection.isEmpty()){
+            val turnosConfirmados = turnos.filter { tracker.selection.toList().contains(it.id.toString()) }
+            val gson = GsonBuilder().create()
+            var estadosRechazadosConExito: MutableList<Turno> = turnosConfirmados as MutableList<Turno>
+            var body = gson.toJsonTree(Estado(estado)).asJsonObject
+            for(turno in turnosConfirmados){
+                APIService.create().modificarTurno(turno.id, body).enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        if (response.isSuccessful) {
+                            Log.e("Turno Modificado: ", turno.id.toString() + " response: " + response.body())
+                        } else {
+                            //if(estado == 3){ estadosRechazadosConExito.remove(turno) }
+                            Toast.makeText(context, "No se obtuvo respuesta de la llamada", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Log.e("ConfirmarTurno", "onFailure: Ha fallado la llamada")
+                        //if(estado == 3){ estadosRechazadosConExito.remove(turno) }
+                    }
+                })
+            }
+
+            //if(estado == 3 && estadosRechazadosConExito.isNotEmpty()){ turnosAdapter.deleteTurnos(estadosRechazadosConExito) }
+        }
+        else{
+            Toast.makeText(activity, "Debe seleccionar al menos un turno", Toast.LENGTH_LONG).show()
+        }
+    }
+
     inner class TurnoKeyProvider(private val adapter: TurnoListAdapter) :
         ItemKeyProvider<String>(
             SCOPE_CACHED
@@ -157,4 +196,10 @@ class MainFragment : Fragment(), TurnoListAdapter.onTurnoClickListener {
             return null
         }
     }
+
+    private class Estado(
+        @SerializedName("estado")
+        @Expose
+        var estado: Int
+    )
 }

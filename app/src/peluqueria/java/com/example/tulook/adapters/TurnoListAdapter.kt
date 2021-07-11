@@ -13,8 +13,8 @@ import com.example.tulook.databinding.TurnoRowItemBinding
 import com.example.tulook.model.Turno
 
 class TurnoListAdapter(
-    val turnosList: List<String>?,
-    val turnos: List<Turno>?,
+    var turnosList: MutableList<String>?,
+    var turnos: MutableList<Turno>?,
     val itemClickListener: onTurnoClickListener
 ) :
     RecyclerView.Adapter<BaseViewHolder<*>>() {
@@ -72,16 +72,9 @@ class TurnoListAdapter(
     fun getItem(index: Int): String {
         return turnosList!![index]
     }
-}
-/*
-class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
-    ItemDetailsLookup<String>() {
-    override fun getItemDetails(event: MotionEvent): ItemDetails<String>? {
-        val view = recyclerView.findChildViewUnder(event.x, event.y)
-        if (view != null) {
-            return (recyclerView.getChildViewHolder(view) as TurnoListAdapter.TurnoViewHolder).getItemDetails()
-        }
-        return null
+
+    fun deleteTurnos(turnosDeleted: List<Turno>){
+        turnos?.removeAll(turnosDeleted)
+        turnosList = turnos?.map { it.id.toString() } as MutableList<String>?
     }
 }
-*/
