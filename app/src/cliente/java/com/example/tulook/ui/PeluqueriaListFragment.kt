@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -99,6 +100,11 @@ class PeluqueriaListFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaCli
             }
             binding.btnSortRating.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             binding.btnSortDistance.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        }
+
+        val btnUbicacionPeluquerias = binding.btnUbicacionPeluquerias
+        btnUbicacionPeluquerias.setOnClickListener {
+            findNavController().navigate(R.id.peluqueriasNearMeFragment)
         }
     }
 

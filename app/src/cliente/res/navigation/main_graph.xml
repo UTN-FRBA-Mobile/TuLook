@@ -89,7 +89,7 @@
     <fragment
         android:id="@+id/peluqueriasNearMeFragment"
         android:name="com.example.tulook.ui.PeluqueriasNearMeFragment"
-        android:label="PeluqueriasNearMeFragment" />
+        android:label="Mapa de Peluquerías" />
     <!--    <fragment-->
 <!--        android:id="@+id/ServicioDetailFragment"-->
 <!--        android:name="com.example.tulook.ui.ServicioDetailFragment"-->
