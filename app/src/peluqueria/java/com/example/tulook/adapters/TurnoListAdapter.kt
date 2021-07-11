@@ -58,7 +58,7 @@ class TurnoListAdapter(
         override fun bind(item: String, position: Int, isActivated: Boolean) {
             val turno = turnos!!.find { it.id.toString() == item }
             binding.idUsuario.text = turno!!.usuarioId
-            binding.fecha.text = SimpleDateFormat("dd-MM-yyyy, hh:mm").format(turno!!.fecha)
+            binding.fecha.text = SimpleDateFormat("dd-MM-yyyy, HH:mm").format(turno!!.fecha)
 
             val serviciosIterator = turno!!.servicios.iterator()
             var textoServicios: String = ""

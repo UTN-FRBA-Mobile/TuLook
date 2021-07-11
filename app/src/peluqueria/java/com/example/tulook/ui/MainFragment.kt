@@ -118,7 +118,7 @@ class MainFragment : Fragment(), TurnoListAdapter.onTurnoClickListener {
         APIService.create().getTurnosPorPeluqueria(binding.idPeluqueria.text.toString().toInt()).enqueue(object : Callback<MutableList<Turno>> {
             override fun onResponse(call: Call<MutableList<Turno>>, response: Response<MutableList<Turno>>) {
                 if (response.isSuccessful) {
-                    turnos = response.body()!!
+                    turnos = response.body()!!.filter { it.estado == 1 } as MutableList<Turno>
                     llenarTurnos()
                 } else {
                     Toast.makeText(activity, "Ha ocurrido un error obteniendo los turnos de la peluqueria", Toast.LENGTH_LONG).show()

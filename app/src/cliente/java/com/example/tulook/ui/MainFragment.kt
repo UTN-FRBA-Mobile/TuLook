@@ -103,7 +103,7 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
                                 textoTurnos += "\n\n"
                             }
                             primerLinea = false
-                            textoTurnos += "  Fecha: " + SimpleDateFormat("dd-MM-yyyy, hh:mm").format(turno.fecha) + "\n"
+                            textoTurnos += "  Fecha: " + SimpleDateFormat("dd-MM-yyyy, HH:mm").format(turno.fecha) + "\n"
                             if(turno.estado == 1){
                                 textoTurnos += "  Estado: A Confirmar"
                             }else{
@@ -179,7 +179,7 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
 
                     if (proximosTurnos.isNotEmpty()) {
                         val fechaProximoTurno =
-                            SimpleDateFormat("dd-MM-yyyy, hh:mm").format(proximosTurnos[0].fecha)
+                            SimpleDateFormat("dd-MM-yyyy, HH:mm").format(proximosTurnos[0].fecha)
 
                         binding.textProxTurno.text = fechaProximoTurno.toString()
                         if(proximosTurnos[0].estado == 1){
