@@ -81,6 +81,20 @@
                     android:text=""/>
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/proximos_turnos"
+                android:layout_width="match_parent"
+                android:layout_marginRight="20sp"
+                android:layout_marginLeft="20sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5sp"
+                android:background="@drawable/bck_rounded_corners_10"
+                android:text=""
+                android:textSize="15sp"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
