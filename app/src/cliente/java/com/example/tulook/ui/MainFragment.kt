@@ -143,8 +143,16 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
                             SimpleDateFormat("dd-MM-yyyy, hh:mm").format(proximosTurnos[0].fecha)
 
                         binding.textProxTurno.text = fechaProximoTurno.toString()
+                        if(proximosTurnos[0].estado == 1){
+                            binding.btnConfirmarTurno.text = "A CONFIRMAR"
+                        }else{
+                            binding.btnConfirmarTurno.text = "CONFIRMADO"
+                        }
+
                     } else {
                         binding.textProxTurno.text = "Sin Prox. Turno"
+                        binding.btnConfirmarTurno.text = "" //TODO:Revisar si lo dejamos vacio o ponemos otra leyenda
+
                     }
                 } else {
                     showErrorTurnos()
