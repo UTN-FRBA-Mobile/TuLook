@@ -58,25 +58,27 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
         val btn_publicar_review = binding.btnPublicarReview
 
         btn_publicar_review.setOnClickListener {
-            var idUsuario: String? = "2" //TODO:AHORA ESTA HARCODEADO, OBTENERUSUARIOID DESDE ACTIVITY
-            if(!idUsuario.isNullOrBlank()){
+            val mainActivity = requireActivity() as MainActivity
+            val user = mainActivity.auth?.currentUser
+
+            if (user == null) {
+                mainActivity.startSignin()
+                Toast.makeText(activity, "Debe estar logeado para publicar un comentario.", Toast.LENGTH_LONG).show()
+            } else {
+                Log.e("UserId: ", user.uid)
                 if(!binding.nuevoComentario.text.isNullOrEmpty() && binding.nuevaPuntuacion.rating.toFloat() != 0f) {
-                    publicarComentario()
+                    publicarComentario(user.uid)
                     binding.nuevoComentario.setText("")
                     binding.nuevaPuntuacion.rating = 0f
                 }else{
                     Toast.makeText(activity, "Debe escribir un comentario y puntuar con al menos media estrella.", Toast.LENGTH_SHORT).show()
                 }
-            }else{
-                Toast.makeText(activity, "Debe iniciar sesión para publicar un comentario", Toast.LENGTH_SHORT).show()
             }
-
         }
 
         binding.nuevoComentario.onFocusChangeListener  = View.OnFocusChangeListener { view, hasFocus ->
             if (!hasFocus) {
                 hideKeyboard()
-
             }
         }
 
@@ -159,51 +161,36 @@ class ComentariosDetailFragment : Fragment() , ReviewListAdapter.onReviewClickLi
         Toast.makeText(activity, "Ha ocurrido un error al obtener los comentarios", Toast.LENGTH_LONG).show()
     }
 
-    private fun publicarComentario(){
-        val mainActivity = requireActivity() as MainActivity
-        val user = mainActivity.auth?.currentUser
+    private fun publicarComentario(id: String){
+        val gson = GsonBuilder().create()
+        val comentario = Review(
+            binding.nuevoComentario.text.toString(),
+            binding.nuevaPuntuacion.rating.toFloat(),
+            args.peluqueriaId,
+            id
+        )
 
-        if (user == null) {
-            //TODO: validar esto
-            mainActivity.startSignin()
-            Toast.makeText(activity, "Debe estar logeado para poder pedir un turno.", Toast.LENGTH_LONG).show()
-        } else {
-            Log.e("UserId: ", user.uid)
-
-            val gson = GsonBuilder().create()
-            val comentario = Review(
-                binding.nuevoComentario.text.toString(),
-                binding.nuevaPuntuacion.rating.toFloat(),
-                args.peluqueriaId,
-                user.uid
-            )
-
-            var body = gson.toJsonTree(comentario).asJsonObject
-            body.remove("id")
-            APIService.create().postNewReview(body).enqueue(object : Callback<Review> {
-                override fun onResponse(call: Call<Review>, response: Response<Review>) {
-                    if (response.isSuccessful) {
-                        Log.e(ContentValues.TAG, response.body().toString())
-                        Toast.makeText(activity, "Comentario subido con éxito", Toast.LENGTH_LONG)
-                            .show()
-                        rAdapter.addReview(response.body()!!)
-                        rRecyclerView.adapter = rAdapter
-                        val reviewLayoutManager = LinearLayoutManager(activity)
-                        rRecyclerView.layoutManager = reviewLayoutManager
-                        /*response.body()!!.comentario == comentario.comentario
-                        response.body()!!.calificacion == comentario.calificacion
-                        response.body()!!.peluqueriaId == comentario.peluqueriaId
-                        response.body()!!.usuarioId == comentario.usuarioId*/
-                    } else {
-                        showError()
-                    }
+        var body = gson.toJsonTree(comentario).asJsonObject
+        body.remove("id")
+        APIService.create().postNewReview(body).enqueue(object : Callback<Review> {
+            override fun onResponse(call: Call<Review>, response: Response<Review>) {
+                if (response.isSuccessful) {
+                    Log.e(ContentValues.TAG, response.body().toString())
+                    Toast.makeText(activity, "Comentario subido con éxito", Toast.LENGTH_LONG)
+                        .show()
+                    rAdapter.addReview(response.body()!!)
+                    rRecyclerView.adapter = rAdapter
+                    val reviewLayoutManager = LinearLayoutManager(activity)
+                    rRecyclerView.layoutManager = reviewLayoutManager
+                } else {
+                    showError()
                 }
+            }
 
-                override fun onFailure(call: Call<Review>, t: Throwable) {
-                    Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
-                }
-            })
-        }
+            override fun onFailure(call: Call<Review>, t: Throwable) {
+                Log.e(ContentValues.TAG, "onFailure: Ha fallado la llamada")
+            }
+        })
     }
 
 }
