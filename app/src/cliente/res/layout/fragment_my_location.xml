@@ -33,21 +33,27 @@
             android:id="@+id/btn_retry_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="2dp"
+            android:textSize="12sp"
+            android:layout_weight="1"
             android:text="@string/btn_retry_location" />
 
         <Button
             android:id="@+id/btn_save_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginEnd="2dp"
+            android:textSize="12sp"
+            android:layout_weight="1"
             android:text="@string/btn_save_location" />
 
         <Button
             android:id="@+id/btn_delete_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginEnd="2dp"
+            android:textSize="12sp"
+            android:layout_weight="1"
             android:text="@string/btn_delete_location" />
     </LinearLayout>
 

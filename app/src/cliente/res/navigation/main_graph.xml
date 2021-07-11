@@ -9,7 +9,7 @@
         android:id="@+id/mainFragment"
         android:name="com.example.tulook.ui.MainFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_test_firebase">
+        tools:layout="@layout/fragment_peluquerias_near_me">
         <action
             android:id="@+id/action_mainFragment_to_peluqueriaListFragment"
             app:destination="@id/peluqueriaListFragment" />
@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_peluqueriaListFragment_to_myLocationFragment"
             app:destination="@id/myLocationFragment" />
+        <action
+            android:id="@+id/action_peluqueriaListFragment_to_peluqueriasNearMeFragment"
+            app:destination="@id/peluqueriasNearMeFragment" />
     </fragment>
     <fragment
         android:id="@+id/peluqueriaDetailFragment"
@@ -66,9 +69,6 @@
         <argument
             android:name="peluqueriaName"
             app:argType="string" />
-        <action
-            android:id="@+id/action_nuevoTurno_HorariosFragment_to_testFirebaseFragment"
-            app:destination="@id/testFirebaseFragment" />
     </fragment>
     <fragment
         android:id="@+id/nuevoTurno_DetailFragment"
@@ -88,13 +88,13 @@
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
-<!--    <fragment-->
+    <fragment
+        android:id="@+id/peluqueriasNearMeFragment"
+        android:name="com.example.tulook.ui.PeluqueriasNearMeFragment"
+        android:label="PeluqueriasNearMeFragment" />
+    <!--    <fragment-->
 <!--        android:id="@+id/ServicioDetailFragment"-->
 <!--        android:name="com.example.tulook.ui.ServicioDetailFragment"-->
 <!--        android:label="Detalle del servicio"-->
 <!--        tools:layout="@layout/fragment_servicio_detail" />-->
-    <fragment
-        android:id="@+id/testFirebaseFragment"
-        android:name="com.example.tulook.ui.TestFirebaseFragment"
-        android:label="TestFirebaseFragment" />
 </navigation>

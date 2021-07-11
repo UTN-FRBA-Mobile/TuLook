@@ -33,7 +33,7 @@ data class Peluqueria(
 
     @SerializedName("horarioCierre")
     @Expose
-    var horarioCierre: Date  = Date(),
+    var horarioCierre: Date = Date(),
 
     @SerializedName("rating")
     @Expose
@@ -41,5 +41,13 @@ data class Peluqueria(
 
     @SerializedName("imagenes")
     @Expose
-    var imagenes: List<String> = emptyList()
+    var imagenes: List<String> = emptyList(),
+
+    @SerializedName("latitud")
+    @Expose
+    var latitud: Double = 0.0,
+
+    @SerializedName("longitud")
+    @Expose
+    var longitud: Double = 0.0
 )
