@@ -93,7 +93,7 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
                 mainActivity.startSignin()
                 Toast.makeText(activity, "Debe estar logeado para poder pedir un turno.", Toast.LENGTH_LONG).show()
             } else {
-                turno = Turno(0, peluqueriaId, user.uid, 1, horarioElegido, duracionTurno)
+                turno = Turno(0, peluqueriaId, user.uid, 1, horarioElegido, duracionTurno, servicios)
                 guardarTurno(turno)
                 agregarPeluqueriaReciente(peluqueriaId.toString())
             }
