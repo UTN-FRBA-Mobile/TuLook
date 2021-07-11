@@ -82,7 +82,9 @@ class PeluqueriaDetailFragment : Fragment() , ServicioListAdapter.onServiceClick
                     PeluqueriaDetailFragmentDirections.actionPeluqueriaDetailFragmentToNuevoTurnoHorariosFragment(
                         peluqueria.id,
                         tracker.selection.toList().toTypedArray(),
-                        peluqueria.nombre
+                        peluqueria.nombre,
+                        peluqueria.direccion!!.calle,
+                        peluqueria.direccion!!.numero
                     )
                 findNavController().navigate(action)
             }
