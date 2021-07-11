@@ -34,6 +34,7 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
     var peluqueriaId = 0
     var peluqueriaName = ""
     var duracionTurno = 0
+    var peluqueriaDireccion = ""
 
     private lateinit var turnosLibres: List<Date>
     private lateinit var txtDate: TextView
@@ -78,6 +79,7 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
         servicios = args.serviciosSeleccionados
         peluqueriaId = args.peluqueriaId
         peluqueriaName = args.peluqueriaName
+        peluqueriaDireccion = args.peluqueriaCalle + " " + args.peluqueriaNumero.toString()
         duracionTurno = 30 * servicios.size
 
         var datepicker = DatePickerDialog(requireActivity(), R.style.Theme_TuLook_Dialog, this, year, month, day)
@@ -106,6 +108,7 @@ class NuevoTurno_HorariosFragment : Fragment(), DatePickerDialog.OnDateSetListen
 
         val txtPeluqueriaName = binding.txtPeluqueria
         txtPeluqueriaName.text = peluqueriaName
+        binding.direccion.text = peluqueriaDireccion
 
         val txtServicios = binding.txtServicios
         val serviciosIterator = servicios.iterator()
