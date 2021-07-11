@@ -35,10 +35,22 @@ class PeluqueriaListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
 
         when (typeOfAdapter) {
-            "peluqueriaList" -> return PeluqueriasViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_row_item, parent, false))
-            "favoritoList" -> return FavoritosViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_favorito_row_item, parent, false))
-            "recienteList" -> return RecientesViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_favorito_row_item, parent, false))
-            else -> return PeluqueriasViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.peluqueria_row_item, parent, false))
+            "peluqueriaList" -> return PeluqueriasViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.peluqueria_row_item, parent, false)
+            )
+            "favoritoList" -> return FavoritosViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.peluqueria_favorito_row_item, parent, false)
+            )
+            "recienteList" -> return RecientesViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.peluqueria_favorito_row_item, parent, false)
+            )
+            else -> return PeluqueriasViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.peluqueria_row_item, parent, false)
+            )
         }
     }
 
@@ -51,7 +63,7 @@ class PeluqueriaListAdapter(
     }
 
     override fun getItemCount(): Int {
-        if(peluqueriasList == null ){
+        if (peluqueriasList == null) {
             return 0
         }
         return peluqueriasList!!.size
@@ -63,13 +75,13 @@ class PeluqueriaListAdapter(
         notifyDataSetChanged()
     }
 
-    fun sortByRating(): String{
-        if(sortStatus == SortStatus.RATING){
+    fun sortByRating(): String {
+        if (sortStatus == SortStatus.RATING) {
             val sorted = peluqueriasList?.sortedWith(compareBy { it.rating })
             if (sorted != null) replacePeluquerias(sorted)
             sortStatus = SortStatus.NOTHING
             return "ASC"
-        }else{
+        } else {
             val sorted = peluqueriasList?.sortedWith(compareByDescending { it.rating })
             if (sorted != null) replacePeluquerias(sorted)
             sortStatus = SortStatus.RATING
@@ -84,18 +96,18 @@ class PeluqueriaListAdapter(
 
         fun distanceToUser(peluqueria: Peluqueria): Comparable<*> {
             val location = Location("")
-            // todo: temporal, hasta que el backend tenga lat/lng de las peluquerias
-            location.latitude = (Math.random() * 180) - 90
-            location.longitude = (Math.random() * 360) - 180
+            location.latitude = peluqueria.lat
+            location.longitude = peluqueria.lng
 
             return location.distanceTo(user)
         }
-        if(sortStatus == SortStatus.DISTANCE){
+
+        if (sortStatus == SortStatus.DISTANCE) {
             val sorted = peluqueriasList?.sortedWith(compareBy { distanceToUser(it) })
             if (sorted != null) replacePeluquerias(sorted)
             sortStatus = SortStatus.NOTHING
             return "ASC"
-        }else{
+        } else {
             val sorted = peluqueriasList?.sortedWith(compareByDescending { distanceToUser(it) })
             if (sorted != null) replacePeluquerias(sorted)
             sortStatus = SortStatus.DISTANCE
@@ -103,13 +115,13 @@ class PeluqueriaListAdapter(
         }
     }
 
-    fun sortByName(): String{
-        if(sortStatus == SortStatus.NAME){
+    fun sortByName(): String {
+        if (sortStatus == SortStatus.NAME) {
             val sorted = peluqueriasList?.sortedWith(compareBy { it.nombre })
             if (sorted != null) replacePeluquerias(sorted)
             sortStatus = SortStatus.NOTHING
             return "ASC"
-        }else{
+        } else {
             val sorted = peluqueriasList?.sortedWith(compareByDescending { it.nombre })
             if (sorted != null) replacePeluquerias(sorted)
             sortStatus = SortStatus.NAME
@@ -127,7 +139,8 @@ class PeluqueriaListAdapter(
             binding.peluqueriaAddressTxt.setOnClickListener { itemClickListener.onFavClick(item.id) }
 
             binding.peluqueriaNameTxt.text = item.nombre
-            binding.peluqueriaAddressTxt.text = "${item.direccion!!.calle} ${item.direccion!!.numero}"
+            binding.peluqueriaAddressTxt.text =
+                "${item.direccion!!.calle} ${item.direccion!!.numero}"
             binding.peluqueriaRatingBar.rating = item.rating
             binding.icon.text = item.nombre.get(0).toString()
         }
@@ -141,7 +154,8 @@ class PeluqueriaListAdapter(
             binding.peluqueriaImageView.text = item.nombre.get(0).toString()
             binding.peluqueriaAddressTxt.setOnClickListener { itemClickListener.onFavClick(item.id) }
             binding.peluqueriaNameTxt.text = item.nombre
-            binding.peluqueriaAddressTxt.text = "${item.direccion!!.calle} ${item.direccion!!.numero}"
+            binding.peluqueriaAddressTxt.text =
+                "${item.direccion!!.calle} ${item.direccion!!.numero}"
         }
     }
 
@@ -153,7 +167,8 @@ class PeluqueriaListAdapter(
             binding.peluqueriaImageView.text = item.nombre.get(0).toString()
             binding.peluqueriaAddressTxt.setOnClickListener { itemClickListener.onFavClick(item.id) }
             binding.peluqueriaNameTxt.text = item.nombre
-            binding.peluqueriaAddressTxt.text = "${item.direccion!!.calle} ${item.direccion!!.numero}"
+            binding.peluqueriaAddressTxt.text =
+                "${item.direccion!!.calle} ${item.direccion!!.numero}"
         }
     }
 }
