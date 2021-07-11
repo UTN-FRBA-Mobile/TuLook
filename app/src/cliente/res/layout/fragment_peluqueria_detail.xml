@@ -35,7 +35,7 @@
                 <TextView
                     android:id="@+id/peluName"
                     android:layout_width="match_parent"
-                    android:text="{{nombre comercio}}"
+                    android:text=""
                     android:layout_marginTop="5sp"
                     android:layout_weight="0.5"
                     android:background="@color/white"
@@ -85,7 +85,7 @@
                     android:gravity="center"
                     android:drawableTint="@color/black"
                     android:drawableLeft="@drawable/ic_baseline_location_on"
-                    android:text="{{direcion}}"
+                    android:text=""
                     android:textSize="15sp" />
                 <TextView
                     android:id="@+id/peluHorario"
@@ -93,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:drawableLeft="@drawable/ic_baseline_clock"
                     android:layout_height="wrap_content"
-                    android:text="{{Horario}}"
+                    android:text=""
                     android:textSize="15sp" />
             </LinearLayout>
 

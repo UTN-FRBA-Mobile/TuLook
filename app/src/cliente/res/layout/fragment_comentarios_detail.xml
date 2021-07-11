@@ -17,7 +17,7 @@
         <TextView
             android:id="@+id/peluName"
             android:layout_width="match_parent"
-            android:text="{{nombre comercio}}"
+            android:text=""
             android:background="@color/white"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -61,7 +61,7 @@
                         android:id="@+id/icon"
                         android:layout_width="50sp"
                         android:layout_height="50sp"
-                        android:text="L"
+                        android:text=""
                         android:gravity="center"
                         android:fontFamily="sans-serif-black"
                         android:textSize="30dp" />
@@ -85,7 +85,7 @@
                 <TextView
                     android:id="@+id/calificacion"
                     android:layout_width="match_parent"
-                    android:text="{{4.4}}"
+                    android:text=""
                     android:layout_marginTop="5sp"
                     android:layout_marginLeft="10sp"
                     android:textStyle="bold"
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20sp"
                     android:layout_gravity="left"
-                    android:text="{{cantidad de comentarios}}"
+                    android:text=""
                     android:textSize="15sp"
                     />
 
@@ -131,6 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5sp"
+                android:layout_marginLeft="8sp"
                 android:text="Calificar y opinar"
                 android:textSize="20sp" />
 
@@ -139,6 +140,7 @@
                 android:layout_width="wrap_content"
                 android:isIndicator="false"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8sp"
                 android:progressTint="@color/yellow"
                 android:numStars="5"
                 style="?android:attr/ratingBarStyleIndicator"
