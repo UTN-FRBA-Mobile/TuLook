@@ -7,16 +7,4 @@
         android:id="@+id/mainFragment"
         android:title="Inicio" />
 
-    <item
-        android:id="@+id/mainFragment"
-        android:title="Mi Peluqueria" />
-
-    <item
-        android:id="@+id/mainFragment"
-        android:title="Mi Cuenta" />
-
-    <item
-        android:id="@+id/mainFragment"
-        android:title="Cerrar Sesion" />
-
 </menu>

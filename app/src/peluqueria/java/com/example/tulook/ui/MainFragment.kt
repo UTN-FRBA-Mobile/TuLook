@@ -1,5 +1,6 @@
 package com.example.tulook.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.recyclerview.selection.*
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,11 +57,22 @@ class MainFragment : Fragment(), TurnoListAdapter.onTurnoClickListener {
 
         turnosRecyclerView = binding.rvTurnosPendientes
 
+        binding.textIdPeluqueria.onFocusChangeListener  = View.OnFocusChangeListener { view, hasFocus ->
+            if (!hasFocus) {
+                hideKeyboard()
+            }
+        }
+
         binding.btnGuardarId.setOnClickListener {
-            if (binding.idPeluqueria.text.isNullOrEmpty()) {
+            if (binding.textIdPeluqueria.text.isNullOrEmpty()) {
                 Toast.makeText(context, "Debe ingresar un ID de peluquería", Toast.LENGTH_SHORT).show()
             } else {
                 binding.idPeluqueria.text = binding.textIdPeluqueria.text
+                binding.tituloIdPeluqueria.visibility = View.VISIBLE
+                binding.idPeluqueria.visibility = View.VISIBLE
+                binding.textPendientes.visibility = View.GONE
+                binding.textIdPeluqueria.setText("")
+                hideKeyboard()
                 Toast.makeText(context, "Actualizando lista de turnos...", Toast.LENGTH_SHORT).show()
                 pedirTurnos()
             }
@@ -89,6 +102,15 @@ class MainFragment : Fragment(), TurnoListAdapter.onTurnoClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun hideKeyboard() {
+        (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).apply{
+            hideSoftInputFromWindow(
+                binding.textIdPeluqueria.windowToken,
+                0
+            )
+        }
     }
 
     fun pedirTurnos(){

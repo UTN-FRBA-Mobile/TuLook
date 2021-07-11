@@ -11,6 +11,7 @@ import com.example.tulook.R
 import com.example.tulook.base.BaseViewHolder
 import com.example.tulook.databinding.TurnoRowItemBinding
 import com.example.tulook.model.Turno
+import java.text.SimpleDateFormat
 
 class TurnoListAdapter(
     var turnosList: MutableList<String>?,
@@ -55,9 +56,19 @@ class TurnoListAdapter(
         val binding = TurnoRowItemBinding.bind(itemView)
 
         override fun bind(item: String, position: Int, isActivated: Boolean) {
-            // itemView.setOnClickListener { itemClickListener.onRowClick()}//item.id) }
-            val turno = turnos?.find { it.id.toString() == item }
-            binding.turnoName.text = turno?.usuarioId + turno?.fecha.toString()
+            val turno = turnos!!.find { it.id.toString() == item }
+            binding.idUsuario.text = turno!!.usuarioId
+            binding.fecha.text = SimpleDateFormat("dd-MM-yyyy, hh:mm").format(turno!!.fecha)
+
+            val serviciosIterator = turno!!.servicios.iterator()
+            var textoServicios: String = ""
+            while (serviciosIterator.hasNext()){
+                textoServicios += serviciosIterator.next().toUpperCase()
+                if (serviciosIterator.hasNext()){
+                    textoServicios += ", "
+                }
+            }
+            binding.servicios.text = textoServicios
             binding.turnoItem.setBackgroundResource( if(isActivated) R.color.light_blue_600 else R.color.white)
         }
 

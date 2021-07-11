@@ -6,33 +6,103 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:animateLayoutChanges="true"
-    android:layout_marginTop="5sp"
-    android:layout_marginRight="30sp"
-    android:layout_marginLeft="30sp"
+    android:layout_marginTop="10sp"
+    android:layout_marginBottom="10sp"
+    android:layout_marginRight="10sp"
+    android:layout_marginLeft="10sp"
     app:cardCornerRadius="10dp"
     app:cardElevation="4dp"
     app:cardUseCompatPadding="false">
 
-    <LinearLayout
-        android:id="@+id/turnoData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="2dp"
-        android:orientation="horizontal"
-        android:layout_marginLeft="4dp">
-
-        <TextView
-            android:id="@+id/turnoName"
-            android:layout_width="wrap_content"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.MainFragment">
+        <LinearLayout
+            android:id="@+id/usuarioData"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:textStyle="bold"
-            tools:text="{{turno}}"
-            android:layout_gravity="center"
-            android:textSize="20sp"
-            android:textColor="@color/black"/>
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5sp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="5sp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="Usuario: "
+                android:layout_gravity="center"
+                android:textSize="12sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/id_usuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text=""
+                android:layout_gravity="center"
+                android:textSize="10sp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fechaData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5sp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="5sp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="Dia y horario: "
+                android:layout_gravity="center"
+                android:textSize="12sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/fecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text=""
+                android:layout_gravity="center"
+                android:textSize="10sp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ServicioData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5sp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="5sp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="Servicios contratados: "
+                android:layout_gravity="center"
+                android:textSize="12sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/servicios"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text=""
+                android:layout_gravity="center"
+                android:textSize="10sp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
