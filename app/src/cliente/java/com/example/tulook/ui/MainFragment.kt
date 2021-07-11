@@ -148,10 +148,11 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
                         }else{
                             binding.btnConfirmarTurno.text = "CONFIRMADO"
                         }
+                        binding.btnConfirmarTurno.visibility = View.VISIBLE
 
                     } else {
                         binding.textProxTurno.text = "Sin Prox. Turno"
-                        binding.btnConfirmarTurno.text = "" //TODO:Revisar si lo dejamos vacio o ponemos otra leyenda
+                        binding.btnConfirmarTurno.visibility = View.GONE
 
                     }
                 } else {
