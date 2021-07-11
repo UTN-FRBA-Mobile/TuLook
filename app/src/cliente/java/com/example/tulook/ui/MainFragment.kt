@@ -39,6 +39,7 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
     private lateinit var pAdapterFav: PeluqueriaListAdapter
     private lateinit var pAdapterRec: PeluqueriaListAdapter
     private var peluqueriasConsultadas: List<Peluqueria>? = null
+    private var proximosTurnos: MutableList<Turno> = mutableListOf()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,6 +86,37 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
                 getProximoTurno()
                 updateLayoutVisibilityOnAuthChange(it.currentUser)
             }
+        }
+
+        binding.btnConfirmarTurno.setOnClickListener {
+            if(binding.proximosTurnos.visibility == View.VISIBLE) {
+                binding.proximosTurnos.text = ""
+                binding.proximosTurnos.visibility = View.GONE
+            }else{
+                if (proximosTurnos.isNotEmpty() && proximosTurnos.size > 1) {
+                    var textoTurnos: String = ""
+                    var primero: Boolean = true
+                    for (turno in proximosTurnos){
+                        if(!primero){
+                            textoTurnos += "\n\n"
+                        }
+                        primero = false
+                        textoTurnos += "  Fecha: " + SimpleDateFormat("dd-MM-yyyy, hh:mm").format(turno.fecha) + "\n"
+                        if(turno.estado == 1){
+                            textoTurnos += "  Estado: A Confirmar"
+                        }else{
+                            textoTurnos += "  Estado: Confirmado"
+                        }
+                    }
+                    binding.proximosTurnos.text = textoTurnos
+                    binding.proximosTurnos.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        binding.proximosTurnos.setOnClickListener {
+            binding.proximosTurnos.text = ""
+            binding.proximosTurnos.visibility = View.GONE
         }
 
     }
@@ -138,8 +170,8 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
                     val turnosOrdenadosPorFecha =
                         response.body()!!.sortedBy { getTime(it.fecha).time }
                     //filtro las fechas mayores que hoy
-                    val proximosTurnos =
-                        turnosOrdenadosPorFecha.filter { Calendar.getInstance().time <= getTime(it.fecha).time }
+                    proximosTurnos =
+                        turnosOrdenadosPorFecha.filter { Calendar.getInstance().time <= getTime(it.fecha).time } as MutableList<Turno>
 
                     if (proximosTurnos.isNotEmpty()) {
                         val fechaProximoTurno =
@@ -156,7 +188,6 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
                     } else {
                         binding.textProxTurno.text = "Sin Prox. Turno"
                         binding.btnConfirmarTurno.visibility = View.GONE
-
                     }
                 } else {
                     showErrorTurnos()
