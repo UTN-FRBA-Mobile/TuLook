@@ -42,16 +42,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.createNotificationChannel(channel)
         }
 
-        val largeIcon = BitmapFactory.decodeResource(resources, R.mipmap.ic_init)
-
         val noti = NotificationCompat.Builder(this, CHANNEL_NAME)
             .setContentTitle(notification.title ?: "TuLook")
-            .setSmallIcon(R.drawable.logo_inicial)
-            .setLargeIcon(largeIcon)
+            .setSmallIcon(R.mipmap.ic_init)
 
-        if (notification.title == "Turno Aceptado") {
+        if (notification.title == "Turno Aceptado" || notification.title == "Turno Cancelado") {
             Log.d("token", "mensaje de turno aceptado recibido")
-            noti.setStyle(NotificationCompat.InboxStyle().addLine(notification.body))
+            noti.setStyle(NotificationCompat.BigTextStyle().bigText(notification.body))
         } else {
             noti.setContentText(notification.body)
         }
