@@ -9,6 +9,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -23,7 +24,7 @@ import com.example.tulook.fileSystem.MyPreferenceManager
 import com.example.tulook.model.Peluqueria
 import com.example.tulook.model.Turno
 import com.example.tulook.services.APIService
-import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseUser
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -75,14 +76,13 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
             findNavController().navigate(R.id.peluqueriaListFragment)
         }
 
+        pRecyclerViewFav = binding.rvFavoritos
+        pRecyclerViewRec = binding.rvRecientes
+
         (requireActivity() as MainActivity).auth?.addAuthStateListener {
             getProximoTurno()
+            updateLayoutVisibilityOnAuthChange(it.currentUser)
         }
-
-        pRecyclerViewFav = binding.rvFavoritos
-        getPeluquerias("Favoritos")
-        pRecyclerViewRec = binding.rvRecientes
-        getPeluquerias("Recientes")
 
     }
 
@@ -93,14 +93,12 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
 
         val loc = MyPreferenceManager.getLocation(requireActivity().applicationContext)
 
-        Log.d("LOCATION", "$loc")
-
         if (loc != null) {
             val locationText = binding.layDireccion.textDireccion
             locationText.text = loc.addr
         } else {
             val locationLayout = binding.layDireccion
-            locationLayout.root.visibility = View.GONE
+            locationLayout.root.visibility = GONE
         }
     }
 
@@ -121,8 +119,6 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
         }
 
         navigationView.visibility = VISIBLE
-
-        Log.d("auth", "${user.uid}")
 
         APIService.create().getTurnosPorUsuario(user.uid).enqueue(object : Callback<List<Turno>> {
             override fun onResponse(call: Call<List<Turno>>, response: Response<List<Turno>>) {
@@ -199,16 +195,16 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
                 }
             } else {
                 if (fileName == "Favoritos") {
-                    binding.textFavoritos0.visibility = View.VISIBLE
+                    binding.textFavoritos0.visibility = VISIBLE
                 } else {
-                    binding.textRecientes0.visibility = View.VISIBLE
+                    binding.textRecientes0.visibility = VISIBLE
                 }
             }
         } else {
             if (fileName == "Favoritos") {
-                binding.textFavoritos0.visibility = View.VISIBLE
+                binding.textFavoritos0.visibility = VISIBLE
             } else {
-                binding.textRecientes0.visibility = View.VISIBLE
+                binding.textRecientes0.visibility = VISIBLE
             }
         }
     }
@@ -276,4 +272,41 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
         Log.e("FavClick", "Id de pelu: ${id}")
     }
 
+    private fun updateLayoutVisibilityOnAuthChange(currentUser: FirebaseUser?) {
+        with(requireActivity()) {
+
+            // solo se ven si estoy logeado
+            val visiblesLogeado: MutableList<View> = mutableListOf(
+                findViewById<LinearLayout>(R.id.container_proximo_turno),
+                findViewById<RecyclerView>(R.id.rv_favoritos),
+                findViewById<RecyclerView>(R.id.rv_recientes)
+            )
+
+            // siempre tienen que estar invisibles, salvo que la función
+            // getPeluquerias determine que se tienen que ver
+            val maybeVisiblesLogeado: MutableList<View> = mutableListOf(
+                findViewById<TextView>(R.id.text_favoritos_0),
+                findViewById<TextView>(R.id.text_recientes_0),
+            )
+
+            // solo se ven si no estoy logeado
+            val visiblesNoLogeado: MutableList<View> = mutableListOf(
+                findViewById<TextView>(R.id.text_favoritos_logeate),
+                findViewById<TextView>(R.id.text_recientes_logeate)
+            )
+
+            if (currentUser != null) {
+                visiblesLogeado.forEach { it.visibility = VISIBLE }
+                maybeVisiblesLogeado.forEach { it.visibility = GONE }
+                visiblesNoLogeado.forEach { it.visibility = GONE }
+
+                getPeluquerias("Favoritos")
+                getPeluquerias("Recientes")
+            } else {
+                visiblesLogeado.forEach { it.visibility = GONE }
+                maybeVisiblesLogeado.forEach { it.visibility = GONE }
+                visiblesNoLogeado.forEach { it.visibility = VISIBLE }
+            }
+        }
+    }
 }

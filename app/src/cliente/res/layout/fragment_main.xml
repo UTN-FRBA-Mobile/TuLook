@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,12 +9,10 @@
     android:weightSum="2"
     tools:context=".ui.PeluqueriaDetailFragment">
 
-    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="fill_parent"
         android:layout_height="0sp"
-        android:layout_weight="1.7"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:layout_weight="1.7">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,8 +89,7 @@
                 tools:context=".ui.MainFragment">
 
                 <!--Favoritos-->
-                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -120,6 +118,17 @@
                         android:textSize="12sp"
                         android:visibility="gone" />
 
+                    <TextView
+                        android:id="@+id/text_favoritos_logeate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="42sp"
+                        android:drawablePadding="10sp"
+                        android:paddingBottom="10dp"
+                        android:text="Para guardar peluquerías favoritas, debés estar logeado. Podés logearte desde el menú lateral."
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_favoritos"
                         android:layout_width="match_parent"
@@ -130,8 +139,7 @@
                 <View style="@style/Divider" />
 
                 <!--Recientes-->
-                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -155,6 +163,17 @@
                         android:layout_marginLeft="42sp"
                         android:drawablePadding="10sp"
                         android:text="No has visitado peluquerias recientemente"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/text_recientes_logeate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="42sp"
+                        android:drawablePadding="10sp"
+                        android:paddingBottom="10dp"
+                        android:text="Para ver tus turnos recientes, debés estar logeado. Podés logearte desde el menú lateral."
                         android:textSize="12sp"
                         android:visibility="gone" />
 
