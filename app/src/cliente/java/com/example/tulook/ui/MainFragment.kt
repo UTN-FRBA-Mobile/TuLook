@@ -96,17 +96,21 @@ class MainFragment : Fragment(), PeluqueriaListAdapter.onPeluqueriaClickListener
                 if (proximosTurnos.isNotEmpty() && proximosTurnos.size > 1) {
                     var textoTurnos: String = ""
                     var primero: Boolean = true
+                    var primerLinea: Boolean = true
                     for (turno in proximosTurnos){
                         if(!primero){
-                            textoTurnos += "\n\n"
+                            if(!primerLinea){
+                                textoTurnos += "\n\n"
+                            }
+                            primerLinea = false
+                            textoTurnos += "  Fecha: " + SimpleDateFormat("dd-MM-yyyy, hh:mm").format(turno.fecha) + "\n"
+                            if(turno.estado == 1){
+                                textoTurnos += "  Estado: A Confirmar"
+                            }else{
+                                textoTurnos += "  Estado: Confirmado"
+                            }
                         }
                         primero = false
-                        textoTurnos += "  Fecha: " + SimpleDateFormat("dd-MM-yyyy, hh:mm").format(turno.fecha) + "\n"
-                        if(turno.estado == 1){
-                            textoTurnos += "  Estado: A Confirmar"
-                        }else{
-                            textoTurnos += "  Estado: Confirmado"
-                        }
                     }
                     binding.proximosTurnos.text = textoTurnos
                     binding.proximosTurnos.visibility = View.VISIBLE
