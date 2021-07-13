@@ -11,6 +11,9 @@ Se trata de una aplicación orientada a la reserva de turnos para peluquerías y
   - Una vez que el turno fuera solicitado con éxito, desde la peluquería se deberá confirmar si el turno se hará efectivo o si no será tomado, llegándole una notificación al usuario con el resultado de esta validación, para saber si debe presentarse o no a la peluquería.
   - La aplicación ofrecerá a sus usuarios la opción de ver el listado con las peluquerías mejor puntuadas o más cercanas a su dirección o algún punto específico que se elija. También ofrecerá la posibilidad de ver sus próximos turnos, así como también su estado (pendiente o aceptado).
 
+### API del proyecto
+ - https://github.com/RamiroAg/TuLook-API
+
 ### Capturas:
 <img src="/imagenes/Menu Sin Loguear.jpeg" alt="Menu Sin Loguear" width="200"/>
 <img src="/imagenes/Menu Logueado.jpeg" alt="Menu Logueado" width="200"/>
